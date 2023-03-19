@@ -105,40 +105,27 @@ analytics:
 # Site Author
 author:
   name             : "Changhwi Park"
-  avatar           : "/assets/images/ParkChanghwi_Image.png"
+  avatar           : "/assets/images/ParkChanghwi_Profile.jpg"
   bio              : "I am **Changhwi Park**, a *Software Engineer*, whose field of interest involves *Game* and *Computer Graphics*, and many others."
   location         : "Seoul, South Korea"
   email            : "smsychjy96@gmail.com"
   links:
-    - label: "Email"
-      icon: "fas fa-fw fa-envelope-square"
-      # url: "smsychjy96@gmail.com"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/ObjectOrientedLife"
     - label: "LinkedIn"
       icon: "fas fa-fw fa-link"
-      # url: "https://www.linkedin.com/in/changhwi-park-5bb774210/"
+      url: "https://www.linkedin.com/in/changhwi-park-5bb774210/"
 
 # Site Footer
 footer:
   links:
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      # url:
-    - label: "Facebook"
-      icon: "fab fa-fw fa-facebook-square"
-      # url:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url:
-    - label: "GitLab"
-      icon: "fab fa-fw fa-gitlab"
-      # url:
-    - label: "Bitbucket"
-      icon: "fab fa-fw fa-bitbucket"
-      # url:
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      # url:
-
+      url: "https://github.com/ObjectOrientedLife"
+    - label: "LinkedIn"
+      icon: "fas fa-fw fa-link"
+      url: "https://www.linkedin.com/in/changhwi-park-5bb774210/"
 
 # Reading Files
 include:
@@ -244,17 +231,17 @@ category_archive:
 tag_archive:
   type: liquid
   path: /tags/
-# https://github.com/jekyll/jekyll-archives
-# jekyll-archives:
-#   enabled:
-#     - categories
-#     - tags
-#   layouts:
-#     category: archive-taxonomy
-#     tag: archive-taxonomy
-#   permalinks:
-#     category: /categories/:name/
-#     tag: /tags/:name/
+https://github.com/jekyll/jekyll-archives
+jekyll-archives:
+  enabled:
+    - categories
+    - tags
+  layouts:
+    category: archive-taxonomy
+    tag: archive-taxonomy
+  permalinks:
+    category: /categories/:name/
+    tag: /tags/:name/
 
 
 # HTML Compression

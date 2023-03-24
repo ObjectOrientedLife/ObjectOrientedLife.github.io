@@ -3,8 +3,14 @@ main:
   - title: "Home"
     url: /
 
+  - title: "Career"
+    url: /career
+
   - title: "Game Project"
     url: /gameproject/
+  
+  - title: "Miscellaneous"
+    url: /miscellaneous
 
 # Sidebar
 docs: # Enable this in each document

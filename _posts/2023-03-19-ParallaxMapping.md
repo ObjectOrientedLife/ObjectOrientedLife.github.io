@@ -1,11 +1,9 @@
 ---
-layout: 
-    single
-title: 
-    "Parallax Mapping"
+title: "Parallax Mapping"
+layout: single
 categories: 
     - Game Project
-toc: true
+toc: true # Table of contents
 author_profile: false
 sidebar:
     nav: "docs"

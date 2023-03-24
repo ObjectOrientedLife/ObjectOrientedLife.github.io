@@ -1,7 +1,7 @@
 ---
-title: "Category"
+title: "Game Project"
 layout: categories
-permalink: /categories/
+permalink: /gameproject/
 sidebar:
     nav: "docs"
 ---

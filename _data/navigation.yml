@@ -3,16 +3,13 @@ main:
   - title: "Home"
     url: /
 
-  - title: "Category"
-    url: /categories/
+  - title: "Game Project"
+    url: /gameproject/
 
 # Sidebar
 docs: # Enable this in each document
   - title: "Home"
     url: /
 
-  - title: "Category"
-    url: /categories/
-    children:
-      - title: "Game Project"
-        url: /categories/#game-project
+  - title: "Game Project"
+    url: /gameproject/

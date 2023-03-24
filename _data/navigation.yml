@@ -1,20 +1,18 @@
-# main links
+# Upper links
 main:
+  - title: "Home"
+    url: /
+
   - title: "Category"
     url: /categories/
 
-docs:
+# Sidebar
+docs: # Enable this in each document
+  - title: "Home"
+    url: /
+
   - title: "Category"
     url: /categories/
     children:
       - title: "Game Project"
         url: /categories/#game-project
-
-  # - title: "About"
-  #   url: https://mmistakes.github.io/minimal-mistakes/about/
-  # - title: "Sample Posts"
-  #   url: /year-archive/
-  # - title: "Sample Collections"
-  #   url: /collection-archive/
-  # - title: "Sitemap"
-  #   url: /sitemap/

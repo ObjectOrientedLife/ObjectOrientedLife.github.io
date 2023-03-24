@@ -6,6 +6,9 @@ title:
 categories: 
     - Game Project
 toc: true
+author_profile: false
+sidebar:
+    nav: "docs"
 ---
 
 ## Introduction

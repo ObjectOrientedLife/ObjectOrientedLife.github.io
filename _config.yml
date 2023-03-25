@@ -114,7 +114,7 @@ author:
       icon: "fab fa-fw fa-github"
       url: "https://github.com/ObjectOrientedLife"
     - label: "LinkedIn"
-      icon: "fas fa-fw fa-link"
+      icon: "fab fa-fw fa-linkedin"
       url: "https://www.linkedin.com/in/changhwi-park-5bb774210/"
     - label: "Resume"
       icon: "fa fa-address-card"
@@ -127,7 +127,7 @@ footer:
       icon: "fab fa-fw fa-github"
       url: "https://github.com/ObjectOrientedLife"
     - label: "LinkedIn"
-      icon: "fas fa-fw fa-link"
+      icon: "fab fa-fw fa-linkedin"
       url: "https://www.linkedin.com/in/changhwi-park-5bb774210/"
 
 # Reading Files
@@ -263,8 +263,10 @@ defaults:
       type: posts
     values:
       layout: single
+      classes: wide
       author_profile: true
       read_time: false
       comments: # true
       share: false
       related: false
+    

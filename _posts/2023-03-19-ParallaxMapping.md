@@ -3,7 +3,6 @@ title: "Parallax Mapping"
 layout: single
 categories: 
     - Game Project
-toc: true # Table of contents
 author_profile: false
 sidebar:
     nav: "docs"

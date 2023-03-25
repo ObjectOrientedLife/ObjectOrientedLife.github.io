@@ -116,6 +116,9 @@ author:
     - label: "LinkedIn"
       icon: "fas fa-fw fa-link"
       url: "https://www.linkedin.com/in/changhwi-park-5bb774210/"
+    - label: "Resume"
+      icon: "fa fa-address-card"
+      url: "/assets/documents/Resume_ChanghwiPark.pdf"
 
 # Site Footer
 footer:

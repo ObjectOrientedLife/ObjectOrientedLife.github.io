@@ -1,11 +1,7 @@
 ---
 title: "Parallax Mapping"
-layout: single
 categories: 
     - Game Project
-author_profile: false
-sidebar:
-    nav: "docs"
 ---
 
 ## Introduction

@@ -2,7 +2,6 @@
 title: "Changhwi Park"
 layout: single
 classes: wide
-permalink: /
 author_profile: true
 ---
 

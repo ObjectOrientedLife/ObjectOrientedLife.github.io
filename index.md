@@ -58,7 +58,7 @@ I am a **Software Engineer** at Nexon Korea, to be more specific, a gameplay and
 
 ### Theoretical Knowledge
 * **Computer Graphics** - I have implemented and optimized real-time rendering systems for games. Also, I have a strong interest in researching various graphics techniques and realizing them with graphics API, shaders, and a good knowledge of 3D mathematics.
-* **Computer System** - Understanding how computers are organized with CPU, memory hierarchy, and other hardware components is a priceless asset of mine as a software engineer. Knowledge of compiler and automata theory helps me greatly with dealing with abstraction. 
+* **Computer System** - Understanding how computers are organized with CPU, memory hierarchy, and other hardware components is a priceless asset of mine as a software engineer. Furthermore, my knowledge about compiler and automata theory helps me greatly with dealing with abstraction. 
 * **Algorithm and Data Structure** - Without a careful choice of suitable algorithm, it is impossible to provide a pleasant play experience to game players. I have both theoretical and practical understandings of algorithms and data structures that ultimately decides the usability of an application. 
 * **Software Design** - Before I type code with my fingers, I take a considerable amount of time to remind myself of significant software design principles. I am capable of building understandable and maintainable programs by choosing which design patterns to apply properly.
 

@@ -269,6 +269,7 @@ defaults:
       comments: false
       share: false
       related: false
+      mathjax: true
       sidebar:
           nav: "docs"
     

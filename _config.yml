@@ -272,4 +272,5 @@ defaults:
       mathjax: true
       sidebar:
           nav: "docs"
+      toc: true
     

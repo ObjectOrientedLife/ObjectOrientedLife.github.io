@@ -87,7 +87,7 @@ We can reduce artifacts by going through these steps multiple times. The higher 
 
 ## Surface Shader
 
-Unity provides a simple and convenient way to implement a shader called 'surface shader'. Although it has some limitations, the surface shader makes it easy to write a simple hands-on shader in Unity.
+Unity provides a simple and convenient way to implement a shader called 'surface shader'. Although it has some limitations, the surface shader makes it easy to write simple shaders in Unity. It provides several useful hands-on values including tangent-space view direction, normal, and texture coordinate in an input structure, which are necessary for a parallax shader. Below is the parallax mapping shader written under the Unity surface shader grammar.
 
 ## Code
 

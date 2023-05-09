@@ -1,5 +1,5 @@
 ---
-title: "Animation State Observer in Unity"
+title: "The Real Animation State Event in Unity"
 
 categories: 
     - Game Project

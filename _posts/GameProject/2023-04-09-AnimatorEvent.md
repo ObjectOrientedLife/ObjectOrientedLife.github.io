@@ -7,18 +7,18 @@ categories:
 
 # Motivation
 
-Although an avid game player, I hardly ever paid attention to human-like humanoid animations featured by prominent AAA game studios in recent games. When I started to develop my own game, it took little time to realize that imitating human motions in a game is extremely difficult. I noticed that the realistic animations are not given for free, but are results achieved by investing time and money. As to humanoid animations, there were numerous gigantic obstacles on my way.
+Although an avid game player, I hardly ever paid attention to human-like humanoid animations featured by prominent AAA game studios in recent games. When I started to develop my own game, it took little time to realize that imitating human motions in a game is extremely difficult. I noticed that the realistic animations are not given for free, but are fruits achieved by investing time and money. 
 
-One such hardship was making a humanoid model interact with objects; picking, grabbing, and releasing things. The interactions are not as simple as in reality. The most problematic situation from my game project emerged when I was trying to implement a reloading motion of a rifle. The reloading procedure looked much more complicated than I initially expected.
+One of the hardship for implementing realistic humanoid animations was to make a humanoid model interact with objects; picking, grabbing, and releasing things with hands. The interactions are not done as simply as in reality. The most problematic situation in my game project emerged when I was trying to implement a reloading motion of a rifle. The reloading procedure looked much more complicated than I initially expected.
 
 1. Split the entire reloading motion into three separate clips; grabbing the magazine, changing the magazine, and pulling the bolt.
 2. Normally, the rifle is a child of the right hand and the magazine is a child of the rifle. 
-3. Once the soldier grabs the magazine, the magazine is transferred to his grip. That is, the grabbing motion of the magazine that was previously a child of the rifle has now become a child of the left hand.
+3. Once a soldier grabs the magazine, the magazine moves to his grip. That is, the magazine that was previously a child of the rifle has now become a child of the left hand.
 4. Play the magazine switching motion. Once the clip finishes, put the magazine back in its original position. The magazine now has become a child of the rifle once again.
 5. Now, grab the rifle with the left hand and pull the bolt with the right hand.
 6. Finally, grab the rifle with the right hand and the initial state has been restored.
 
-The point here is that transfers of the magazine and the rifle take place at the start or the end of each clip. How can we transfer the magazine on time?
+The point here is that transfers of the magazine and the rifle take place at the start or at the end of each clip. How can we move the magazine on time?
 
 # Alternatives
 ## 'yield return' Method
@@ -34,7 +34,7 @@ yield return new WaitUntil(() => !stateInfo.IsName("Grabbing magazine")); // (2)
 // (3) Transfer the magazine here
 ```
 
- This `yield return` method works for this purpose but requires a coroutine block. However, the control can pass the yield statement whenever the animator is not in the "Grabbing magazine" state. There is no guarantee that the grabbing motion has been played even though the control has arrived at (3). So one more yield statement is required to prevent this.
+ This `yield return` method works for this purpose in a coroutine block. However, the control flow can pass by the yield statement whenever the animator is not in the "Grabbing magazine" state. There is no guarantee that the grabbing motion has been played even though the control has already arrived at (3). So one more yield statement should take place to prevent this kind of trespassing.
 
 ```c#
 animator = GetComponent<Animator>();
@@ -46,11 +46,11 @@ yield return new WaitUntil(() => !stateInfo.IsName("Grabbing magazine")); // (3)
 // (4) Transfer the magazine here
 ```
 
-Now the grabbing motion is guaranteed to play and transferring happens when it ends. But doing this for all the complicated states that a human can perform 'yields' a bunch of mistakes. What made me abandon this method was that the 'yield return' is unblocked inadvertently and following lines are shot at unwanted timing. I decided to go for a more abstract way.
+Now the grabbing motion is guaranteed to play and the migration of the magazine happens at the moment the clip ends. But doing this for all the complicated states that a human can perform 'yields' a bunch of mistakes. The 'yield return' is often unblocked inadvertently and following lines are shot at unwanted timing.
 
 ## StateMachineBehaviour
 
-`StateMachineBehaviour` is a script in Unity that can be attached to a state in an animator controller to define custom behaviors that are executed when a transition happens between states. When attached to a state in a state machine, a `StateMachineBehaviour` script provides a set of methods that are called at specific points in the state machine's lifecycle; `OnStateEnter`, `OnStateUpdate`, `OnStateExit`, `OnStateMove`, and `OnStateIK`. The [Unity manual](https://docs.unity3d.com/ScriptReference/StateMachineBehaviour.html) contains a perfect description of when they are called. One example of using `StateMachineBehaviour` from that reference looks like this.
+`StateMachineBehaviour` is a Unity script that can be attached to a state in an animator controller to define custom behaviors that are executed when a transition happens between states. When attached to a state in a state machine, a `StateMachineBehaviour` script provides a set of methods that are called at specific points in the state machine's lifecycle; `OnStateEnter`, `OnStateUpdate`, `OnStateExit`, `OnStateMove`, and `OnStateIK`. The [Unity manual](https://docs.unity3d.com/ScriptReference/StateMachineBehaviour.html) contains a perfect description of when they are called. One example of using `StateMachineBehaviour` from that reference looks like this.
 
 ```c#
 using UnityEngine;
@@ -89,7 +89,7 @@ public class AttackBehaviour : StateMachineBehaviour
 }
 ```
 
-We could write some codes here, and certainly, they will be executed on time. This time, we can be certain that the callback will be executed at the beginning or end of each state.
+We could write some codes inside those function bodies, and certainly, they will be executed on time. This time, we can be certain that each callback will be executed at the beginning or end of each state.
 
 However, I decided not to make do something directly in these callbacks for the following reason; stateInfo only includes the hash of the target state, not its name. It is not possible to retrieve a state name directly from its stateInfo. If we want to track the name of the state this animator controller is on, a series of if-statements are required like below.
 
@@ -115,11 +115,11 @@ override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo
 
 Whenever I add a new state to the animator controller, I have to add an `else if` to each callback. Definitely a nonsense.
 
-What makes doing something inside the `StateMachineBehaviour` worse is that each component attached to a state is reset once the `Animator` is disabled and enabled again. This makes it difficult for `StateMachineBehaviour` to manage internal states.
+What makes doing something inside the `StateMachineBehaviour` worse is that each component attached to a state is reset once the `Animator` is disabled, then is enabled again. This makes it difficult for `StateMachineBehaviour` to manage internal states.
 
 # StateEvent and AnimatorEvent
 
- To complement the weaknesses of `StateMachineBehaviour`, another normal `MonoBehaviour` script named is required. Name the class inherited from `StateMachineBehaviour` as `StateEvent` and the usual `Monobehaviour` class as `AnimatorEvent`. Our strategy is to first let `AnimatorEvent` accept listeners for each state and store them in the internal data structure. `StateEvent` does nothing but signals the `AnimatorEvent` class to invoke the registered callbacks.
+ To complement the weaknesses of `StateMachineBehaviour`, another normal `MonoBehaviour` script named is required. Name the class inherited from `StateMachineBehaviour` as `StateEvent` and the usual `Monobehaviour` class as `AnimatorEvent`. Our strategy is to first let `AnimatorEvent` accept listeners for each state and store them in an internal data structure. `StateEvent` does nothing but signal the `AnimatorEvent` class to invoke the registered callbacks.
 
 ## StateEvent
 
@@ -168,10 +168,10 @@ public class StateEvent : StateMachineBehaviour
 }
 ```
 
-It does only two things when each `StateMachineBehaviour` callback is executed.
+`StateEvent` does only two things whenever each `StateMachineBehaviour` callback is executed.
 
-1. Cache `AnimatorEvent` attached to the same game object. It tries to cache `AnimatorEvent` every time each callback is called since the caching field might have been invalidated after disabling and enabling the animator the `StateEvent` is working with.
-2. Convey the parameters to the corresponding method of `AnimatorEvent`.
+1. It tries to cache `AnimatorEvent` every time each callback is called since the caching field might have been invalidated after disabling and enabling the animator the `StateEvent` is working with.
+2. Conveys the parameters to the corresponding method of `AnimatorEvent`.
 
 ## AnimatorEvent
 
@@ -266,22 +266,22 @@ public class AnimatorEvent : MonoBehaviour
 }
 ```
 
- `AnimatorEvent` does the actual work we are trying to achieve.
+ `AnimatorEvent` carries out the actual work we are trying to achieve.
 
 * `tagEvents` stores and classifies callbacks with the tag and layer of the state and the event type(enter, exit, ...)
 * `AddListenerWithTypeAndTag` provides an interface so that clients can subscribe to the state events by registering listener callbacks. It actually adds the listener to `tagEvents`.
 * `ClearListenersWithTypeAndTag` and `ClearAllListenersWithTag` provide a way to remove listeners with type and tag, or only with a tag respectively.
-* `OnState` is called by `StateEvent` whenever each `StateMachineBehaviour` callback is executed. It invokes the suitable event stored in `tagEvents` using the incoming parameters.
+* `OnState` is called by `StateEvent` whenever each `StateMachineBehaviour` callback is executed. It invokes a suitable event stored in `tagEvents` with incoming parameters.
 
-Although I omitted codes here, I also added equivalent methods that designates states to add and remove listeners by their name.
+Although I omitted here, I also added equivalent methods that designates states to add and remove listeners by their name.
 
 ## Using AnimatorEvent
 
-Before using `AnimatorEvent`, we have to make sure that `StateEvent` has been added to every single state belonging to the animator controller we are using, otherwise, there is no way to be signaled by the animator controller through the `StateMachineBehaviour` callbacks. I also added a custom editor window that makes it easy to add and remove `StateEvent` components to an `AnimatorController`.
+Before using `AnimatorEvent`, we have to make sure that `StateEvent` has been added to every single state belonging to the animator controller we are using, otherwise, there is no way to be signaled by the animator controller through the `StateMachineBehaviour` callbacks. So, I added a custom editor window that makes it easy to add and remove `StateEvent` components to the entire states inside an `AnimatorController`.
 
 ![image-20230416140222713](../../Images/2023-04-09-AnimatorEvent/image-20230416140222713.png){: .align-center}
 
-After adding `StateEvent`s, we can now use `AnimatorEvent` in our game scripts. Let's go back to the 'grabbing a magazine' task. Our objective was to wait until the magazine-grabbing animation ended and grab the magazine. We can achieve this by using `AddListenerWithTypeAndTag` method of `AnimatorEvent`.
+After adding `StateEvent`s, we can now use `AnimatorEvent` in our game scripts. Let's go back to the 'grabbing a magazine' task. Our objective was to wait until the magazine-grabbing animation ends and grab the magazine. We can achieve this by using `AddListenerWithTypeAndTag` method of `AnimatorEvent`.
 
 ```c#
 AnimatorEvent animatorEvent = GetComponent<AnimatorEvent>();
@@ -319,9 +319,9 @@ These reloading motions were implemented using `AnimatorEvent`.
 
 # Conclusion
 
-The combination of `StateEvent` and `AnimatorEvent` does not suffer accidental unblocking. We can also easily add listeners to each state during the runtime through an ordinary `Monobehaviour` game script. But the best thing about using them is that we don't have to write a separate coroutine that tracks animator states and handles behaviors to do. We merely add a callback function that will listen from the `AnimatorEvent` object at the initialization step of the character class, and later leave out the control flows. What a fire-and-forget.
+The combination of `StateEvent` and `AnimatorEvent` does not suffer accidental unblocking anymore. We can also easily add listeners to each state during the runtime through an ordinary `Monobehaviour` game script. But the best thing about using them is that we don't have to write a separate coroutine that tracks animator states and handles behaviors to do. We merely add a callback function that will listen from the `AnimatorEvent` object at the initialization step of the character class, and later leave out the control flows. What a fire-and-forget.
 
-Being a reliable and efficient way to synchronize code and animator states, it can be employed not only for making reloading motions but also for other tasks, such as playing a stepping sound when the character starts to walk and stopping it when a character halts.
+Being a reliable and efficient way to synchronize code and animator states, it can be put to use not only for making reloading motions but also for other tasks, such as playing a stepping sound when the character starts to walk and stopping it when a character halts.
 
 ```c#
 animatorEvent.AddListenerWithTypeAndTag(PlaySound, EventType.Enter, MotionType.run.ToString());

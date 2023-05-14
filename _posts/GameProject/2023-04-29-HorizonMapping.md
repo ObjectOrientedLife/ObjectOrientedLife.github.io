@@ -6,16 +6,16 @@ categories:
 
 # Introduction
 
-Yes, the normal mapping and parallax mapping is satisfactory enough. The shade made by normal map and the extrusion looks nice. But let's be honest. Carefully looking at the , we realize that there is one thing that the parallax mapping and the horizon mapping lack; where are all the shadows that should be cast by the bumps? Actually, it is natural that they don't cast shadow, since the bumps are faked by manipulating normals or texture sampling coordinates. For shadows to appear, we need additional processes to do the works.
+Yes, normal mapping and parallax mapping are satisfactory enough. The simulated extrusions look decent. But carefully looking at the surface below, we can realize that there is one thing that parallax mapping and horizon mapping lack; where are all the shadows that the bumps should have cast? Actually, it is natural that they don't cast shadow since the bumps are faked by manipulating normals or texture sampling coordinates. For shadows to appear, we need additional processes to simulate shadow casters.
 
 ![Sandbags_Parallax_100](../../Images/2023-03-19-ParallaxMapping/Sandbags_Parallax_100.png){: width="500"}{: .align-center} The sandbags from the parallax mapping post. 
 {: .text-center}
 
 # What is **Horizon Mapping**?
 
-**Horizon mapping** simulates the shadows with height information stored in a height map. The horizon mapping precalculates where the nearby horizon is, which is the criterion for deciding whether the point is in a shadow, and store the values in a separate map. Later, the texture map is sampled by the shader and is used for multiplying a pixel color by a shadow factor. 
+**Horizon mapping** simulates shadows with height information stored in a height map, similar to parallax mapping. Horizon mapping precalculates where the nearby horizon is, which is the criterion for deciding whether the point is in a shadow, and stores the results in a separate texture map. Later, the texture map is sampled by the shader and is used for multiplying a pixel color by a shadow factor. 
 
-It was first introduced in [1]. However, this post is largely based on the explanations on [2].
+It was first introduced in [1]. However, this post is largely based on the explanations in [2].
 
 # Horizon Map
 ## How Horizon Map Works
@@ -24,13 +24,13 @@ First of all, let's think about at which points on a surface shadows should take
 
 ![image-20230429231351158](../../Images/2023-04-29-HorizonMapping/image-20230429231351158.png){: width="500"}{: .align-center}
 
-Before we start to discuss about the steps, please be noted that all the points and vectors are provided in the tangent space.
+Before we start to discuss the processes, please note that all the points and vectors are provided in the tangent space.
 
-Given a pixel point $p(x, y)$, we decide whether $p$ is in a shadow or not by looking at whether there is a occluder between the light source and $p$. Since the surface is continuous, a possible occluder can be looked for by considering only the elevation sampled from the height map. If there is any higher surface point that intersects with $l$, there is a blocking surface between $p$ and the light, thus $p$ is in a shadow; if not, $p$ is being lit directly by the light and not in a shadow. Let the angle $\alpha$ is the elevation angle between the horizontal plane at the height $h_0$ and the direction toward the adjacent higher point $p'(x + i, x + j)$. If the angle made by $l$ and the horizontal plane is greater than $\alpha$, $p$ is in a shadow; otherwise, $p$ is not in a shadow. 
+Given a pixel point $p(x, y)$, we decide whether $p$ is in a shadow or not by looking at if there is any occluder between the light source and $p$. Since the surface is continuous, a possible occluder can be searched for by considering only the elevation sampled from the height map. If there is at least one higher surface point that intersects with $l$, there is a blocking surface between $p$ and the light; thus $p$ is in a shadow; if not, $p$ is being lit directly by the light and not in a shadow. Let the angle $\alpha$ be the elevation angle between the horizontal plane at the height $h_0$ and the direction toward the adjacent higher point $p'(x + i, x + j)$. If the angle made by $l$ and the horizontal plane is greater than $\alpha$, $p$ is in a shadow; otherwise, $p$ is not in a shadow. 
 
-What is clever with the horizon mapping is how it precalculates and stores the criteria for decision. The horizon mapping generates a separate texture map with the RGBA format named horizon map. The horizon mapping first utilizes four channels of the horizon map to handle possible directions projected on the tangent space x-y plane. The horizon map also uses $\sin\alpha$ as the proxy for $\alpha$, which eventually represents an elevation. Since the sine function monotonically increases in $[-\frac{\pi}{2}, \frac{\pi}{2}]$, it can be used for comparing heights between pixels.
+What is clever with horizon mapping is how it precalculates and stores the criteria for decision. Horizon mapping generates a separate texture map with the RGBA format called **horizon map**. Horizon mapping first utilizes four channels of the horizon map to handle possible directions projected on the tangent space x-y plane. The horizon map also uses $\sin\alpha$ as the proxy for $\alpha$, which eventually represents an elevation. Since the sine function monotonically increases in $[-\frac{\pi}{2}, \frac{\pi}{2}]$, it can be used for comparing heights between pixels.
 
-Now, let's step onto the real implementation of the generation of a horizon map. To fill in a texel $p(x, y)$ which has height of $h$, adjacent pixels within the range $r$ should be searched for. Keep an array of maximum $\tan^2$ values that will be tracked for 32 equally-spaced directions on the x-y plane. For one of such texel $p'(x + i, x + j)$ which has height of $h'$ and forms an horizontal angle $\alpha$, we calculate $\tan^2\alpha$ with the following trigonometric identity.
+Now, let's step onto the real implementation of the generation of a horizon map. To fill in a texel $p(x, y)$ which has height of $h$, adjacent pixels within the range $r$ are investigated. Keep an array of maximum $\tan^2$ values that will be tracked for 32 equally-spaced directions on the x-y plane. For one of such texel $p'(x + i, x + j)$, which has a height of $h'$ and forms a horizontal angle $\alpha$, we calculate $\tan^2\alpha$ with the following trigonometric identity.
 
 $$
 \tan^2\alpha = \frac{(h_0 - h)^2}{i^2 + j^2}
@@ -57,7 +57,7 @@ $$
 \sin\alpha = \sqrt{\frac{\tan^2\alpha}{\tan^2\alpha + 1}}
 $$
 
-Once the 32 directional entries are fully filled in, it's time to produce eight values that will eventually stored in each channel of two layers of horizon map. Each final result is computed by taking average of five nearby entries out of the 32 candidates as the following figure shows. Finally, the averages are stored into the total eight RGBA channels of the two horizon maps.
+Once the 32 directional entries are fully filled in, it's time to produce eight values that will eventually stored in each channel of the two layers of horizon map. Each final result is computed by taking the average of five nearby entries out of the 32 candidates, as the following figure shows. Finally, the averages are stored in the total eight RGBA channels of the two horizon maps.
 
 ![AveragingDirections](../../Images/2023-04-29-HorizonMapping/AveragingDirections.png){: width="400"}{: .align-center} $G_{0}$ is computed by averaging five nearest directional values. 
 {: .text-center}
@@ -228,21 +228,21 @@ Once the 32 directional entries are fully filled in, it's time to produce eight 
 	}
 ```
 
-Here is the function that generates and saves a horizon map. Note that it makes use of multithreading for following reasons.
+Here is the C# function that generates and saves a horizon map. It hires multithreading for the following reasons.
 
-* Single-threaded horizon map generation takes too much time. Since the procedure iterates through each pixel and search for almost constant amount of adjacent pixels, it has the time complexity of just $O(n^2)$ with regard to a dimension of a horizon map(or interchangeably of a heightmap, because they have the same size). As the texture size doubles up, the time taken increases four times. The execution time goes up unendurably.
-* Image processing is one of the tasks that benefits from multithreading the most. Each pixel entry does not depend on each other and can be accessed independently. Thus, mutex is not required, resulting in a huge performance improvement.
-* Unity generally does not allow execution of Unity features on threads other than the main thread. Fortunately, `Color` class was able to elude such restrictions.
+* Single-threaded horizon map generation takes too much time. It has the time complexity of just $O(n^2)$ with regard to a dimension of a horizon map(or interchangeably of a heightmap, because they have the same size) because the procedure iterates through each pixel and searches for an approximately constant amount of adjacent pixels. As the texture size doubles up, the time taken increases by four times. The execution time goes up unendurably.
+* Image processing is one of the tasks that benefit from multithreading the most. Each pixel entry does not depend on the other and can be accessed independently. Thus, mutex is not required, resulting in a considerable performance improvement.
+* Unity generally does not allow the execution of Unity features on threads other than the main thread. Fortunately, `Color` class was able to elude such restrictions.
 
-Here is the graph for comparing times taken between single-threaded and multi-threaded horizon map generation. It was run on a system with AMD Ryzen 5800H processor and 16GB of memory.
+Here is the chart of comparison of times taken between single-threaded and multi-threaded horizon map generation. I ran the process on a system with AMD Ryzen 5800H processor with eight cores and 16GB of memory.
 
 ![image-20230506031112237](../../Images/2023-04-29-HorizonMapping/image-20230506031112237.png){: width="700"}{: .align-center}
 
-You can clearly see the difference and the advantage tht multithreading shows.
+You can clearly see how multithreading is competitive compared to a sigle-threaded execution.
 
 ## Constructed Horizon Map
 
-Following pictures are target height map, the first horizon map, and the second horizon map respectively.
+These textures are the target height map, the first horizon map, and the second horizon map, respectively.
 
 ![Sphere](../../Images/2023-04-29-HorizonMapping/Sphere.png){: width="400"}{: .align-center}
 ![Sphere](../../Images/2023-04-29-HorizonMapping/HorizonMap.png){: width="800"}{: .align-center}
@@ -251,11 +251,11 @@ Following pictures are target height map, the first horizon map, and the second 
 
 ## Interpolating Directions with Horizon Cubemap
 
-In the horizon mapping pixel shader, given a light direction $l$, deciding whether a pixel is in a shadow is achieved by sampling the corresponding horizon map, retrieve two suitable vectors stored in color channels, between which $l$ exists. Then, the two vectors are interpolated according to the angle of $l$. The idea is that instead of finding interpolation weight all the time, make a cubemap containing those weights which can be sampled with the 3D light vector.
+In the horizon mapping pixel shader, given a light direction $l$, deciding whether a pixel is in a shadow is achieved by sampling the corresponding horizon map, retrieving two suitable vectors stored in color channels between which $l$ exists. Then, the two vectors are interpolated according to the angle of $l$. The idea is that instead of finding an interpolation weight every time, make a cubemap containing those weights that can be sampled with the 3D light vector.
 
-Even though we have eight directions in two textures, we can use only one cubemap to indicate all the eight directions. We know that  use positive weights for $(R_0, G_0, B_0, A_0)$ and negative ones for $(R_1, G_1, B_1, A_1)$. For example, a cubemap texel $(0.5, 0.0, 0.0, -0.5)$ results in a directional vector $0.5R_0 + 0.5A_1$, which is directed toward $-22.5^\circ$. At most two channels in the cubemap can be nonzero, because at most two directional values can participate in the interpolation.
+Even though we have eight directions in two textures, we can use only one cubemap to indicate all the eight directions. We know that  use positive weights for $(R_0, G_0, B_0, A_0)$ and negative ones for $(R_1, G_1, B_1, A_1)$. For example, a cubemap texel $(0.5, 0.0, 0.0, -0.5)$ results in a directional vector $0.5R_0 + 0.5A_1$, which is directed toward $-22.5^\circ$. At most two channels in the cubemap can be nonzero because at most two directional values can participate in the interpolation.
 
-In the pixel shader, the cubemap is sampled using $l$ and calculate the dot product with a value sampled from the horizon map. Here, we have to choose which horizon map to sample. Actually, we don't really have to 'choose' with an `if` statement. Considering that we made the decision to utilize positive values for the initial horizon map and negative values for the subsequent horizon map, following expressions successfully interpolates two channels without a conditional branch. Saturating $v_{cubemap}$ filters only positive weights while saturating $-v_{cubemap}$ filters only negative weights, and multiplying each extracted weight and summing them up covers all the cases.
+In the pixel shader, the cubemap is sampled using $l$, and we calculate the dot product with a value sampled from the horizon map. We have to choose which horizon map to sample here. Actually, we don't really have to 'choose' with an `if` statement. Considering that we made the decision to utilize positive values for the initial horizon map and negative values for the subsequent horizon map, the following expressions successfully interpolates two channels without a conditional branch. Saturating $v_{cubemap}$  sorts out only positive weights while saturating $-v_{cubemap}$ does so only for negative weights, and multiplying each extracted weight and summing them up covers all the cases.
 
 $s_{horizonmapN}$ : Color($\sin \alpha$) sampled from the horizon map N(0 or 1).
 
@@ -265,16 +265,17 @@ s_0 = saturate(w_{cubemap}) \cdot s_{horizonmap0} \\
 s_1 = saturate(-w_{cubemap}) \cdot s_{horizonmap1} \\
 s_{final} = s_0 + s_1
 $$
-The result is an estimated $\sin \alpha$, where, to remind, $\alpha$ is an horizontal angle made by a higher point lying on the direction.
 
-Constructing a cubemap is a little bit tricky. First, we have to remind of how our cubemap should work; when sampled with the tangent-space 3D light direction vector, it returns an interpolation weight on the T-B plane. In order to fill in each face of the cubemap, we have to find a mapping from a uv coordinate of a face to the projected point on the T-B plane. What makes it tricky is the difference between coordinate systems. Unity default scene features a Y-up coordinate system while the shader tangent features a Z-up coordinate system. Never mind, just go for the Y-up and substitute T with X, B with Y, and N with Z.
+The result is an estimated $\sin \alpha$, where, to remind, $\alpha$ is a horizontal angle made by a higher point lying in the direction.
+
+Constructing a cubemap is tricky. First, we must remind ourselves how our cubemap should work; when sampled with the tangent-space 3D light direction vector, it returns an interpolation weight on the T-B plane. In order to make up each face of the cubemap, we have to find the mapping from a uv coordinate of a face to the projected point on the T-B plane. What makes it very tricky is the difference between coordinate systems. Unity default scene features a Y-up coordinate system, while the shader tangent features a Z-up coordinate system. Never mind, just go for the Y-up and replace T with X, B with Y, and N with Z.
 
 ![Cubemap](../../Images/2023-04-29-HorizonMapping/Cubemap.png){: width="900"}{: .align-center} We have to find the mapping from $p_{uv}$ to $p_{projected}$.
 {: .text-center}
 
-Assume that we have given an unnormalized light direction $l(3, 2, 1)$. The sampled face has an index of 0 and the texture UV coordinate that we are targeting is $p_{uv}(\frac{2}{3}, \frac{1}{3})$. It is projected to $p_{projected}(1,\frac{1}{3}, 0)$ on the X-Y(T-B) plane. From this case, we know that a UV coordinate $(u, v)$ of the face 0 is mapped to a projected point $(1, v)$. Same idea can apply to construct remaining five faces of the cubemap.
+Assume we have given an unnormalized light direction $l(3, 2, 1)$. The sampled face has an index of 0, and the texture UV coordinate that we are targeting is $p_{uv}(\frac{2}{3}, \frac{1}{3})$. It is projected to $p_{projected}(1,\frac{1}{3}, 0)$ on the X-Y(T-B) plane. From this case, we know that a UV coordinate $(u, v)$ of the face 0 is mapped to a projected point $(1, v)$. The same idea can be applied to construct remaining five faces of the cubemap.
 
- Once a cubemap is generated, it can be applied regardless of the horizon map, since the cubemap just indicates the relationship between a light direction and a interpolation weight and does not accept any texture parameter in its generator.
+ Once a cubemap is generated, it can be used to sample any horizon map, since the cubemap just indicates the relationship between a light direction and an interpolation weight and does not accept any texture parameter in its generator.
 
 ## Code for the Horizon Cubemap Generator
 
@@ -430,12 +431,12 @@ Assume that we have given an unnormalized light direction $l(3, 2, 1)$. The samp
 
 ## Adding Soft Shadows
 
-Components we have seen so far are sufficient for us to proceed to implement the shader. We can now write a shader in which sample one texel from the horizon map and one from the cubemap, combine them together to produce a proper $\sin \alpha$, compare it with $l_z$(it is the sine of the angle made by $l$, since $l$ has a unit-length), and decide whether the pixel is in a shadow. Below is a brick texture with the horizon mapping applied.
+The components we have seen so far are sufficient for us to proceed to implementing a shader. We can now write a shader in which it samples one texel from the horizon map and one from the cubemap, combines them together to produce a proper $\sin \alpha$, and compares it with $l_z$(it is the sine of the angle made by $l$, since $l$ has a unit-length), and decides whether the pixel is in a shadow. Below is a brick texture with horizon mapping applied.
 
 ![eta100](../../Images/2023-04-29-HorizonMapping/eta100.png){: width="500"}{: .align-center} $\eta = 100$
 {: .text-center}
 
-The bumps are shadowing to itself, but the shadow boundary is too sharp. Light sources in the real world, including the Sun, have some amount of volume and produces soft gradients on edges of shadows. Considering this nature,  just one subtle adjustment could yield an even better result. Instead of the binary classification of if a pixel is in a shadow or not, add a smooth transition function so that the shadowing zone shifts gradually. The transition function looks like this;
+The bumps are shadowing itself, but the shadow boundary is too sharp. Light sources in the real world, including the Sun, have some amount of volume and produces soft gradients on the edges of shadows. Considering this nature,  just one subtle adjustment could yield an even better result. Instead of the binary classification of if a pixel is in a shadow or not, add a smooth transition function so that the shadowing zone shifts gradually. The transition function looks like this;
 
 $F = \eta(l_z - \sin \alpha) + 1$
 
@@ -634,21 +635,23 @@ The shader is written upon the parallax shader that was previously introduced.
 
 # Results
 
-![Sphere](../../Images/2023-04-29-HorizonMapping/Sphere.gif){: width="450"}{: .align-center} Test with a bump with a circle shape
+![Sphere](../../Images/2023-04-29-HorizonMapping/Sphere.gif){: width="450"}{: .align-center} Test witha a circle-shaped bump
 {: .text-center}
 
 ![Brick](../../Images/2023-04-29-HorizonMapping/Brick.gif){: width="450"}{: .align-center} Brick with the horizon map applied
 {: .text-center}
 
-The horizon mapping allows bumps to cast shadows onto itself. The range of the shadows varies according to the horizontal and vertical direction of the light source. This adds some reality to the bumped surfaces.
+Horizon allows bumps to cast shadows onto itself. The range of the shadows varies according to the horizontal and vertical direction of the light source. This adds some reality to the bumped surfaces.
 
-In spite of the extra reality made by the horizon mapping, I am not going to use it for my game project for several  reasons.
+# Conclusion
 
-1.  Visually unsatisfactory. The shadow boundary is noisy and the shadow itself is too dark. Fine-tuning the shadow color requires extra works.
+In spite of the extra reality made by horizon mapping, I am not going to use it for my game project for several  reasons.
+
+1. Visually unsatisfactory. The shadow boundary is noisy and the shadow itself is too dark. Fine-tuning the shadow color requires extra work.
 2. Performance issue. The shader needs to sample a horizon map and a cubemap, after applying a normal map and a parallax offset.
-3. Need a separate texture map. It takes a lot of time to generate a horizon map and it increases rapidly as its size becomes larger even though we hired multithreading. Furthermore, the increased number of texture maps to manage puts some burden on developers!
+3. Need a separate texture map. It takes a lot of time to generate a horizon map, and the time increases rapidly as its size becomes larger, even though we hired multithreading. Furthermore, the increased number of texture maps to manage puts some burden on developers!
 
-However the usefulness of the horizon mapping itself is, the reason I am introducing this technique is it contains a handful of graphics techniques and inspired me to design a new sight system. You can check it out on [this post](../FOVMapping).
+However useful horizon mapping itself is, the reason I am introducing this technique is it contains a handful of graphics techniques and inspired me to design a new sight system. You can check it out on [this post](../FOVMapping).
 
  
 

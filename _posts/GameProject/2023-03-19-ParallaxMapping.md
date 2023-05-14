@@ -6,7 +6,7 @@ categories:
 
 # Introduction
 
-Had it not been for the normal mapping, game developers would have been forced to choose between two unsatisfactory options; to subdivide to add 'real' details and get millions of billions of vertex count, or to just give up any details, leaving only tedious low-poly surfaces. Thanks to bumpiness simulated by the normal mapping, we can keep details without pressing the 'subdivision' button three or more times.
+Had it not been for normal mapping, game developers would have been forced to choose between two unsatisfactory options; to subdivide to add 'real' details and get millions of billions of vertex count, or to just give up any details, leaving only tedious low-poly surfaces. Thanks to bumpiness simulated by normal mapping, we can keep details without pressing the 'subdivision' button three or more times.
 
 ![Sandbags_NoExtrusion](../../Images/2023-03-19-ParallaxMapping/Sandbags_NoExtrusion.png){: width="500"}{: .align-center} Sandbags fortification with a normal map applied.
 {: .text-center}
@@ -22,7 +22,7 @@ I found this trouble in my sandbags fortification model. Look at the flat surfac
 
 ## What is **Parallax Mapping**?
 
-**Parallax mapping** is a mapping technique to create the illusion of depth on a flat surface introduced by [1]. It is a form of displacement mapping that simulates the effect of parallax, which is an apparent shift in the position of an object when viewed from different angles. In the parallax mapping, a texture applied to a surface is displaced in a way that simulates bumps of the surface.
+**Parallax mapping** is a mapping technique to create the illusion of depth on a flat surface introduced by [1]. It is a form of displacement mapping that simulates the effect of parallax, which is an apparent shift in the position of an object when viewed from different angles. In parallax mapping, a texture applied to a surface is displaced in a way that simulates bumps of the surface.
 
 ## How Does it Work? 
 
@@ -32,7 +32,7 @@ Parallax mapping shifts the texture coordinate to approximate 'the real height' 
 {: .text-center}
 
 1. We are given;
-    * $o = (0, 0, 0)$ : Texture coordinate that would be sampled if we didn't use the parallax mapping
+    * $o = (0, 0, 0)$ : Texture coordinate that would be sampled if we didn't use parallax mapping
     * $h$: Height found by sampling the height map at $o$
     * $v$: View vector
 2. Get the plane $f$ with the normal vector $n$ that is tangent to the surface of the height map.
@@ -74,7 +74,7 @@ For each pair of a height map and a normal map, we can create a new texture and 
 
 ## Iteration
 
-When bumps get too steep, offsets from the parallax mapping often become too far from the actual sampling point. To mitigate this, the sampling point is chosen after multiple iteration steps.
+When bumps get too steep, offsets from parallax mapping often become too far from the actual sampling point. To mitigate this, the sampling point is chosen after multiple iteration steps.
 
 1. Define the iteration count $k$. We divide the scale factor by $k$. 
 2. Calculate a sampling point $p = o + tv$.
@@ -192,9 +192,9 @@ Shader "Custom/DiffuseNormalParallax"
 | $k = 10$  | ![Bricks_10](../../Images/2023-03-19-ParallaxMapping/Bricks_10.png) | ![Sandbags_Parallax_10](../../Images/2023-03-19-ParallaxMapping/Sandbags_Parallax_10.png) |
 | $k = 100$ | ![Bricks_100](../../Images/2023-03-19-ParallaxMapping/Bricks_100.png) | ![Sandbags_Parallax_100](../../Images/2023-03-19-ParallaxMapping/Sandbags_Parallax_100.png) |
 
-Let's test the parallax mapping shader for the two models. One is a simple plane with a bricks texture on it, and the other one is the sandbags texture that motivated me to dig into this subject. Both models look flat when the parallax mapping was not applied. Sandbags below are not occluded by sandbags above, so the flank looks like a patterned wall rather than stacked sandbags.
+Let's test the parallax mapping shader for the two models. One is a simple plane with a bricks texture on it, and the other one is the sandbags texture that motivated me to dig into this subject. Both models look flat when parallax mapping was not applied. Sandbags below are not occluded by sandbags above, so the flank looks like a patterned wall rather than stacked sandbags.
 
-Once the parallax mapping is applied, each bump looks 'extruded' even though no actual vertices were added. Where $k$ is only one, meaning that we are selecting the initial offset without iteration in the shader, we can observe some artifacts, especially  in the case of the bricks. These artifacts dramatically diminish as we use more iteration count($k = 10$). Nonetheless, differences can hardly be seen between $k=10$ and $k=100$. Therefore, I chose $k = 10$ for iteration count as more iteration count would only harm performance.
+Once parallax mapping is applied, each bump looks 'extruded' even though no actual vertices were added. Where $k$ is only one, meaning that we are selecting the initial offset without iteration in the shader, we can observe some artifacts, especially  in the case of the bricks. These artifacts dramatically diminish as we use more iteration count($k = 10$). Nonetheless, differences can hardly be seen between $k=10$ and $k=100$. Therefore, I chose $k = 10$ for iteration count as more iteration count would only harm performance.
 
  
 

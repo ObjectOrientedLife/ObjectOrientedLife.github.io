@@ -633,6 +633,14 @@ Shader "Custom/DiffuseNormalParallaxHorizon"
 ```
 The shader is written upon the parallax shader that was previously introduced.
 
+# Editor Window
+
+Although I am omitting the code here(you can check it out at the repository), I wrote an editor to facilitate the generation of horizon maps. A user can easily create a variety of horizon maps and a cubemap by adjusting parameters and save those assets to any location they intend.
+
+![image-20230515235509201](../../Images/2023-04-29-HorizonMapping/image-20230515235509201.png){: .align-center}
+
+![image-20230515235521607](../../Images/2023-04-29-HorizonMapping/image-20230515235521607.png){: .align-center}
+
 # Results
 
 ![Sphere](../../Images/2023-04-29-HorizonMapping/Sphere.gif){: width="450"}{: .align-center} Test witha a circle-shaped bump

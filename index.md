@@ -33,7 +33,7 @@ If you are interested in further role of mine, why don't you take a look at [thi
 
 # Projects
 
-## Indie Game Project ''
+## [Indie Game Project ''](/gameProject/)
 * 
 
 # Skills

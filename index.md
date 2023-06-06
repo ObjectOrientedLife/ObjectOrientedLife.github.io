@@ -10,19 +10,31 @@ author_profile: true
 I am a **Software Engineer** at Nexon Korea, to be more specific, a gameplay and engine programmer for MapleStory. Before joining Nexon Korea, I interned at NCSoft in the Vision AI Lab. I got my bachelor's degree at Seoul National University, where I double-majored in geography and computer science. My main interests are video game development and computer graphics. I am also keen on other fields of computer science, including computer systems and GPU programming.
 
 # Career
-* ## [Gameplay & Engine Programmer](/gameproject/)
-  **Nexon Korea**, Seongnam-si, Gyeonggi-do (2022.08-)
+If you are interested in further role of mine, why don't you take a look at [this category](/career/)?
 
-* ## [Intern](/gameproject/)
-**NCSoft**, Seongnam-si, Gyeonggi-do (2021.07 – 2021.08)
+## **Nexon Korea**
+* Gameplay & Engine Programmer(2022.08-)
+* MapleStory Programming Team
+  * As a gameplay and engine programmer, I am engaging in implementation of core gameplay features, both on the client-side and the server-side.
+  * Efficiently dealing with an enormous codebase with 20-years of legacies, using C++, C#, and MSSQL.
+  
+## **NCSoft**
+* Intern Vision AI Programmer(2021.07 – 2021.08)
+* Human Pose Estimation Team, Vision AI Lab
+  * Developed an AR- and AI-based livestreaming system using Unity & Barracuda, OpenPose, and VideoPose3D.
+  * Successfully developed virtual character movement pipeline including inference, handling the result from the neural network, and demonstration with arbitrary characters on the client.
 
 # Education
 
 ## Seoul National University
 
 * B.A. in **Geography**(2022)
-
 * B.S. in **Computer Science**(2022)
+
+# Projects
+
+## Indie Game Project ''
+* 
 
 # Skills
 ## Programming Languages    
@@ -49,7 +61,6 @@ I am a **Software Engineer** at Nexon Korea, to be more specific, a gameplay and
 * I have been developing my own game with Unity for over three years. 
 * Since the project is aimed at commercial success, I have encountered numerous challenges while developing each disparate part. With deep considerations about how to formulate Unity components, I was able to make a breakthrough.
 * Not only do I use functionality offered by Unity, but in order to enrich my game project, I have also been highly customizing terrain, animation system, shader, and the multiplayer API.
-* See [this category](/gameproject/) for details of my Unity project.
 
 ## Graphics API
 ![VulkanLogo](../Images/home/VulkanLogo.png "Vulkan"){: width="150"}

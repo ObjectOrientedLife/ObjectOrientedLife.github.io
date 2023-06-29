@@ -66,7 +66,7 @@ When $n$ and $v$ are almost perpendicular, $n \cdot v$ gets very close to zero, 
 
 ## Storing $n_zh$ in a Separate Texture
 
-For each pair of a height map and a normal map, we can create a new texture and store the $n_zh$ values. Doing this can save a single multiplication during the shader pass. However, at this moment, there is no sufficient reason to bother to write another script for a texture setup interface to save a single multiplication. So let's hold off setting up another texture to store precalculated information for mapping until the [horizon mapping](/gameproject/HorizonMapping.md).
+For each pair of a height map and a normal map, we can create a new texture and store the $n_zh$ values. Doing this can save a single multiplication during the shader pass. However, at this moment, there is no sufficient reason to bother to write another script for a texture setup interface to save a single multiplication. So let's hold off setting up another texture to store precalculated information for mapping until the [horizon mapping](/gameproject/2023-04-29-HorizonMapping.md).
 
 ## Scale Factor
 

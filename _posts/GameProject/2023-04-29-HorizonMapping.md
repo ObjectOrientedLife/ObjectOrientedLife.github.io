@@ -659,7 +659,7 @@ In spite of the extra reality made by horizon mapping, I am not going to use it 
 2. Performance issue. The shader needs to sample a horizon map and a cubemap, after applying a normal map and a parallax offset.
 3. Need a separate texture map. It takes a lot of time to generate a horizon map, and the time increases rapidly as its size becomes larger, even though we hired multithreading. Furthermore, the increased number of texture maps to manage puts some burden on developers!
 
-However useful horizon mapping itself is, the reason I am introducing this technique is it contains a handful of graphics techniques and inspired me to design a new sight system. You can check it out on [this post](../FOVMapping).
+However useful horizon mapping itself is, the reason I am introducing this technique is it contains a handful of graphics techniques and inspired me to design a new sight system. You can check it out on [this post](../FOVMapping1).
 
  
 

@@ -1,3 +1,7 @@
+
+# Motivation
+
+
 # Elaborations
 
 ## Interpolating Distances
@@ -10,7 +14,7 @@
 
 ## Viewing Angle
 
-## Visibility of Meshes
+## Visibility of Game Objects
 
 # Result
 

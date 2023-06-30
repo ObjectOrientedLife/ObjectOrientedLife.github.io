@@ -71,7 +71,7 @@ Although both shadowcasting and raycasting method have their own suitable applic
 1. Processing pixels one by one on a **CPU** results in a formidable overhead.
 2. Raycasting **during playtime** does not depend on sight ranges but still cannot afford a large number of eyes.
 
-What is going to save us are ideas from **[Horizon Mapping](/game)**. The way horizon mapping simulates shadows is to inspect bumps around each surface position and store the information about the shadow casters in a texture map, finally sampling it for shading in the fragment shader. It is brilliant that it tries to calculate data in advance and fully utilizes each channel of a texture map. By doing so, a CPU can do its own work other than evaluating shadow casters during playtime.
+What is going to save us are ideas from **[Horizon Mapping](../HorizonMapping)**. The way horizon mapping simulates shadows is to inspect bumps around each surface position and store the information about the shadow casters in a texture map, finally sampling it for shading in the fragment shader. It is brilliant that it tries to calculate data in advance and fully utilizes each channel of a texture map. By doing so, a CPU can do its own work other than evaluating shadow casters during playtime.
 
 Inspired by horizon mapping, we can now envision our novel idea to facilitate a massive FOV system by negating the above statements.
 

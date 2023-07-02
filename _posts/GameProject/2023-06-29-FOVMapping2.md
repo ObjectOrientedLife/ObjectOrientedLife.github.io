@@ -260,7 +260,9 @@ float agentAlphaFactor = max(max(obstacleAlphaFactor, rangeAlphaFactor), angleAl
 
 # Conclusion
 
-The long journey of constructing FOV mapping has been finished, and it's time for an evaluation. Our aim is at whether we have achieved our initial goal; high-performance field of view backed by a massive crowd. 
+After months of dedicated efforts and countless hours of work, we have successfully completed the arduous and intricate task of constructing the Field of View (FOV) mapping. FOV mapping didn't work well at the first time. However, as a result of continuous revisions and elaborations, we were able to construct a reliable and adjustable field of view system.
+
+Now, with the construction phase behind us, we eagerly look forward to the [next post](../FOVMapping3), where we will embark on an exciting new chapter - the evaluation of our meticulously crafted FOV mapping system. This evaluation process will provide us with a valuable opportunity to thoroughly examine and analyze our system's performance and compatibility from a multitude of perspectives.
 
 # References
 

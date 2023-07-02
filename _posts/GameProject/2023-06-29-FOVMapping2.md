@@ -244,7 +244,7 @@ Bearing both sides of the identity in mind, the pipeline flows as following.
 
 1. For each agent, transfer `transform.forward` and  `Mathf.Cos(agent.sightAngle * 0.5f * Mathf.Deg2Rad)` of  an `agent`, from `FOVManager` to `FOVMappingShader` as a uniform variable.
 2. Let the vector directed to the unit's forward be $v_{forward}$ and `Mathf.Cos(agent.sightAngle * 0.5f * Mathf.Deg2Rad)` be $C$. To the agent, a pixel is
-   1. visible if $(p_{pixel} - p_{agent}) / |p_{pixel} - p_{agent}| >= C$,
+   1. visible if $\frac{(p_{pixel} - p_{agent}) }{ \| p_{pixel} - p_{agent} \|} >= C$,
    2. invisible otherwise.
 3. Of course, this visibility is aggregated for all agents to form an entire field of view.
 

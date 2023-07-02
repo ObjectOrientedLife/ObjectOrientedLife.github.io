@@ -26,10 +26,10 @@ Each game employs its own FOW policy, which eventually leads players to use diff
 
 Company of Heroes 2(2013), on the other hand, features a sight system called 'true sight' in which units' visibility is blocked not only by topography but also by obstacles, including buildings, trees, and even abandoned vehicles. A good commander prevents abrupt encounters with adversaries by keeping a sniper away from corners or takes advantage of bushes with an assault troop armed with machine pistols.
 
-![Starcraft Fog Of War - TOPBOTS](../../Images/2023-05-14-FOVMapping0/starcraft_fogofwar_700px.jpg){: width="500"}{: .align-center}  Fog of War in Starcraft I(1998)
+![Starcraft Fog Of War - TOPBOTS](../../Images/2023-05-14-FOVMapping1/starcraft_fogofwar_700px.jpg){: width="500"}{: .align-center}  Fog of War in Starcraft I(1998)
 {: .text-center}
 
-![COMPANY OF HEROES 2 Tutorials TrueSight - YouTube](../../Images/2023-05-14-FOVMapping0/maxresdefault.jpg){: width="500"}{: .align-center}  'True sight' system in Company of Heroes 2(2013)
+![COMPANY OF HEROES 2 Tutorials TrueSight - YouTube](../../Images/2023-05-14-FOVMapping1/maxresdefault.jpg){: width="500"}{: .align-center}  'True sight' system in Company of Heroes 2(2013)
 {: .text-center}
 
 Among the two choices, I chose the latter one; the obstacle-sensitive sight system, as I wanted to imbue my game with more tactical possibilities. Trying to implement a field of vision, I started to search for a field of vision technique that satisfies one condition critical for the project; **high performance**. In the game, there are eight players for each side, and each player controls a squad consists of five members. Since each infantryman has their own vision and the sight is shared among squads, 40 units contribute to the sight of a single game client. The FOW policy should be able to handle these large numbers of contributors to a visible area.
@@ -51,7 +51,7 @@ Among the two choices, I chose the latter one; the obstacle-sensitive sight syst
 3. Let the tipping point of each ray be $t_0, t_1, t_2, ...t_n$,  and the center be $c$. Construct a set of triangular faces whose vertices are $(c, t_0, t_1), (c, t_1, t_2), (c, t_2, t_3),...(c, t_n, t_0)$. The faces compose a fan-shaped field of vision(FOV) mesh.
 4. In Unity, we render the FOV mesh onto a `RenderTexture`, which will finally be projected on the level using a `Projector`.
 
-![image-20230625215418964](../../Images/2023-05-14-FOVMapping0/image-20230625215418964.png){: width="600"}{: .align-center} Field of view plane made with raycasting
+![image-20230625215418964](../../Images/2023-05-14-FOVMapping1/image-20230625215418964.png){: width="600"}{: .align-center} Field of view plane made with raycasting
 {: .text-center}
 
 The more rays are cast, the denser the obstacle detection is. However, this also leads to more overhead, of course. But we can enhance performance dramatically by hiring the binary search technique. *Sebastian Lague* [3] uploaded such a kind tutorial demonstrating how to all these steps are done.
@@ -85,16 +85,16 @@ The amount of storage occupied by the data is often negligible, considering the 
 ### How to do it
 
 Sampling a level is extremely simple for FOV mapping; it is basically a raycasting done before playtime. First, divide the level into a grid with the dimension the same as the FOV map. At each center of the grid square, shoot rays into a predefined number of rays and find how much distance those beams have traveled.
-![image-20230625215418964](../../Images/2023-05-14-FOVMapping0/Sampling.png){: width="600"}{: .align-center} Sampling a level
+![image-20230625215418964](../../Images/2023-05-14-FOVMapping1/Sampling.png){: width="600"}{: .align-center} Sampling a level
 {: .text-center}
 
 One crucial difference between horizon mapping and FOV mapping is that the accuracy matters, unlike the horizon mapping case. It is mandatory that every single direction is recorded instead of being replaced with a few averages. In order to achieve a decent field of vision, the angular resolution of raycasting should be at least $10^\circ$, optimally under $1^\circ$. A single RGBA32-format texture is insufficient to record all those directional information, of course. 
 
 Don't worry. **Texture array** [4] can fix them all. A texture array is literally a sequence of textures that behaves just similar to textures. What makes it special is that it can contain several textures in it, and is sampled in a shader with a 3D UVW coordinate instead of a 2D UV coordinate. By embedding multiple textures into a texture array, we can make room for huge directional data.
 
-The distance of a ray is stored sequentially in a texture array as the angular index increases. The layout looks like this:
+The distance traveled by a ray is stored sequentially in a texture array as the angular index increases. The layout looks like this:
 
-![FOV mapping](../../Images/2023-05-14-FOVMapping0/FOV mapping.png){: width="800"}{: .align-center}
+![FOV mapping](../../Images/2023-05-14-FOVMapping1/FOV mapping.png){: width="800"}{: .align-center}
 
 We can also map an angular index to a layer index and a channel index with a function.
 $$
@@ -197,7 +197,7 @@ Another component of FOV mapping is agents who actually have their own sights. I
 3. Units can have different sight ranges; a scout can see farther than a stormtrooper can.
 4. A unit vanishes as a result of an engagement. As a matter of course, its sight is darkened again.
 
-What makes the FOV system meet these conditions is the **FOV Agent**. Each unit has a component named FOV agent attached to it. The components control the units' sights individually as their unique properties are transferred to a shader. They can also be enabled or disabled to simulate the birth or death of troops.
+What makes the FOV system meet these requirements is the **FOV Agent**. Each unit has a component named FOV agent attached to it. The components control the units' sights individually as their unique properties are transferred to a shader. They can also be enabled or disabled to simulate the birth or death of troops.
 
 ### Implementation
 
@@ -308,13 +308,13 @@ Once the sight of an agent is inspected, it is aggregated to the visibility of a
 
 The combination of Our **FOV Mapping** works quite well, as shown below. You can see that higher resolution and number of textures lead to a better result.
 
-![256_30](../../Images/2023-05-14-FOVMapping0/256_30.gif){: width="600"}{: .align-center} 30 256x256 layers
+![256_30](../../Images/2023-05-14-FOVMapping1/256_30.gif){: width="600"}{: .align-center} 30 256x256 layers
 {: .text-center}
 
-![512_30](../../Images/2023-05-14-FOVMapping0/512_30.gif){: width="600"}{: .align-center} 30 512x512 layers
+![512_30](../../Images/2023-05-14-FOVMapping1/512_30.gif){: width="600"}{: .align-center} 30 512x512 layers
 {: .text-center}
 
-![512_90](../../Images/2023-05-14-FOVMapping0/512_90.gif){: width="600"}{: .align-center} 90 512x512 layers
+![512_90](../../Images/2023-05-14-FOVMapping1/512_90.gif){: width="600"}{: .align-center} 90 512x512 layers
 {: .text-center}
 
 The happiness of achievement aside, you could be feeling uncomfortable about the artifacts and lacking features. If so, please take a look at the next post to see how the elaboration completes FOV mapping!

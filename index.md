@@ -33,8 +33,11 @@ If you are interested in further role of mine, why don't you take a look at [thi
 
 # Projects
 
-## [Indie Game Project ''](/gameproject/)
-* 
+## Indie Game Project
+* A top-view strategy game set in Korean war.
+* Unity, C#, and several 3D modeling tools.
+* Designed, programmed, and produced art assets.
+* [This category](/gameproject/) embraces introductions of the project itself and techniques applied.
 
 # Skills
 ## Programming Languages    

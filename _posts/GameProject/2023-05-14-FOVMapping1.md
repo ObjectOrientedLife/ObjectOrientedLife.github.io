@@ -107,9 +107,8 @@ $$
 We now proceed to the implementation of the FOV map generation. The first step is to set variables and constants that the shader will use later.
 
 ```c#
-int CHANNELS_PER_TEXEL = 4;
-float MAX_HEIGHT = 5000.0f;
-int SAMPLES_PER_DIRECTION = 5;
+const int CHANNELS_PER_TEXEL = 4;
+const float MAX_HEIGHT = 5000.0f;
 
 float projectorSizeX = projector.orthographicSize * projector.aspectRatio * 2.0f;
 float projectorSizeZ = projector.orthographicSize * 2.0f;

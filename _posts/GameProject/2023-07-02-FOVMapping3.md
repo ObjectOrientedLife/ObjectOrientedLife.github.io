@@ -52,14 +52,14 @@ For the test, I measured framerate for one minute each and took average. After c
 
 | Agent Count | Raycasting | FOV Mapping | FPS Ratio |
 | :---------: | :--------: | :---------: | :-------: |
-|      1      | 1661.5 FPS | 1937.2 FPS  |           |
-|      2      | 1539.1 FPS | 1925.8 FPS  |           |
-|      4      | 1442.4 FPS | 1855.1 FPS  |           |
-|      8      | 1301.2 FPS | 1749.5 FPS  |           |
-|     16      | 1023.2 FPS | 1564.6 FPS  |           |
-|     32      | 679.8 FPS  | 1450.7 FPS  |           |
-|     64      | 361.5 FPS  | 1390.3 FPS  |           |
-|     128     | 120.9 FPS  |  469.5 FPS  |           |
+|      1      | 1661.5 FPS | 1937.2 FPS  |   1.17    |
+|      2      | 1539.1 FPS | 1925.8 FPS  |   1.25    |
+|      4      | 1442.4 FPS | 1855.1 FPS  |   1.29    |
+|      8      | 1301.2 FPS | 1749.5 FPS  |   1.34    |
+|     16      | 1023.2 FPS | 1564.6 FPS  |   1.53    |
+|     32      | 679.8 FPS  | 1450.7 FPS  |   2.13    |
+|     64      | 361.5 FPS  | 1390.3 FPS  |   3.85    |
+|     128     | 120.9 FPS  |  469.5 FPS  |   3.88    |
 
  The table demonstrates an evident superiority of FOV mapping as agents populate.
 

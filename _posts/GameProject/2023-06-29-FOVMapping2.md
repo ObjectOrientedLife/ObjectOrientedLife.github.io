@@ -374,7 +374,7 @@ void SetAgentVisibility()
 ```
 
 ```c++
-#pragma kernel ReadPixel
+#pragma kernel ReadPixels
 
 Texture2D<float4> inputTexture; // Input texture
 
@@ -386,7 +386,7 @@ float4 targetAgentUVs[MAX_ENEMY_AGENT_COUNT];
 RWStructuredBuffer<float> outputBuffer; // Output buffer
 
 [numthreads(1, 1, 1)]
-void ReadPixel(uint3 id : SV_DispatchThreadID)
+void ReadPixels(uint3 id : SV_DispatchThreadID)
 {
 	for (int i = 0; i < targetAgentCount; ++i)
 	{

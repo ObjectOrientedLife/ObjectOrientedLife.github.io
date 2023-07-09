@@ -257,6 +257,161 @@ float agentAlphaFactor = max(max(obstacleAlphaFactor, rangeAlphaFactor), angleAl
 ![Sight240](../../Images/2023-06-29-FOVMapping2/Sight240.gif){: width="600"}{: .align-center} Viewing angle = 240 degrees
 {: .text-center}
 
+## Enemy Visibility
+
+The primary purpose of a fog of war is to veil the status of opposite forces so that each player behaves strategically with a limited amount of information. With the implementations so far, the `Projector` only 'projects' a fog of war onto the enemies' mesh but does not hide the enemies themselves.
+
+The problem is that the `RenderTexture` projected with the `Projector` resides on the GPU, which makes it challenging to handle the FOV information. Bearing this in mind, we may come up with some choices to conceal the enemy units located beyond our sight.
+
+1.  **Stencil shader [3]**: This is a very cheap and visually outstanding way, as it depends entirely on the shader features. However, it merely *masks* enemy units from the viewport, and they are actually not culled from the CPU side. Whenever a player inadvertently clicks an enemy unit hiding in a fog of war, the input must be neglected as if there was no enemy at all. To achieve this, we have to know the visibility on the CPU side. Unfortunately, the stencil shader cannot complete this mission.
+1.   **Fetching `RenderTexture` into the CPU**: Then sample the retrieved texture with UV coordinates corresponding to agents' positions. If the sampled texel has a higher alpha value than some threshold, it is judged to be invisible; otherwise, it stays visible. This one is the way to go. I will explain how I optimized the fetching process.
+1.  **Calculating on the CPU side**: Otherwise, since reading data from the GPU is costly, we could contemplate doing all the calculations on the CPU side. To achieve this, we have to have another set of the FOV map array on system memory.
+
+The most widely used approach to bring a `RenderTexture` into the CPU is `Texture2D.ReadPixels`. We need not load the entire texture. Instead, we can fetch the texels that correspond to the agents' positions, and this will save us from the bottleneck and main thread stalling. Also, since the hostile agents outside the camera's viewport are invisible anyway, we leave them out when finding game objects hidden in the fog of war.  
+
+```c#
+// Set visibility of agents according to the current FOV
+void SetAgentVisibility()
+{
+    RenderTexture backup = RenderTexture.active;
+    RenderTexture.active = FOWRenderTexture;
+
+    // Agent visibility
+    for (int i = 0; i < FOVAgents.Count; i++)
+    {
+        FOVAgent agent = FOVAgents[i];
+        if (agent.disappearInFOW)
+        {
+            Vector3 agentPosition = agent.transform.position;
+
+            // Process agents inside the camera viewport only
+            Vector3 viewportPosition = Camera.main.WorldToViewportPoint(agentPosition);
+            if (viewportPosition.x < 0.0f || viewportPosition.x > 1.0f && viewportPosition.y < 0.0f || viewportPosition.y > 1.0f || viewportPosition.z <= 0.0f)
+            {
+                continue;
+            }
+
+            // Convert the agent position to a Projector UV coordinate
+            Vector2 agentLocalPosition = FOWProjector.transform.InverseTransformPoint(agentPosition);
+            agentLocalPosition.x /= FOWProjector.orthographicSize * FOWProjector.aspectRatio; // Remap to [-1, 1]
+            agentLocalPosition.y /= FOWProjector.orthographicSize; // Remap to [-1, 1]
+            agentLocalPosition = agentLocalPosition / 2.0f + 0.5f * Vector2.one; // [-1, 1] -> [0, 1]
+            Vector2 agentUV = FOWTextureSize * agentLocalPosition;
+
+            // Transfer the RenderTexture from the GPU to the CPU
+            FOWTexture2D.ReadPixels(new Rect(agentUV.x, FOWRenderTexture.height - agentUV.y, 1, 1), 0, 0, false);
+
+            // Set visibility
+            bool isInSight = FOWTexture2D.GetPixel(0, 0).a <= agent.disappearAlphaThreshold;
+            agent.SetVisible(isInSight);
+        }
+    }
+
+    RenderTexture.active = backup;
+}
+```
+
+When it comes to reading pixels, one issue with the `ReadPixels` function is that it can only retrieve pixels within a rectangular range. If we are to use `ReadPixels`, we can't help but fetch one pixel at once, otherwise, we have to use a large `Rect` to cover enemies widely spread across the map.
+
+One possible suggestion to improve the efficiency of cherry-picking multiple pixels at once from the entire texture rect is to use the **Compute Shader** [4]. 
+
+1. A script gathers UV coordinates corresponding to the enemy agents.
+2. The script transfers them to the compute shader.
+3. The compute shader samples `RenderTexture` with the coordinates on the GPU and collect them in a buffer.
+4. The CPU reads this buffer to get the intended pixels for all the enemy agents finally.
+
+```c#
+// Set visibility of agents according to the current FOV
+void SetAgentVisibility()
+{
+    List<FOVAgent> targetAgents = new List<FOVAgent>();
+    List<Vector4> targetAgentUVs = new List<Vector4>();
+
+    for (int i = 0; i < FOVAgents.Count; i++)
+    {
+        FOVAgent agent = FOVAgents[i];
+        if (agent.disappearInFOW)
+        {
+            Vector3 agentPosition = agent.transform.position;
+
+            // Process agents inside the camera viewport only
+            Vector3 viewportPosition = Camera.main.WorldToViewportPoint(agentPosition);
+            if (viewportPosition.x < 0.0f || viewportPosition.x > 1.0f && viewportPosition.y < 0.0f || viewportPosition.y > 1.0f || viewportPosition.z <= 0.0f)
+            {
+                continue;
+            }
+
+            // Convert the agent position to a Projector UV coordinate
+            Vector2 agentLocalPosition = FOWProjector.transform.InverseTransformPoint(agentPosition);
+            agentLocalPosition.x /= FOWProjector.orthographicSize * FOWProjector.aspectRatio; // Remap to [-1, 1]
+            agentLocalPosition.y /= FOWProjector.orthographicSize; // Remap to [-1, 1]
+            agentLocalPosition = agentLocalPosition / 2.0f + 0.5f * Vector2.one; // [-1, 1] -> [0, 1]
+            Vector2 agentUV = FOWTextureSize * agentLocalPosition;
+
+            targetAgents.Add(agent);
+            targetAgentUVs.Add(agentUV);
+        }
+    }
+
+    // Use the compute shader to retrieve pixel data from the GPU to CPU
+    pixelReader.SetInt("targetAgentCount", targetAgents.Count);
+    pixelReader.SetVectorArray("targetAgentUVs", targetAgentUVs.ToArray());
+
+    pixelReader.Dispatch(kernelID, 1, 1, 1);
+
+    float[] outputAlphaArray = new float[MAX_ENEMY_AGENT_COUNT];
+    outputAlphaBuffer.GetData(outputAlphaArray);
+
+    // Set visibility
+    for (int i = 0; i < targetAgents.Count; ++i) 
+    {
+        FOVAgent agent = targetAgents[i];
+
+        bool isInSight = outputAlphaArray[i] <= agent.disappearAlphaThreshold;
+        agent.SetVisible(isInSight);
+    }
+}
+```
+
+```c++
+#pragma kernel ReadPixel
+
+Texture2D<float4> inputTexture; // Input texture
+
+#define MAX_ENEMY_AGENT_COUNT 128
+int targetAgentCount;
+float4 targetAgentUVs[MAX_ENEMY_AGENT_COUNT];
+
+#pragma bind_buffer(name: outputBuffer, binding: 0)
+RWStructuredBuffer<float> outputBuffer; // Output buffer
+
+[numthreads(1, 1, 1)]
+void ReadPixel(uint3 id : SV_DispatchThreadID)
+{
+	for (int i = 0; i < targetAgentCount; ++i)
+	{
+		float4 color = inputTexture.Load(int3(targetAgentUVs[i].x, targetAgentUVs[i].y, 0));
+		outputBuffer[i] = color.a;
+	}
+}
+```
+
+The CPU issues a single request to identify the visibility of enemy units simultaneously, contrary to `ReadPixels` case where the script had to call `ReadPixels` for each enemy unit. The table below demonstrates framerates as the number of enemy units increases by two times each. The results shows the evident superiority of compute shader over `ReadPixels`, especially when there are a large number of subjects.   
+
+| Enemy Count | `ReadPixels` | Compute Shader |
+| :---------: | :----------: | :------------: |
+|      1      |  1623.8 FPS  |   1648.7 FPS   |
+|      2      |  1563.2 FPS  |   1613.6 FPS   |
+|      4      |  1356.3 FPS  |   1564.8 FPS   |
+|      8      |  1287.6 FPS  |   1568.2 FPS   |
+|     16      |  1035.7 FPS  |   1557.9 FPS   |
+|     32      |  759.4 FPS   |   1553.1 FPS   |
+|     64      |  481.6 FPS   |   1537.9 FPS   |
+
+Setting `contributeToFOV` property to `true` for friendly agents and `disappearInFOW` to `true` for hostile agents, I got the following result.
+
+![Occlusion](../../Images/2023-06-29-FOVMapping2/Occlusion.gif){: width="600"}{: .align-center}
+
 # Conclusion
 
 After months of dedicated efforts and countless hours of work, we have successfully completed the arduous and intricate task of constructing the Field of View (FOV) mapping. FOV mapping didn't work well initially. However, as a result of continuous revisions and elaborations, we were able to construct a reliable and adjustable field-of-view system.
@@ -268,3 +423,7 @@ At this moment, with the construction phase behind us, we eagerly look forward t
 [1] https://en.wikipedia.org/wiki/Gaussian_blur
 
 [2] https://github.com/remibodin/Unity3D-Blur/tree/master/UnityProject/Assets/Blur/GaussianBlur
+
+[3] https://forum.unity.com/threads/use-a-projector-to-cull-pixels-with-alpha-transparency.533549/
+
+[4] https://dev.to/alpenglow/unity-fast-pixel-reading-cbc

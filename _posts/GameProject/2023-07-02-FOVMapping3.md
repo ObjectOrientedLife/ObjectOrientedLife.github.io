@@ -46,20 +46,20 @@ For a fair comparison, the conditions were set a little bit artificially.
 
 * Use 90 1024x1024 layers
 * Gaussian blur is disabled
+* No enemy occluded by the fog of war
 
 For the test, I measured framerate for one minute each and took average. After conducting a round of trial, I got the results below.
 
-
 | Agent Count | Raycasting | FOV Mapping | FPS Ratio |
 | :---------: | :--------: | :---------: | :-------: |
-|      1      | 1461.5 FPS | 1937.2 FPS  |   1.33    |
-|      2      | 1139.1 FPS | 1925.8 FPS  |   1.69    |
-|      4      | 993.1 FPS  | 1855.1 FPS  |   1.87    |
-|      8      | 650.2 FPS  | 1749.5 FPS  |   2.69    |
-|     16      | 493.2 FPS  | 1564.6 FPS  |   3.17    |
-|     32      | 279.8 FPS  | 1450.7 FPS  |   5.18    |
-|     64      | 161.5 FPS  | 1390.6 FPS  |   8.61    |
-|     128     |  80.9 FPS  |  409.5 FPS  |   5.06    |
+|      1      | 1661.5 FPS | 1937.2 FPS  |           |
+|      2      | 1539.1 FPS | 1925.8 FPS  |           |
+|      4      | 1442.4 FPS | 1855.1 FPS  |           |
+|      8      | 1301.2 FPS | 1749.5 FPS  |           |
+|     16      | 1023.2 FPS | 1564.6 FPS  |           |
+|     32      | 679.8 FPS  | 1450.7 FPS  |           |
+|     64      | 361.5 FPS  | 1390.3 FPS  |           |
+|     128     | 120.9 FPS  |  469.5 FPS  |           |
 
  The table demonstrates an evident superiority of FOV mapping as agents populate.
 

@@ -24,7 +24,7 @@ Overall, the fog of war in RTS games adds an element of uncertainty and strategi
 
 Each game employs its own FOW policy, which eventually leads players to use different strategies. In Starcraft(1998), unexplored areas are veiled with complete darkness. Apparent elevations can block sight , while map objects cannot. Players tend to prefer reconnaissance over a broad area rather than taking precautions about the enemy ambushing behind obstacles.
 
-Company of Heroes 2(2013), on the other hand, features a sight system called 'true sight' in which units' visibility is blocked not only by topography but also by obstacles, including buildings, trees, and even abandoned vehicles. A good commander prevents abrupt encounters with adversaries by keeping a sniper away from corners or takes advantage of bushes with an assault troop armed with machine pistols.
+Company of Heroes 2(2013), on the other hand, features a sight system called 'true sight' with which units' visibility is blocked not only by topography but also by obstacles, including buildings, trees, and even abandoned vehicles. A good commander prevents abrupt encounters with adversaries by keeping a sniper away from corners or takes advantage of bushes with an assault troop armed with machine pistols.
 
 ![Starcraft Fog Of War - TOPBOTS](../../Images/2023-05-14-FOVMapping1/starcraft_fogofwar_700px.jpg){: width="500"}{: .align-center}  Fog of War in Starcraft I(1998)
 {: .text-center}
@@ -223,7 +223,7 @@ public class FOVAgent : MonoBehaviour
 
 ### How does it work?
 
-FOV map prepared by us is sampled by the FOV shader to actually decide which part of a map is visible or veiled. The fragment(pixel) shader deals with each pixel of the fog of war projector plane in much a 'GPU manner'; they are processed independently. This is more clearly visible in the implementation, so let's just proceed.
+The prepared FOV map is sampled by the FOV shader to actually decide which part of a map is visible or veiled. The fragment(pixel) shader deals with each pixel of the fog of war projector plane in much a 'GPU manner'; they are processed independently. This is more clearly visible in the implementation, so let's just proceed.
 
 ### Implementation
 

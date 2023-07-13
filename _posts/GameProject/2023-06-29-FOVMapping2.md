@@ -18,9 +18,9 @@ Before proceeding to the following sections, let's have time for reviewing what 
 
 ## Interpolating Distances
 
-The first problem is the boundaries are quite coarse-grained, even with ninety 512x512 layers. The lines of sight lying on the borderlines are not polished either. A player will not be able to distinguish a visible area from an invisible one due to the dizzy stair-shaped patterns. The result cannot be disappointing anymore, considering that the FOV map array occupies about a hundred megabytes of memory. We have to get rid of those artifacts one way or the other before applying FOV mapping to games. 
+The first problem is the boundaries are quite coarse-grained, even with ninety 512x512 layers. The lines of sight lying on the borderlines are not polished either. A player will not be able to distinguish a visible area from an invisible one due to the dizzy stair-shaped patterns. The result cannot be more disappointing, considering that the FOV map array occupies about a hundred megabytes of memory. We have to get rid of those artifacts one way or the other before applying FOV mapping to games. 
 
-If you think that Gaussian blur will fix it, that's too rash. It certainly alleviates aliasing. But what if you want a field of vision with sharp edges, just without those artifacts? Blurring effect Rather, we ought to find out the fundamental causes of the aliasing and fix it.
+If you think that Gaussian blur will fix it, that's too rash. Yes, it certainly alleviates aliasing. But what if you want a field of vision with sharp edges, just without those artifacts? Blurring effect Rather, we ought to find out the fundamental causes of the aliasing and fix it.
 
 To identify whether a pixel, we have taken one directional distance into account. Depending only on a single directional information leads to the discontinuity between angular ranges shown in the following figure(used an FOV map with 30 256x256 layers for clarity).
 
@@ -29,10 +29,12 @@ To identify whether a pixel, we have taken one directional distance into account
 
 The pixels covered by the red triangle are classified as visible as their distance to the agent is less than $D_{0}$, while the pixels covered by the green triangle are compared to $D_{0}$. The fog of war resulting from discrete angular ranges does not reflect the flat surface of the obstacle properly.
 
-The solution is to apply **Linear Interpolation**. Actually, linear interpolation will work slightly inaccurately here since the relationship between the angle and distance is not linear. Nonetheless, it is cheap and effective and the error is negligible, so let's be happy with simple linear interpolation. Given an angle $\theta$, which belongs to an angular range $[\theta_{i}, \theta_{i + 1}]$, we can calculate interpolated distance $D$ at $\theta$, where $D_{i}$ is the distance to an obstacle sampled at $\theta_{i}$ and $D_{i + 1}$ is the one sampled at $\theta_{i + 1}$.
+The solution is to apply **Linear Interpolation**. Actually, linear interpolation will work slightly inaccurately here since the relationship between the angle and distance is not linear. Nonetheless, it is cheap and effective and the error is negligible, so let's be satisfied with simple linear interpolation. Given an angle $\theta$, which belongs to an angular range $[\theta_{i}, \theta_{i + 1}]$, we can calculate interpolated distance $D$ at $\theta$, where $D_{i}$ is the distance to an obstacle sampled at $\theta_{i}$ and $D_{i + 1}$ is the one sampled at $\theta_{i + 1}$.
+
 $$
 D = \frac{D_{i} (\theta_{i + 1} - \theta) + D_{i + 1} (\theta - \theta_{i})}{\theta_{i + 1} - \theta_{i}}
 $$
+
 For each pixel that forms an angle $\theta$ with the agent, it is visible from the agent if its distance to the agent is less than $D$ and is invisible if its distance is greater than $D$. 
 
 The implementation only involves a minor modification of the pixel shader.
@@ -147,14 +149,14 @@ It's time to take a look at the outcomes.
 
 ## Elevation-Adaptive Level Sampling
 
-The outcomes of the blurring effect look good to me. It seems that we can now combine the FOV system into our project. Shall we try?
+The outcomes of the blurring effect look good to me. It seems that we can now combine the FOV system into our project, shall we?
 
 Imagine you are dealing with a Terrain that features a lot of steep gradients. You decide to use FOV mapping and try to sample the level. You press the 'Create an FOV map' button, and after waiting two or three minutes later, you finally get an FOV map array. You click the play button and encounter the result like this:
 
 ![Terrain](../../Images/2023-06-29-FOVMapping2/Terrain.gif){: width="600"}{: .align-center} Huh...?
 {: .text-center}
 
-This is a terrible result. The sight is unexpectedly narrow, as if the agent can't see the topography located higher than his eyes. And yes, he can't actually look up the level, considering our sampling method. To find out the cause, we have to go back to the sampling code again.
+This is a terrible result. The sight is unexpectedly narrow, as if the agent can't see the topography located higher than his eyes. And yes, he can't actually look up the level, considering our sampling method. To find out the exact cause, we have to go back to the sampling code again.
 
 ```c#
 for (int directionIdx = 0; directionIdx < directionsPerSquare; ++directionIdx)
@@ -173,7 +175,7 @@ for (int directionIdx = 0; directionIdx < directionsPerSquare; ++directionIdx)
 
 If you scrutinize the code closely, you might notice that the rays are only projected onto the horizontal plane, precisely at the level of the agent's eye position. Shortly after the departure, a ray will collide with an elevation, restricting the sight toward that direction. By rotating joints, humans can freely look upward or downward to the extent their body flexibility allows. Thus, it is required that the sampling method reflect this own ability possessed by mankind. 
 
-After multiple attempts, I found multisampling for each direction to be the most suitable. Under the examination that one ray cannot represent the entire visibility toward a line of sight, we can conclude that multiple samples can reflect more various sights toward a direction. The noble way of sampling a direction consists of the following steps.
+After multiple attempts, I found multisampling for each direction to be the most suitable. Under the examination that one ray cannot represent the entire visibility toward a line of sight, we can conclude that multiple samples are capable of reflecting more various sights toward a direction. The noble way of sampling a direction consists of the following steps.
 
 1. Determine `generationParam.samplesPerDirection`(how many samples will be considered for a direction?) and `generationParam.samplingAngle`(for which vertical angle the samples will be fired?)
 2. Cast `generationParam.samplesPerDirection` rays into `generationParam.samplingAngle` angular range.
@@ -267,7 +269,7 @@ The problem is that the `RenderTexture` projected with the `Projector` resides o
 1.   **Fetching `RenderTexture` into the CPU**: Then sample the retrieved texture with UV coordinates corresponding to agents' positions. If the sampled texel has a higher alpha value than some threshold, it is judged to be invisible; otherwise, it stays visible. This one is the way to go. I will explain how I optimized the fetching process.
 1.  **Calculating on the CPU side**: Otherwise, since reading data from the GPU is costly, we could contemplate doing all the calculations on the CPU side. To achieve this, we have to have another set of the FOV map array on system memory.
 
-The most widely used approach to bring a `RenderTexture` into the CPU is `Texture2D.ReadPixels`. We need not load the entire texture. Instead, we can fetch the texels that correspond to the agents' positions, and this will save us from the bottleneck and main thread stalling. Also, since the hostile agents outside the camera's viewport are invisible anyway, we leave them out when finding game objects hidden in the fog of war.  
+The most widely used approach to bring a `RenderTexture` into the CPU is `Texture2D.ReadPixels`. We need not load the entire texture. Instead, we can fetch the texels that correspond to the agents' positions, and this will save us from the bottleneck and stalling of the main thread. Also, since the hostile agents outside the camera's viewport are invisible anyway, we leave them out when finding game objects hidden in the fog of war.  
 
 ```c#
 // Set visibility of agents according to the current FOV

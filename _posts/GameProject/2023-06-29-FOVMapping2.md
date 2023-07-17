@@ -231,10 +231,12 @@ When assigning the new terrain-adaptive FOV map, the field of view is working co
 
 **The Viewing Angle** is similar to the sight range in that it determines how much an agent can see. Instead, it controls how much *angle* one can see. A scout infantryman may have a wide angle of sight, while a tank may have a very restricted sight so that it can only look forward.
 
-The implementation is simple. We just replace an angle with a dot product so that the pixel shader can make a judgment of the visibility of a pixel less costly. The gist is that the following identity holds for the dot product of two unit vectors, where \theta is the angle between them.
+The implementation is simple. We just replace an angle with a dot product so that the pixel shader can make a judgment of the visibility of a pixel less costly. The gist is that the following identity holds for the dot product of two unit vectors, where $\theta$ is the angle between them.
+
 $$
 v_1 \cdot v_2 = \cos\theta
 $$
+
 Bearing both sides of the identity in mind, the pipeline flows as following.
 
 1. For each agent, transfer `transform.forward` and  `Mathf.Cos(agent.sightAngle * 0.5f * Mathf.Deg2Rad)` of  an `agent`, from `FOVManager` to `FOVMappingShader` as a uniform variable.

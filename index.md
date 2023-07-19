@@ -10,7 +10,7 @@ author_profile: true
 I am a **Software Engineer** at Nexon Korea, to be more specific, a gameplay and engine programmer for MapleStory. Before joining Nexon Korea, I interned at NCSoft in the Vision AI Lab. I got my bachelor's degree at Seoul National University, where I double-majored in geography and computer science. My main interests are video game development and computer graphics. I am also keen on other fields of computer science, including computer systems and GPU programming.
 
 # Career
-If you are interested in further role of mine, why don't you take a look at [this category](/career/)?
+This page hasn't been completed yet. You may refer to [this repository](https://github.com/ObjectOrientedLife/Portfolios/blob/main/Portfolio_ChanghwiPark_ENG.pdf), which contains an old version of portfolio of mine, for much more information about me.
 
 ## **Nexon Korea**
 * Gameplay & Engine Programmer(2022.08-)

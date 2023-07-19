@@ -63,7 +63,7 @@ If you are interested in further role of mine, why don't you take a look at [thi
 ![UnityLogo](../Images/home/UnityLogo.png "Unity"){: width="160"}
 * I have been developing my own game with Unity for over three years. 
 * Since the project is aimed at commercial success, I have encountered numerous challenges while developing each disparate part. With deep considerations about how to formulate Unity components, I was able to make a breakthrough.
-* Not only do I use functionality offered by Unity, but in order to enrich my game project, I have also been highly customizing terrain, animation system, shader, and the multiplayer API.
+* Not only do I use functionality offered by Unity, but in order to enrich my game project, I have also been highly customizing terrain, animation system, shader, and the multiplayer API(Mirror).
 
 ## Graphics API
 ![VulkanLogo](../Images/home/VulkanLogo.png "Vulkan"){: width="150"}

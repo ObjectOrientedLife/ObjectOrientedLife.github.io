@@ -47,7 +47,7 @@ int channelIdx1 = directionIdx1 % CHANNELS_PER_TEXEL;
 float distanceRatio0 = UNITY_SAMPLE_TEX2DARRAY(_FOVMap, float3(agentPosition.x / _ProjectorSizeX, agentPosition.z / _ProjectorSizeY, layerIdx0))[channelIdx0];
 float distanceRatio1 = UNITY_SAMPLE_TEX2DARRAY(_FOVMap, float3(agentPosition.x / _ProjectorSizeX, agentPosition.z / _ProjectorSizeY, layerIdx1))[channelIdx1];
 
-// Interpolation part
+// Interpolation
 float interpolationFactor = directionFactor - directionIdx0; // Calculate an interpolation factor
 float distanceRatio = distanceRatio0 * (1.0f - interpolationFactor) + distanceRatio1 * interpolationFactor; // Interpolate distances sampled from the FOV maps
 
@@ -72,7 +72,7 @@ The solution is to apply some **Offset** when the shader compares a distance of 
 // Compare distances
 float distanceToObstacle = distanceRatio * _SamplingRange;
 
-float obstacleAlphaFactor = distanceToAgent >= distanceToObstacle + _LevelOffset; // Sight blocked by obstacles
+float obstacleAlphaFactor = distanceToAgent >= distanceToObstacle + _BlockOffset; // Sight blocked by obstacles
 float rangeAlphaFactor = distanceToAgent >= agentSightRange; // Sight limited by range
 float angleAlphaFactor = agentSightAngleCosine >= dot(agentForward, direction); // Sight limited by angle
 
@@ -165,20 +165,20 @@ for (int directionIdx = 0; directionIdx < directionsPerSquare; ++directionIdx)
 
     float distanceRatio = 1.0f;
     RaycastHit hitObstacle;
-    if (Physics.Raycast(centerPosition, DirectionFromAngle(angleToward), out hitObstacle, generationParam.samplingRange, generationParam.levelLayer)) // Sampling only on a horizontal plane!
+    if (Physics.Raycast(centerPosition, DirectionFromAngle(angleToward), out hitObstacle, generationInfo.samplingRange, generationInfo.levelLayer)) // Sampling only on a horizontal plane!
     {
-        distanceRatio = hitObstacle.distance / generationParam.samplingRange;
+        distanceRatio = hitObstacle.distance / generationInfo.samplingRange;
     }
 
-    float distanceRatio = maxSight / generationParam.samplingRange;
+    float distanceRatio = maxSight / generationInfo.samplingRange;
 ```
 
 If you scrutinize the code closely, you might notice that the rays are only projected onto the horizontal plane, precisely at the level of the agent's eye position. Shortly after the departure, a ray will collide with an elevation, restricting the sight toward that direction. By rotating joints, humans can freely look upward or downward to the extent their body flexibility allows. Thus, it is required that the sampling method reflect this own ability possessed by mankind. 
 
 After multiple attempts, I found multisampling for each direction to be the most suitable. Under the examination that one ray cannot represent the entire visibility toward a line of sight, we can conclude that multiple samples are capable of reflecting more various sights toward a direction. The noble way of sampling a direction consists of the following steps.
 
-1. Determine `generationParam.samplesPerDirection`(how many samples will be considered for a direction?) and `generationParam.samplingAngle`(for which vertical angle the samples will be fired?)
-2. Cast `generationParam.samplesPerDirection` rays into `generationParam.samplingAngle` angular range.
+1. Determine `generationInfo.samplesPerDirection`(how many samples will be considered for a direction?) and `generationInfo.samplingAngle`(for which vertical angle the samples will be fired?)
+2. Cast `generationInfo.samplesPerDirection` rays into `generationInfo.samplingAngle` angular range.
 3. The value indicating the direction is determined by the maximum value among the distances traveled by such rays.
 4. If the surface is standing (almost) vertically and extends above a predetermined line of sight, we judge that it is blocking the entire sight of that direction.
 
@@ -186,17 +186,17 @@ After multiple attempts, I found multisampling for each direction to be the most
 // Level-adaptive multisampling
 float maxSight = 0.0f; // Maximum sight viewed from the center
 Vector3 samplingDirection = DirectionFromAngle(angleToward);
-float samplingInterval = generationParam.samplingRange / generationParam.samplesPerDirection;
-for (int samplingIdx = 0; samplingIdx < generationParam.samplesPerDirection; ++samplingIdx) // Sample toward directions
+float samplingInterval = generationInfo.samplingRange / generationInfo.samplesPerDirection;
+for (int samplingIdx = 0; samplingIdx < generationInfo.samplesPerDirection; ++samplingIdx) // Sample toward directions
 {
-    float samplingAngle = -generationParam.samplingAngle / 2.0f + samplingIdx * generationParam.samplingAngle / generationParam.samplesPerDirection;
+    float samplingAngle = -generationInfo.samplingAngle / 2.0f + samplingIdx * generationInfo.samplingAngle / generationInfo.samplesPerDirection;
 
     Vector3 samplingLine = samplingDirection;
     samplingLine.y = samplingLine.magnitude * Mathf.Tan(samplingAngle * Mathf.Deg2Rad);
 
     // Update max sight
     RaycastHit hitBlocked;
-    if (Physics.Raycast(centerPosition, samplingLine, out hitBlocked, RAY_DISTANCE, generationParam.levelLayer)) // Blocking level exists
+    if (Physics.Raycast(centerPosition, samplingLine, out hitBlocked, RAY_DISTANCE, generationInfo.levelLayer)) // Blocking level exists
     {
         Vector3 blockedPosition = hitBlocked.point;
 
@@ -206,21 +206,21 @@ for (int samplingIdx = 0; samplingIdx < generationParam.samplesPerDirection; ++s
         // Update maxDistance
         if (blockedDistance > maxSight)
         {
-            maxSight = Mathf.Clamp(blockedDistance, 0.0f, generationParam.samplingRange);
+            maxSight = Mathf.Clamp(blockedDistance, 0.0f, generationInfo.samplingRange);
         }
 
         // If the surface is almost vertical and high enough, stop sampling here
-        if (Vector3.Angle(hitBlocked.normal, Vector3.up) >= generationParam.blockingSurfaceAngleThreshold && samplingAngle >= generationParam.blockedRayAngleThreshold)
+        if (Vector3.Angle(hitBlocked.normal, Vector3.up) >= generationInfo.blockingSurfaceAngleThreshold && samplingAngle >= generationInfo.blockedRayAngleThreshold)
         {
             break;
         }
     }
-    else if (samplingIdx <= (generationParam.samplesPerDirection + 2 - 1) / 2) // Maximum sight only below the eye level
+    else if (samplingIdx <= (generationInfo.samplesPerDirection + 2 - 1) / 2) // Maximum sight only below the eye level
     {
-        maxSight = generationParam.samplingRange;
+        maxSight = generationInfo.samplingRange;
     }
 }
-float distanceRatio = maxSight == 0.0f ? 1.0f : maxSight / generationParam.samplingRange;
+float distanceRatio = maxSight == 0.0f ? 1.0f : maxSight / generationInfo.samplingRange;
 ```
 
 When assigning the new terrain-adaptive FOV map, the field of view is working correctly with the bumpy terrain.
@@ -248,7 +248,7 @@ Bearing both sides of the identity in mind, the pipeline flows as following.
 Below is the implementation and its consequences.
 
 ```c++
-float obstacleAlphaFactor = distanceToAgent >= distanceToObstacle + _LevelOffset; // Sight blocked by obstacles
+float obstacleAlphaFactor = distanceToAgent >= distanceToObstacle + _BlockOffset; // Sight blocked by obstacles
 float rangeAlphaFactor = distanceToAgent >= agentSightRange; // Sight limited by range
 float angleAlphaFactor = agentSightAngleCosine >= dot(agentForward, direction); // Sight limited by angle
 

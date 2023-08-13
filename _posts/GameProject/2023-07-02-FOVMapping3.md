@@ -12,7 +12,7 @@ We have pushed the envelope to design, implement, and improve FOV mapping system
 
 All the assessments except for compatibility test were run on my laptop(Lenovo Thinkbook 16p Gen 1) that features the following specification.
 
-* AMD Ryzen™ 7 5800H
+* AMD Ryzen 7 5800H
 * NVIDIA GeForce RTX 3060 Laptop GPU
 * 16GB RAM
 
@@ -45,23 +45,19 @@ For a fair comparison, the conditions were set a little bit artificially.
 **FOV Mapping**
 
 * Use 90 1024x1024 layers
-* Gaussian blur is disabled
 * No enemy occluded by the fog of war
 
 For the test, I measured framerate for one minute each and took average. After conducting a round of trial, I got the results below.
 
 | Agent Count | Raycasting | FOV Mapping | FPS Ratio |
 | :---------: | :--------: | :---------: | :-------: |
-|      1      | 1661.5 FPS | 1937.2 FPS  |   1.17    |
-|      2      | 1539.1 FPS | 1925.8 FPS  |   1.25    |
-|      4      | 1442.4 FPS | 1855.1 FPS  |   1.29    |
-|      8      | 1301.2 FPS | 1749.5 FPS  |   1.34    |
-|     16      | 1023.2 FPS | 1564.6 FPS  |   1.53    |
-|     32      | 679.8 FPS  | 1450.7 FPS  |   2.13    |
-|     64      | 361.5 FPS  | 1390.3 FPS  |   3.85    |
-|     128     | 120.9 FPS  |  469.5 FPS  |   3.88    |
+|      1      | 1473.5 FPS | 1678.4 FPS  |   1.14    |
+|      2      | 1223.4 FPS | 1586.7 FPS  |   1.30    |
+|      4      | 1215.3 FPS | 1564.1 FPS  |   1.29    |
+|      8      | 1046.6 FPS | 1491.9 FPS  |   1.43    |
+|     16      | 876.4 FPS  | 1453.1 FPS  |   1.66    |
+|     32      | 540.1 FPS  | 1306.2 FPS  |   2.42    |
+|     64      | 265.8 FPS  | 1125.6 FPS  |   4.23    |
+|     128     |  67.5 FPS  |  365.7 FPS  |   5.42    |
 
- The table demonstrates an evident superiority of FOV mapping as agents populate.
-
-# Quantitative Evaluation
-
+ The table demonstrates an evident superiority of FOV mapping as we add more and more agents to a scene.

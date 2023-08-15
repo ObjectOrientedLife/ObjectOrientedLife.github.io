@@ -223,9 +223,27 @@ for (int samplingIdx = 0; samplingIdx < generationInfo.samplesPerDirection; ++sa
 float distanceRatio = maxSight == 0.0f ? 1.0f : maxSight / generationInfo.samplingRange;
 ```
 
-When assigning the new terrain-adaptive FOV map, the field of view is working correctly with the bumpy terrain.
-
 ![Adaptive](../../Images/2023-06-29-FOVMapping2/Adaptive.gif){: width="600"}{: .align-center}
+
+When the new terrain-adaptive FOV map is applied, the field of view projects on slopes. One problem is that the boundary of the FOV extremely jagged. This is an aliasing resulted from the low sampling count toward a direction. The aliasing can be alleviated by increasing `generationInfo.samplesPerDirection`, but the generation time will increase by a significant amount as well.
+
+[2] provides us with **the edge binary search method**, with which we may amend this problem while restricting the extra generation time. The binary search method is likely to be best explained with an example below. The maximum iteration count for binary search is set to 4.
+
+![image-20230815184645061](../../Images/2023-06-29-FOVMapping2/image-20230815184645061.png){: .align-center}
+
+1. As a normal process of elevation-adaptive level sampling, we fire multiple rays sequentially for a direction at a sampling position - $Ray_{0}, Ray_{1}, Ray_{2}$.
+2. $Ray_{1}$ hits a point located on the level, while $Ray_{2}$ doesn't. This implies that somewhere between the two rays, there is a *point in a silhouette of the terrain*. We must locate this silhouette point, as utilizing the projected distance to this silhouette results in our system producing the most plausible field of view.
+3. To find the silhouette point, we stop sampling and start a binary search.
+   1. Cast $BinaryRay_{0}$ at the (angular) halfway of $Ray_{1}$ and $Ray_{2}$. It misses the level so we search the lower half divided by $BinaryRay_{0}$.
+   2. Cast $BinaryRay_{1}$ at the halfway of $Ray_{1}$ and $BinaryRay_{0}$. It misses the level so we search the lower half divided by $BinaryRay_{1}$.
+   3. Cast $BinaryRay_{2}$ at the halfway of $Ray_{1}$ and $BinaryRay_{1}$. This time, $BinaryRay_{2}$ hits the level, so we search the upper half divided by $BinaryRay_{2}$.
+   4. Cast $BinaryRay_{3}$ at the halfway of $BinaryRay_{2}$ and $BinarRay_{1}$. We have reached the maximum iteration count of four, so we stop the binary search here.
+4. $BinaryRay_{3}$ encounters terrain obstruction at $BinaryHit_{3}$. This hit point, $BinaryHit_{3}$, is then projected onto the X-Z plane, aligning with the elevation of $P_{eye}$, giving rise to $P_{projected}$. The distance $|P_{projected} - P_{eye}|$ represents the farthest visual extent in that direction.
+
+The application of binary search significantly improves the field of view, particularly when the agent is stepping on slopes as demonstrated below.
+
+![BinarySearch](../../Images/2023-06-29-FOVMapping2/BinarySearch-1692095254177-1.gif){: .align-center}
+
 
 ## Viewing Angle
 
@@ -267,7 +285,7 @@ The primary purpose of a fog of war is to veil the status of opposite forces so 
 
 The problem is that the `RenderTexture` projected with the `Projector` resides on the GPU, which makes it challenging to handle the FOV information. Bearing this in mind, we may come up with some choices to conceal the enemy units located beyond our sight.
 
-1.  **Stencil shader [3]**: This is a very cheap and visually outstanding way, as it depends entirely on the shader features. However, it merely *masks* enemy units from the viewport, and they are actually not culled from the CPU side. Whenever a player inadvertently clicks an enemy unit hiding in a fog of war, the input must be neglected as if there was no enemy at all. To achieve this, we have to know the visibility on the CPU side. Unfortunately, the stencil shader cannot complete this mission.
+1.  **Stencil shader [4]**: This is a very cheap and visually outstanding way, as it depends entirely on the shader features. However, it merely *masks* enemy units from the viewport, and they are actually not culled from the CPU side. Whenever a player inadvertently clicks an enemy unit hiding in a fog of war, the input must be neglected as if there was no enemy at all. To achieve this, we have to know the visibility on the CPU side. Unfortunately, the stencil shader cannot complete this mission.
 1.   **Fetching `RenderTexture` into the CPU**: Then sample the retrieved texture with UV coordinates corresponding to agents' positions. If the sampled texel has a higher alpha value than some threshold, it is judged to be invisible; otherwise, it stays visible. This one is the way to go. I will explain how I optimized the fetching process.
 1.  **Calculating on the CPU side**: Otherwise, since reading data from the GPU is costly, we could contemplate doing all the calculations on the CPU side. To achieve this, we have to have another set of the FOV map array on system memory.
 
@@ -317,7 +335,7 @@ void SetAgentVisibility()
 
 When it comes to reading pixels, one issue with the `ReadPixels` function is that it can only retrieve pixels within a rectangular range. If we are to use `ReadPixels`, we can't help but fetch one pixel at once, otherwise, we have to use a large `Rect` to cover enemies widely spread across the map.
 
-One possible suggestion to improve the efficiency of cherry-picking multiple pixels at once from the entire texture rect is to use the **Compute Shader** [4]. 
+One possible suggestion to improve the efficiency of cherry-picking multiple pixels at once from the entire texture rect is to use the **Compute Shader [5]**. 
 
 1. A script gathers UV coordinates corresponding to the enemy agents.
 2. The script transfers them to the compute shader.
@@ -428,6 +446,8 @@ At this moment, with the construction phase behind us, we eagerly look forward t
 
 [2] https://github.com/remibodin/Unity3D-Blur/tree/master/UnityProject/Assets/Blur/GaussianBlur
 
-[3] https://forum.unity.com/threads/use-a-projector-to-cull-pixels-with-alpha-transparency.533549/
+[3] https://www.youtube.com/watch?v=rQG9aUWarwE
 
-[4] https://dev.to/alpenglow/unity-fast-pixel-reading-cbc
+[4] https://forum.unity.com/threads/use-a-projector-to-cull-pixels-with-alpha-transparency.533549/
+
+[5] https://dev.to/alpenglow/unity-fast-pixel-reading-cbc

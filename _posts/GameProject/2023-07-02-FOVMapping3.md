@@ -24,10 +24,10 @@ One weakness of FOV mapping is that it requires a long time to generate an FOV m
 
 | Resolution  |   Map 1    |    Map2    |
 | :---------: | :--------: | :--------: |
-|  128 x 128  |  38.8 sec  |  72.5 sec  |
-|  256 x 256  | 142.7 sec  | 261.3 sec  |
-|  512 x 512  | 573.6 sec  | 1132.6 sec |
-| 1024 x 1024 | 2354.1 sec | 4066.8 sec |
+|  128 x 128  |  48.8 sec  | 101.5 sec  |
+|  256 x 256  | 195.7 sec  | 421.3 sec  |
+|  512 x 512  | 823.6 sec  | 1732.6 sec |
+| 1024 x 1024 | 2957.4 sec | 7498.8 sec |
 
 Interestingly, the consequences differ by about two times between the two maps. This is because the number of rays cast is different due to a few factors; the number of hit rays, stop sampling when a vertical surface is encountered, and many others. Within the same map, the times taken are proportional to the resolution.
 

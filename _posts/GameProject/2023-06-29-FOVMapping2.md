@@ -240,10 +240,46 @@ When the new terrain-adaptive FOV map is applied, the field of view projects on 
    4. Cast $BinaryRay_{3}$ at the halfway of $BinaryRay_{2}$ and $BinarRay_{1}$. We have reached the maximum iteration count of four, so we stop the binary search here.
 4. $BinaryRay_{3}$ encounters terrain obstruction at $BinaryHit_{3}$. This hit point, $BinaryHit_{3}$, is then projected onto the X-Z plane, aligning with the elevation of $P_{eye}$, giving rise to $P_{projected}$. The distance $|P_{projected} - P_{eye}|$ represents the farthest visual extent in that direction.
 
+The following block translates the aforementioned steps into code.
+
+```c++
+else if (obstacleHit) // Previous ray hit an obstacle, but this one hasn't
+{
+    // Binary search to find an edge
+    float angularInterval = anglePerSample / 2.0f;
+    float searchingAngle = samplingAngle - angularInterval;
+    for (int i = 0; i < generationInfo.binarySearchCount; ++i)
+    {
+        angularInterval /= 2.0f;
+
+        Vector3 searchingLine = samplingDirection;
+        searchingLine.y = searchingLine.magnitude * Mathf.Tan(searchingAngle * Mathf.Deg2Rad);
+
+        RaycastHit hitSearched;
+        if (Physics.Raycast(centerPosition, searchingLine, out hitSearched, RAY_DISTANCE, generationInfo.levelLayer))
+        {
+            searchingAngle = searchingAngle + angularInterval; // Next range is the upper half
+
+            // Update maxSight
+            float searchedDistance = XZDistance(centerPosition, hitSearched.point);
+            if (searchedDistance >= maxSight)
+            {
+                maxSight = Mathf.Clamp(searchedDistance, 0.0f, generationInfo.samplingRange);
+            }
+        }
+        else
+        {
+            searchingAngle = searchingAngle - angularInterval; // Next range is the lower half
+        }
+    }
+
+    break;
+}
+```
+
 The application of binary search significantly improves the field of view, particularly when the agent is stepping on slopes as demonstrated below.
 
-![BinarySearch](../../Images/2023-06-29-FOVMapping2/BinarySearch-1692095254177-1.gif){: .align-center}
-
+![BinarySearch](../../Images/2023-06-29-FOVMapping2/BinarySearch-1692191439062-1.gif){: width="600"}{: .align-center}
 
 ## Viewing Angle
 

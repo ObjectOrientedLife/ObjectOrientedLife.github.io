@@ -231,14 +231,14 @@ When the new terrain-adaptive FOV map is applied, the field of view projects on 
 
 ![image-20230815184645061](../../Images/2023-06-29-FOVMapping2/image-20230815184645061.png){: .align-center}
 
-1. As a normal process of elevation-adaptive level sampling, we fire multiple rays sequentially for a direction at a sampling position - $Ray_{0}, Ray_{1}, Ray_{2}$.
+1. As a normal process of elevation-adaptive level sampling, we fire multiple rays sequentially for a direction at a sampling position - $Ray_{0}$, $Ray_{1}$, $Ray_{2}$.
 2. $Ray_{1}$ hits a point located on the level, while $Ray_{2}$ doesn't. This implies that somewhere between the two rays, there is a *point in a silhouette of the terrain*. We must locate this silhouette point, as utilizing the projected distance to this silhouette results in our system producing the most plausible field of view.
 3. To find the silhouette point, we stop sampling and start a binary search.
    1. Cast $BinaryRay_{0}$ at the (angular) halfway of $Ray_{1}$ and $Ray_{2}$. It misses the level so we search the lower half divided by $BinaryRay_{0}$.
    2. Cast $BinaryRay_{1}$ at the halfway of $Ray_{1}$ and $BinaryRay_{0}$. It misses the level so we search the lower half divided by $BinaryRay_{1}$.
    3. Cast $BinaryRay_{2}$ at the halfway of $Ray_{1}$ and $BinaryRay_{1}$. This time, $BinaryRay_{2}$ hits the level, so we search the upper half divided by $BinaryRay_{2}$.
    4. Cast $BinaryRay_{3}$ at the halfway of $BinaryRay_{2}$ and $BinarRay_{1}$. We have reached the maximum iteration count of four, so we stop the binary search here.
-4. $BinaryRay_{3}$ encounters terrain obstruction at $BinaryHit_{3}$. This hit point, $BinaryHit_{3}$, is then projected onto the X-Z plane, aligning with the elevation of $P_{eye}$, giving rise to $P_{projected}$. The distance $|P_{projected} - P_{eye}|$ represents the farthest visual extent in that direction.
+4. $BinaryRay_{3}$ encounters terrain obstruction at $BinaryHit_{3}$. This hit point, $BinaryHit_{3}$, is then projected onto the X-Z plane, aligning with the elevation of $P_{eye}$, giving rise to $P_{projected}$. The distance $\| P_{projected} - P_{eye} \|$ represents the farthest visual extent in that direction.
 
 The following block translates the aforementioned steps into code.
 

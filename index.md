@@ -9,6 +9,13 @@ author_profile: true
 
 I am a **Software Engineer** at Nexon Korea, to be more specific, a gameplay and engine programmer for MapleStory. Before joining Nexon Korea, I interned at NCSoft in the Vision AI Lab. I got my bachelor's degree at Seoul National University, where I double-majored in geography and computer science. My main interests are video game development and computer graphics. I am also keen on other fields of computer science, including computer systems and GPU programming.
 
+# Education
+
+## Seoul National University
+
+* B.A. in **Geography**(2022)
+* B.S. in **Computer Science**(2022)
+
 # Career
 This page hasn't been completed yet. You may refer to [this repository](https://github.com/ObjectOrientedLife/Portfolios/blob/main/Portfolio_ChanghwiPark_ENG.pdf), which contains an old version of portfolio of mine, for much more information about me.
 
@@ -23,13 +30,6 @@ This page hasn't been completed yet. You may refer to [this repository](https://
 * Human Pose Estimation Team, Vision AI Lab
   * Developed an AR- and AI-based livestreaming system using Unity & Barracuda, OpenPose, and VideoPose3D.
   * Successfully developed virtual character movement pipeline including inference, handling the result from the neural network, and demonstration with arbitrary characters on the client.
-
-# Education
-
-## Seoul National University
-
-* B.A. in **Geography**(2022)
-* B.S. in **Computer Science**(2022)
 
 # Projects
 

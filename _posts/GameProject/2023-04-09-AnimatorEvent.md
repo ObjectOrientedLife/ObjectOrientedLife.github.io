@@ -180,11 +180,15 @@ public class StateEvent : StateMachineBehaviour
 [RequireComponent(typeof(Animator))]
 public class AnimatorEvent : MonoBehaviour
 {
+    public class CallbackEvent : UnityEvent<AnimatorStateInfo, EventType, int>
+	{ 
+	}
 	private Animator animator;
 	private int layerCount;
 	private int[] fullIndices; // Includes all layer indices
 
-	private Dictionary<int, Dictionary<EventType, List<UnityEvent>>> tagEvents = new Dictionary<int, Dictionary<EventType, List<UnityEvent>>>(); // tagHash -> eventType -> layerIndex -> event
+	private Dictionary<int, Dictionary<EventType, List<CallbackEvent>>> tagEvents = new Dictionary<int, Dictionary<EventType, List<CallbackEvent>>>(); // tagHash -> eventType -> layerIndex -> event
+
     ...
 
 	private void Awake()
@@ -195,15 +199,15 @@ public class AnimatorEvent : MonoBehaviour
 	}
 
 	// ==================== Handle listeners with a tag ====================
-	public void AddListenerWithTypeAndTag(UnityAction action, EventType eventType, string tag, params int[] layerIndices)
+	public void AddListenerWithTypeAndTag(UnityAction<AnimatorStateInfo, EventType, int> action, EventType eventType, string tag, params int[] layerIndices)
 	{
 		layerIndices = layerIndices.Length == 0 ? fullIndices : layerIndices;
 		int tagHash = Animator.StringToHash(tag);
 
 		if (!tagEvents.ContainsKey(tagHash))
 		{
-			IEnumerable<UnityEvent> unityEvents = Enumerable.Range(0, layerCount).Select(i => new UnityEvent());
-			tagEvents[tagHash] = new Dictionary<EventType, List<UnityEvent>>()
+			IEnumerable<CallbackEvent> unityEvents = Enumerable.Range(0, layerCount).Select(i => new CallbackEvent());
+			tagEvents[tagHash] = new Dictionary<EventType, List<CallbackEvent>>()
 			{
 				{ EventType.Enter, unityEvents.ToList()},
 				{ EventType.Exit, unityEvents.ToList()},
@@ -257,7 +261,7 @@ public class AnimatorEvent : MonoBehaviour
 	{
 		if (tagEvents.ContainsKey(stateInfo.tagHash))
 		{
-			tagEvents[stateInfo.tagHash][eventType][layerIndex].Invoke();
+			tagEvents[stateInfo.tagHash][eventType][layerIndex].Invoke(stateInfo, eventType, layerIndex);
 		}
 
 		...
@@ -270,7 +274,7 @@ public class AnimatorEvent : MonoBehaviour
 * `tagEvents` stores and classifies callbacks with the tag and layer of the state and the event type(enter, exit, ...)
 * `AddListenerWithTypeAndTag` provides an interface so that clients can subscribe to the state events by registering listener callbacks. It actually adds the listener to `tagEvents`.
 * `ClearListenersWithTypeAndTag` and `ClearAllListenersWithTag` provide a way to remove listeners with type and tag, or only with a tag respectively.
-* `OnState` is called by `StateEvent` whenever each `StateMachineBehaviour` callback is executed. It invokes a suitable event stored in `tagEvents` with incoming parameters.
+* `OnState` is called by `StateEvent` whenever each `StateMachineBehaviour` callback is executed. It invokes a suitable event stored in `tagEvents` with incoming parameters, forwarding the arguments to the event.
 
 Although I omitted here, I also added equivalent methods that designates states to add and remove listeners by their name.
 

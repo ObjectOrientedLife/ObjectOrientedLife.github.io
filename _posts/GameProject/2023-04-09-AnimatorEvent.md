@@ -138,31 +138,31 @@ public class StateEvent : StateMachineBehaviour
 	public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		if (animatorEvent == null) animatorEvent = animator.GetComponent<AnimatorEvent>();
-		animatorEvent.OnState(stateInfo, EventType.Enter, layerIndex);
+		animatorEvent.OnState(animator, stateInfo, layerIndex, EventType.Enter);
 	}
 
 	public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		if (animatorEvent == null) animatorEvent = animator.GetComponent<AnimatorEvent>();
-		animatorEvent.OnState(stateInfo, EventType.Exit, layerIndex);
+		animatorEvent.OnState(animator, stateInfo, layerIndex, EventType.Exit);
 	}
 
 	public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		if (animatorEvent == null) animatorEvent = animator.GetComponent<AnimatorEvent>();
-		animatorEvent.OnState(stateInfo, EventType.Update, layerIndex);
+		animatorEvent.OnState(animator, stateInfo, layerIndex, EventType.Update);
 	}
 
 	public override void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		if (animatorEvent == null) animatorEvent = animator.GetComponent<AnimatorEvent>();
-		animatorEvent.OnState(stateInfo, EventType.Move, layerIndex);
+		animatorEvent.OnState(animator, stateInfo, layerIndex, EventType.Move);
 	}
 
 	public override void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		if (animatorEvent == null) animatorEvent = animator.GetComponent<AnimatorEvent>();
-		animatorEvent.OnState(stateInfo, EventType.IK, layerIndex);
+		animatorEvent.OnState(animator, stateInfo, layerIndex, EventType.IK);
 	}
 }
 ```
@@ -199,7 +199,7 @@ public class AnimatorEvent : MonoBehaviour
 	}
 
 	// ==================== Handle listeners with a tag ====================
-	public void AddListenerWithTypeAndTag(UnityAction<AnimatorStateInfo, EventType, int> action, EventType eventType, string tag, params int[] layerIndices)
+	public void AddListenerWithTypeAndTag(UnityAction<Animator, AnimatorStateInfo, int, EventType> action, EventType eventType, string tag, params int[] layerIndices)
 	{
 		layerIndices = layerIndices.Length == 0 ? fullIndices : layerIndices;
 		int tagHash = Animator.StringToHash(tag);
@@ -257,14 +257,14 @@ public class AnimatorEvent : MonoBehaviour
     ...
     
 	// ==================== StateEvent calls this to invoke an event ====================
-	public void OnState(AnimatorStateInfo stateInfo, EventType eventType, int layerIndex)
+	public void OnState(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, EventType eventType)
 	{
 		if (tagEvents.ContainsKey(stateInfo.tagHash))
 		{
-			tagEvents[stateInfo.tagHash][eventType][layerIndex].Invoke(stateInfo, eventType, layerIndex);
+			tagEvents[stateInfo.tagHash][eventType][layerIndex].Invoke(animator, stateInfo, layerIndex, eventType);
 		}
-
-		...
+        
+        ...
 	}
 }
 ```

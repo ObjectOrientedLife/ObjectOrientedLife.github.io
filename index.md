@@ -20,13 +20,13 @@ I am a **Software Engineer** at Nexon Korea, to be more specific, a gameplay and
 This page hasn't been completed yet. You may refer to [this repository](https://github.com/ObjectOrientedLife/Portfolios/blob/main/Portfolio_ChanghwiPark_ENG.pdf), which contains an old version of portfolio of mine, for much more information about me.
 
 ## **Nexon Korea**
-* Gameplay & Engine Programmer(2022.08-)
+* Gameplay & Engine Programmer	*August 2022 - September 2023*
 * MapleStory Programming Team
   * As a gameplay and engine programmer, I am engaging in implementation of core gameplay features, both on the client-side and the server-side.
   * Efficiently dealing with an enormous codebase with 20-years of legacies, using C++, C#, and MSSQL.
   
 ## **NCSoft**
-* Intern Vision AI Programmer(2021.07 – 2021.08)
+* Intern Vision AI Programmer	*July 2021 – August 2021*
 * Human Pose Estimation Team, Vision AI Lab
   * Developed an AR- and AI-based livestreaming system using Unity & Barracuda, OpenPose, and VideoPose3D.
   * Successfully developed virtual character movement pipeline including inference, handling the result from the neural network, and demonstration with arbitrary characters on the client.

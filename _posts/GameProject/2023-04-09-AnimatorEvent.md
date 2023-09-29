@@ -209,11 +209,11 @@ public class AnimatorEvent : MonoBehaviour
 			IEnumerable<CallbackEvent> unityEvents = Enumerable.Range(0, layerCount).Select(i => new CallbackEvent());
 			tagEvents[tagHash] = new Dictionary<EventType, List<CallbackEvent>>()
 			{
-				{ EventType.Enter, unityEvents.ToList()},
-				{ EventType.Exit, unityEvents.ToList()},
-				{ EventType.Update, unityEvents.ToList()},
-				{ EventType.Move, unityEvents.ToList()},
-				{ EventType.IK, unityEvents.ToList()},
+				{ EventType.Enter, unityEvents.ToList() },
+				{ EventType.Exit, unityEvents.ToList() },
+				{ EventType.Update, unityEvents.ToList() },
+				{ EventType.Move, unityEvents.ToList() },
+				{ EventType.IK, unityEvents.ToList() },
 			};
 		}
 

@@ -278,6 +278,105 @@ public class AnimatorEvent : MonoBehaviour
 
 Although I omitted here, I also added equivalent methods that designates states to add and remove listeners by their name.
 
+## BeforeTransition and AfterTransition
+One pitfall of the state events is the timing of `Exit` and `Enter` events. When transitions with non-zero durations are involved, Unity does not fire them at the moments we expect.
+
+![Transition](../../Images/2023-04-09-AnimatorEvent/Transition.png){: .align-center}
+
+From the above figure, an `Enter` event for the `Sleeping` state is triggered on 'Duration in', while an `Exit` event for the `Patrolling` state is triggered on 'Duration out'. There could be a scenario where we want to detect the points where the `Patrolling` clip ends and `Sleeping` clip begins, ruling out the transition period? Let's introduce two new events to indicate those timings; `BeforeTransition` for `Patrolling` and `AfterTransition` for `Sleeping`, respectively.
+
+Implementing those events starts with a simple idea of tweaking `Exit` and `Enter` events. The idea is visualized in the following diagram.
+
+![Diagram1](../../Images/2023-04-09-AnimatorEvent/Diagram1.png){: .align-center}
+
+This works perfectly fine for most of the scenarios, until we set the transition duration to zero, in which case the state changes instantly. In such cases, an `Exit` event for `Patrolling` is triggered right before an `Enter` event for `Sleeping`. This inconsistency of order disallows our aforementioned naive implementation. 
+
+Tracking the count of overlapped states makes it feasible to distinguish those two cases. The **overlapping count** increments or decrements by the three simple rules.
+
+1. Initialized to 0.
+2. Increments by one on `Enter` event.
+3. Decrements by one on `Exit` event.
+
+With the overlapping count, we can now handle '`Exit` - `Enter`(transition duration is zero)' and '`Enter` - `Exit`(transition duration is non-zero)' cases separately.
+
+1. On `Exit` for `Patrolling`
+   1. **Overlapping count == 1**: `Exit` - `Enter`
+   2. **Overlapping count == 2**: `Enter` - `Exit`
+
+2. On `Enter` for `Sleeping`
+   1. **Overlapping count == 0**: `Exit` - `Enter`
+   2. **Overlapping count == 1**: `Enter` - `Exit`
+
+
+![Diagram2](../../Images/2023-04-09-AnimatorEvent/Diagram2.png){: .align-center}
+
+In the `Exit` - `Enter` cases, we may 
+
+* Trigger `BeforeTransition` for `Patrolling` on `Exit` for `Patrolling`. 
+* Trigger `AfterTransition` for `Sleeping` on `Enter` for `Sleeping`.
+
+Quite simple, isn't it?
+
+Note that in the real implementation, those overlapping count is tracked independently for each layer. With this in mind, the additional code for `BeforeTransition` and `AfterTransition` sounds straightforward.
+
+```c#
+public void OnState(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, EventType eventType)
+{
+    // ========== Invoke BeforeTransition and AfterTransition events ==========
+    if (eventType == EventType.Enter)
+    {
+        Debug.Assert(0 <= overlappingCounts[layerIndex] && overlappingCounts[layerIndex] <= 2, $"Invalid overlapping count on Enter: {overlappingCounts[layerIndex]}");
+        bool ExitBeforeEnter = (overlappingCounts[layerIndex] == 0);
+        ++overlappingCounts[layerIndex];
+
+        EventType transitionEventType = ExitBeforeEnter ? EventType.AfterTransition : EventType.BeforeTransition;
+
+        // Invoke BeforeTransition event on the previous transition state
+        int? transitionStateTagHash = ExitBeforeEnter ? stateInfo.tagHash : transitionStateTagHashes[layerIndex];
+        if (transitionStateTagHash != null && tagEvents.ContainsKey((int)transitionStateTagHash))
+        {
+            tagEvents[(int)transitionStateTagHash][transitionEventType][layerIndex].Invoke(animator, stateInfo, layerIndex, transitionEventType);
+        }
+        transitionStateTagHashes[layerIndex] = stateInfo.tagHash; // Update transition state
+
+        // Same for the fullPath
+        transitionStateFullPathHash = ExitBeforeEnter ? stateInfo.fullPathHash : transitionStateFullPathHash;
+        if (transitionStateFullPathHash != null && fullPathEvents.ContainsKey((int)transitionStateFullPathHash))
+        {
+            fullPathEvents[(int)transitionStateFullPathHash][transitionEventType].Invoke(animator, stateInfo, layerIndex, transitionEventType);
+        }
+        transitionStateFullPathHash = stateInfo.fullPathHash;
+    }
+    else if (eventType == EventType.Exit)
+    {
+        Debug.Assert(0 <= overlappingCounts[layerIndex] && overlappingCounts[layerIndex] <= 2, $"Invalid overlapping count on Exit: {overlappingCounts[layerIndex]}");
+        bool ExitBeforeEnter = (overlappingCounts[layerIndex] == 1);
+        --overlappingCounts[layerIndex];
+
+        EventType transitionEventType = ExitBeforeEnter ? EventType.BeforeTransition : EventType.AfterTransition;
+
+        // Invoke BeforeTransition event on the previous transition state
+        int? transitionStateTagHash = ExitBeforeEnter ? stateInfo.tagHash : transitionStateTagHashes[layerIndex];
+        if (transitionStateTagHash != null && tagEvents.ContainsKey((int)transitionStateTagHash))
+        {
+            tagEvents[(int)transitionStateTagHash][transitionEventType][layerIndex].Invoke(animator, stateInfo, layerIndex, transitionEventType);
+        }
+
+        // Same for the fullPath
+        transitionStateFullPathHash = ExitBeforeEnter ? stateInfo.fullPathHash : transitionStateFullPathHash;
+        if (transitionStateFullPathHash != null && fullPathEvents.ContainsKey((int)transitionStateFullPathHash))
+        {
+            fullPathEvents[(int)transitionStateFullPathHash][transitionEventType].Invoke(animator, stateInfo, layerIndex, transitionEventType);
+        }
+    }
+    
+    // As before
+    ...
+}
+```
+
+
+
 ## Using AnimatorEvent
 
 Before using `AnimatorEvent`, we have to make sure that `StateEvent` has been added to every single state belonging to the animator controller we are using, otherwise, there is no way to be signaled by the animator controller through the `StateMachineBehaviour` callbacks. So, I added a custom editor window that makes it easy to add and remove `StateEvent` components to the entire states inside an `AnimatorController`.
@@ -330,4 +429,8 @@ Being a reliable and efficient way to synchronize code and animator states, it c
 animatorEvent.AddListenerWithTypeAndTag(PlaySound, EventType.Enter, MotionType.run.ToString());
 animatorEvent.AddListenerWithTypeAndTag(StopSound, EventType.Exit, MotionType.run.ToString());
 ```
+
+# References
+[1] https://docs.unity3d.com/ScriptReference/StateMachineBehaviour.html
+[2] https://docs.unity3d.com/Manual/class-Transition.html
 

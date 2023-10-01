@@ -28,7 +28,7 @@ This page hasn't been completed yet. You may refer to [this repository](https://
   
 ## **NCSoft**
 * Intern Vision AI Programmer 
-* *July 2021 – August 2021*
+* *July 2021 - August 2021*
 * Human Pose Estimation Team, Vision AI Lab
   * Developed an AR- and AI-based livestreaming system using Unity & Barracuda, OpenPose, and VideoPose3D.
   * Successfully developed virtual character movement pipeline including inference, handling the result from the neural network, and demonstration with arbitrary characters on the client.

@@ -36,6 +36,10 @@ This page hasn't been completed yet. You may refer to [this repository](https://
 # Projects
 
 ## Indie Game Project
+* Here are some demo reels for the project. Check them out!
+  * https://www.youtube.com/watch?v=zgcS1foEgOA
+  * https://www.youtube.com/watch?v=b9b-6MzOAi0
+
 * A top-view strategy game set in Korean war.
 * Unity, C#, and several 3D modeling tools.
 * Designed, programmed, and produced art assets.

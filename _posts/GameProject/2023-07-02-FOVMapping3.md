@@ -6,8 +6,6 @@ categories:
     - GameProject
 ---
 
-# Introduction
-
 We have pushed the envelope to design, implement, and improve FOV mapping system, but that does not guarantee that FOV mapping will work correctly on every environment. So, let's prove its validity with diverse tests.
 
 You may find the entire source code [here](https://github.com/StupaSoft/FOVMapping).

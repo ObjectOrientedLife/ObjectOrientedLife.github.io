@@ -6,8 +6,6 @@ categories:
     - GameProject
 ---
 
-# Motivation
-
 Although an avid game player, I hardly ever paid attention to human-like humanoid animations featured by prominent AAA game studios in recent games. When I started to develop my own game, it took little time to realize that imitating human motions in a game is extremely difficult. I noticed that the realistic animations are not given for free, but are fruits achieved by investing time and money. 
 
 One of the hardship for implementing realistic humanoid animations was to make a humanoid model interact with objects; picking, grabbing, and releasing things with hands. The interactions are not done as simply as in reality. The most problematic situation in my game project emerged when I was trying to implement a reloading motion of a rifle. The reloading procedure looked much more complicated than I initially expected.

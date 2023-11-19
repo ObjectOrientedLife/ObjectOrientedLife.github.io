@@ -6,10 +6,6 @@ categories:
     - GameProject
 ---
 
-# Fog of War
-
-## What is Fog of War?
-
 **Fog of war(FOW)** is a game mechanic commonly used in real-time strategy (RTS) games to simulate limited visibility and uncertainty on the battlefield. It adds a strategic element by obscuring parts of the game map that are not within the player's immediate view or line of sight.
 
 In an RTS game with fog of war, the map is initially covered in darkness or a shrouded veil, and the player's vision is limited to the areas explored or units present on the battlefield. As the player's units move or perform actions, the fog of war lifts in those areas, revealing the terrain, enemy units, structures, and other relevant information.

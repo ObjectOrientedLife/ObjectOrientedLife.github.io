@@ -18,6 +18,8 @@ The fog of war serves several purposes:
 
 Overall, the fog of war in RTS games adds an element of uncertainty and strategic depth, requiring players to gather information, make informed decisions, and adapt their strategies based on the changing battlefield conditions.
 
+# Fog of War
+
 ## FOW Policies
 
 Each game employs its own FOW policy, which eventually leads players to use different strategies. In Starcraft(1998), unexplored areas are veiled with complete darkness. Apparent elevations can block sight , while map objects cannot. Players tend to prefer reconnaissance over a broad area rather than taking precautions about the enemy ambushing behind obstacles.
@@ -32,15 +34,15 @@ Company of Heroes 2(2013), on the other hand, features a sight system called 'tr
 
 Among the two choices, I chose the latter one; the obstacle-sensitive sight system, as I wanted to imbue my game with more tactical possibilities. Trying to implement a field of vision, I started to search for a field of vision technique that satisfies one condition critical for the project; **high performance**. In the game, there are eight players for each side, and each player controls a squad consists of five members. Since each infantryman has their own vision and the sight is shared among squads, 40 units contribute to the sight of a single game client. The FOW policy should be able to handle these large numbers of contributors to a visible area.
 
-# Methods
+## Methods
 
-##  Shadowcasting
+###  Shadowcasting
 
 **Shadowcasting** is a common technique for calculating the field of vision in Roguelike games. It iterates through adjacent virtual FOW cells of the unit's position and checks whether each cell is visible from a unit. There is a post [1] that describes perfectly how shadowcasting works step-by-step. It focuses on classifying veiled areas and others accurately, which is often a key of gameplay in Roguelike games.
 
 [2] demonstrates a great implementation of shadowcasting. It is precise, easy to use, and performant when there is one eye toward a map. However, as we increase the number of units, each of which has an independent sight or the range of sight, the required amount of calculation skyrockets; given a view of range $r$ and $n$ units, the time complexity for computing the sight for a scene reaches to $O(nr^2)$. The FPS dropped to 1-2 when I tested with ten units(much less than the 40 mentioned above!) with 50 meters of sight. Unfortunately, shadowcasting was entirely ineligible for my project. 
 
-## Utilizing Raycasting
+### Utilizing Raycasting
 
 **Raycasting** might be the first thing that comes into the mind of programmers constructing a sight system. It is as intuitive as follows.
 

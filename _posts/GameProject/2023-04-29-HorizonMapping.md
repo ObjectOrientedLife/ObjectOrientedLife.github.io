@@ -1,5 +1,6 @@
 ---
 title: "Horizon Mapping"
+excerpt: "Shadowing Without Displacement"
 order: 3
 categories: 
     - GameProject

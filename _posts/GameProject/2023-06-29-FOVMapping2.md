@@ -1,5 +1,6 @@
 ---
 title: "FOV Mapping (2)"
+excerpt: "Elaborating FOV Mapping"
 order: 5
 categories: 
     - GameProject

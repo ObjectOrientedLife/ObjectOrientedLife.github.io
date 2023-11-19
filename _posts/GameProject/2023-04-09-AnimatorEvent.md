@@ -1,5 +1,6 @@
 ---
-title: "The Real Animation State Event in Unity"
+title: "Runtime Animation State Event in Unity"
+excerpt: "Modifying StateMachineBehaviour at Runtime"
 order: 1
 categories: 
     - GameProject

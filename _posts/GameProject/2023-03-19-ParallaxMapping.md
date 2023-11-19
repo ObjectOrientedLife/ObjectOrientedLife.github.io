@@ -1,5 +1,6 @@
 ---
 title: "Parallax Mapping"
+order: 2
 categories: 
     - GameProject
 ---

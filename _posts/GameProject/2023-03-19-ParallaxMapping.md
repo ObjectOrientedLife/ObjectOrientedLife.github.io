@@ -1,7 +1,7 @@
 ---
 title: "Parallax Mapping"
 categories: 
-    - Game Project
+    - GameProject
 ---
 
 # Introduction

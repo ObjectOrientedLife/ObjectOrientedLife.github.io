@@ -1,7 +1,7 @@
 ---
 title: "Horizon Mapping"
 categories: 
-    - Game Project
+    - GameProject
 ---
 
 # Introduction

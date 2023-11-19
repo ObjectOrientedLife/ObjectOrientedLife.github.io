@@ -1,7 +1,7 @@
 ---
 title: "FOV Mapping (3)"
 categories: 
-    - Game Project
+    - GameProject
 ---
 
 # Introduction

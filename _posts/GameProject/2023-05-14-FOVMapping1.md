@@ -1,7 +1,7 @@
 ---
 title: "FOV Mapping (1)"
 categories: 
-    - Game Project
+    - GameProject
 ---
 
 # Fog of War

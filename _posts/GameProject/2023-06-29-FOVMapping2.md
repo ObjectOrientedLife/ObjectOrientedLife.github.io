@@ -590,7 +590,7 @@ float4 frag(v2f i) : SV_Target
 
 ![ProjectorResult](../../Images/2023-06-29-FOVMapping2/Projector.gif){: width="600"}{: .align-center}
 
-
+Our simulated projector performs as admirably as the built-in `Projector`, rendering images with such precision that it becomes nearly impossible to distinguish between the two. What sets my simulated projector apart is its efficiency in comparison to the standard `Projector`. Remarkably, it adds only one draw call count and significantly reduces the computational load without compromising on visual quality. On average, the draw call count is halved, resulting in a much leaner process that enhances overall performance. The 'depth-based parallax projector' approach successfully replaces the built-in `Projector` when it comes to visualizing the fog of war in our system.
 
 # Conclusion
 

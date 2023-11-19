@@ -470,11 +470,133 @@ Setting `contributeToFOV` property to `true` for friendly agents and `disappearI
 
 ![Occlusion](../../Images/2023-06-29-FOVMapping2/Occlusion.gif){: width="600"}{: .align-center}
 
+# Simulating Projector
+## Why is `Projector` Unsuitable?
+
+Instantaneously, I found out that using the built-in  Projector will greatly constrain the applicability of FOV mapping due to its inherent problems.
+
+1. **`Projector` increases the number of draw calls** - Any objects inside the boundary of a `Projector` are redrawn. If the `Projector` touches a tiny portion of the level, it will just increase the draw call count by less than 10. However, our fog of war encompasses the entire map, and the `Projector` for the fog of war will end up doubling the total draw call count, deteriorating the performance even more. 
+2. **`Projector` does not cast its texture images upon terrains with 'draw instanced' enabled** - Well, we could accept the doubling-up of the draw call count, although it is a little bit pessimistic. What makes it even worse is the long-running bug of Unity; a `Projector` never works with your 'instanced terrain' [6]. When you use 'draw instanced', each terrain patch is combined into a single mesh and instanced by the GPU, which results in an enormous saving of draw call count.  Uncovering this option and using the `Projector` will present you with an unendurable pain and a skyrocketing draw call count..      
+
+So, a new method to replace `Projector` component was desperately required.
+
+## Simulating `Projector`
+
+### Basic Idea - Parallax Mapping
+
+We once looked into [**Parallax Mapping**](../2023-03-19-ParallaxMapping.md), with which the surface can made look more 'extruded' than when normal mapping is used solely. Parallax mapping aims to shift texture coordinates according to the height of each point on a surface. All details behind it aside, below demonstrates the gist of parallax mapping.
+
+![Parallax](../../Images/2023-06-29-FOVMapping2/ParallaxMapping.jpg){: width="600"}{: .align-center}
+
+1. The shader is processing the thick, black surface.
+2. If parallax mapping didn't apply, the texture would be sampled at A.
+3. We know that the correct texture coordinates, considering the bump of the surface, is B. The way to go is crystal clear; find B **one way or the other** and sample the texture there.
+
+Unlike the Unity built-in `Projector` component that gets into the rendering pipeline and redraws lit meshes, the simulated (fog of war) projector adopts the idea of parallax mapping. The only difference is the **one way or the other** part. In the [parallax mapping post](2023-03-19-ParallaxMapping.md), we were only able to approximate the location of $B$ with a height map and a normal map. This time, we will acquire the precise shifted texture coordinates using depth information from the camera.
+
+### Rendering the Depth Buffer into a Texture
+
+Unity `Camera` can render the depth buffer into a texture, which the shader can hire to implement diverse effects.
+
+To acquire a depth texture from the main camera, you have to enable it in your C# script.
+
+```c#
+private void OnEnable()
+{
+    Camera.main.depthTextureMode = DepthTextureMode.Depth;
+}
+```
+
+Afterward, you can access the depth texture in the shader through the built-in `_CameraDepthTexture` uniform variable and supporting functions.
+
+``` c++
+...
+uniform sampler2D _CameraDepthTexture;
+...
+// Linear01Depth adjusts the depth value into the range [0, 1]
+float depth = Linear01Depth(UNITY_SAMPLE_DEPTH(tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(i.screenPos))));
+```
+
+For more details, you may refer to the [Unity reference about a camera and depth textures](https://docs.unity3d.com/Manual/SL-CameraDepthTexture.html) [8]. With the rendering depth texture feature enabled and after multiplying by an adjustment value to enhance contrast, I got the following result: pixels close to the camera are darker, while distant pixels are shaded bright.
+
+![image-20231118115500117](../../Images/2023-06-29-FOVMapping2/Depth.png){: width="600"}{: .align-center} Depth texture captured by the main camera
+{: .text-center}
+
+### Reconstructing a World Position from Depth
+
+If we can acquire the world position corresponding to each pixel, finding the correct texture coordinates is extraordinarily simple; sample the texture right at the world position—no more complicated, sometimes inaccurate approximation. But we cannot derive the world position directly from the depth information; we ought to process the depth. This technique was offered by *bgolus* on a [post on Unity Forum](https://forum.unity.com/threads/reconstructing-world-space-position-from-depth-texture.1139599/) [9].
+
+![Projector](../../Images/2023-06-29-FOVMapping2/Projector.png){: width="600"}{: .align-center}
+
+From the similarity between two triangles demonstrated in the figure above, we can derive and solve a proportional expression for $v_{distance}$. 
+$$
+v_{offset} : v_{offset} \cdot z_{cam} = v_{distance} : dz_{cam} \\
+v_{distance} = \frac{dz_{cam}}{v_{offset} \cdot z_{cam}}
+$$
+Finally, we can find the world position by adding $v_{distance}$ to the world-space camera position.
+
+### Shader
+
+The shader code is a mere translation of the expression from the previous section.
+
+```c++
+// Vertex shader
+v2f vert(appdata_full v)
+{
+    v2f o;
+
+    o.pos = UnityObjectToClipPos(v.vertex);
+    o.uv = v.texcoord;
+    o.offsetToPlane = mul(unity_ObjectToWorld, float4(v.vertex.xyz, 1.0)).xyz - _WorldSpaceCameraPos; // Position relative to the camera of the shaded point on the plane (depth not considered)
+    o.screenPos = ComputeScreenPos(o.pos);
+
+    return o;
+}
+
+// Find the world position, this time with the depth considered.
+float3 GetWorldPosFromDepth(v2f i)
+{
+    // Get the depth value from the camera (note that this is not the distance traveled by the ray)
+    float depth = LinearEyeDepth(UNITY_SAMPLE_DEPTH(tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(i.screenPos))));
+
+    // We can derive the following proportional expression from the similarity of triangles.
+    // offsetToPlane : dot(offsetToPlane, camNormal) = offsetToPos : depth * camNormal
+    // Solve this for offsetToPos.
+    float3 offsetToPos = (depth * i.offsetToPlane.xyz) / dot(i.offsetToPlane.xyz, unity_WorldToCamera._m20_m21_m22);
+    float3 worldPos = _WorldSpaceCameraPos + offsetToPos;
+
+    return worldPos;
+}
+
+// Given a world position, convert it to UV coordinates projected upon the plane 
+float2 WorldPosToPlaneUV(float3 targetPos, float3 planePos, float3 planeRight, float3 planeForward, float3 planeScale)
+{
+    float3 relativePos = targetPos - planePos;
+    float u = dot(relativePos, planeRight) / planeScale.x;
+    float v = dot(relativePos, planeForward) / planeScale.z;
+
+    return float2(u, v);
+}
+
+float4 frag(v2f i) : SV_Target
+{
+    float3 pointPos = GetWorldPosFromDepth(i);
+    float2 pointUV = WorldPosToPlaneUV(pointPos, _PlanePos, _PlaneRight, _PlaneForward, _PlaneScale);
+    return tex2D(_MainTex, pointUV);
+}
+```
+
+## Result
+
+![ProjectorResult](../../Images/2023-06-29-FOVMapping2/Projector.gif){: width="600"}{: .align-center}
+
+
+
 # Conclusion
 
 After months of dedicated efforts and countless hours of work, we have successfully completed the arduous and intricate task of constructing the Field of View (FOV) mapping. FOV mapping didn't work well initially. However, as a result of continuous revisions and elaborations, we were able to construct a reliable and adjustable field-of-view system.
 
-At this moment, with the construction phase behind us, we eagerly look forward to the next post, where we will embark on an exciting new chapter - the evaluation of our meticulously crafted FOV mapping system. This evaluation process will provide us with a valuable opportunity to thoroughly examine and analyze our system's performance and compatibility from a multitude of perspectives.
+At this moment, with the construction phase behind us, we eagerly look forward to the next post, where we will embark on an exciting new chapter - the evaluation of our FOV mapping system. This evaluation process will provide us with a valuable opportunity to thoroughly examine and analyze our system's performance and compatibility from a multitude of perspectives.
 
 # References
 
@@ -487,3 +609,11 @@ At this moment, with the construction phase behind us, we eagerly look forward t
 [4] https://forum.unity.com/threads/use-a-projector-to-cull-pixels-with-alpha-transparency.533549/
 
 [5] https://dev.to/alpenglow/unity-fast-pixel-reading-cbc
+
+[6] https://discussions.unity.com/t/projector-stops-working-on-terrain-with-draw-instanced-enabled/218494
+
+[7] https://blog.unity.com/kr/technology/2018-3-terrain-update-getting-started
+
+[8] https://docs.unity3d.com/Manual/SL-CameraDepthTexture.html
+
+[9] https://forum.unity.com/threads/reconstructing-world-space-position-from-depth-texture.1139599/

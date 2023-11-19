@@ -151,7 +151,7 @@ Inside the loop, find `aboveCenterPosition` located above a center. A ray is cas
         if (Physics.Raycast(aboveCenterPosition, Vector3.down, out hitLevel, 2 * MAX_HEIGHT, generationParam.levelLayer))
         {
             // For all possible directions at this square
-            Vector3 centerPosition = hitLevel.point + generationParam.centerHeight * Vector3.up;
+            Vector3 centerPosition = hitLevel.point + generationParam.eyeHeight * Vector3.up;
 ```
 
 We are now ready for sampling! Fire `directionsPerSquare` rays toward surroundings with the angular interval of `anglePerDirection`. A ray can reach as far as `generationParam.samplingRange`. Track each ray's hit distance and calculate a ratio to `generationParam.samplingRange` as a value of a texture channel can be mapped the range $[0, 1]$.

@@ -1,7 +1,7 @@
 ---
 title: "Parallax Mapping"
 excerpt: "Extruding a Surface Without Actually Extruding"
-order: 2
+order: 4
 categories: 
     - GameProject
 ---

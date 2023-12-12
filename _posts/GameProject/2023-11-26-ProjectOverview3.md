@@ -6,8 +6,9 @@ categories:
     - GameProject
 ---
 
-I enjoy crafting code and building digital landscapes as a software engineer. Beyond my profession, I am pleased when I manufacture artwork for my own project. It isn't just a hobby; it's a canvas for my creative expression. Being able to bring my intention to reality by myself, the in-game visual expressiveness is enhanced by a large margin as I don't have to search through Unity Asset Store or SketchFab all day long just to find an adequate art asset. Ultimately, It is the converging point where the worlds of technology and art encounter one another! Moreover, it is refreshing to have time to defocus from my professional business and to engage in a sideline.  
-As a programmer collaborating with designers and 3D artists, it is also extremely helpful for me to have art experiences. I get to know how to convey my intention to them, and I can read their mind, too. Having tangible experiences with 3D art leads to a great advantage when it comes to analyzing and debugging troublesome issues in the visual components of software. 3D geometry knowledge from an artist's point of view lets me understand computer graphics more in-depth.
+I enjoy crafting code and building digital landscapes as a software engineer. Beyond my profession, I am pleased when I manufacture artwork for my own project. It isn't just a hobby; it's a canvas for my creative expression. Being able to bring my intention to reality by myself, the in-game visual expressiveness is enhanced by a large margin as I don't have to search through Unity Asset Store or SketchFab all day long just to find an adequate art asset. Ultimately, it is the converging point where the worlds of technology and art encounter one another!
+
+As a programmer collaborating with designers and 3D artists, it is also extremely helpful for me to have art experiences. I get to know how to convey my intention to them, and I can read their mind, too. Having tangible experiences with 3D art leads to a great advantage when it comes to analyzing and debugging troublesome issues in the visual components of a game. Moreover, 3D geometry knowledge from an artist's point of view lets me understand computer graphics more in-depth.
 
 # Art in Peninsula
 
@@ -19,7 +20,7 @@ The pipeline consists of three steps (*modeling* - *sculpting* - *texturing* - *
 
 ### **Blender**
 
-*Blender* is a powerful and open-source 3D computer graphics software for creating animated films, visual effects, art, 3D games, and more. The Blender Foundation develops it and makes it available for free, making it widely accessible to artists, designers, hobbyists, and indie game developers, including me. I am a big fan of Blender since it provides almost every feature mandatory for 3D asset production in spite of the charging no price! Furthermore, Blender is outfitted with a convenient user interface that greatly boosts productivity.
+*Blender* is a powerful and open-source 3D computer graphics software for creating animated films, visual effects, art, 3D games, and more. The Blender Foundation publishes it available for free, making it widely accessible to artists, designers, hobbyists, and indie game developers, including me. I am a big fan of Blender since it provides almost every feature mandatory for 3D asset production despite charging no price! Furthermore, Blender is outfitted with a convenient user interface that greatly boosts productivity.
 
 In Blender, I create a low-poly mesh by applying various operations. Since the project is targeting mobile platforms, reducing polygon count is the primary concern. Some edges are assigned sharpness values to be kept sharp after subdivision and importing to the game engine. Maintaining quads on the surface is also important as n-gons other than quads deform the mesh when we subdivide it with *the Catmull-Clark method*. Axis alignment, scaling, origin allocation, and UV map need attention, too. For tanks, all the parts of the tracks share a single material (and texture maps). Tracks require special treatment since a morphing animation comes into play as a tank maneuver.
 
@@ -45,7 +46,7 @@ Some might wonder about the colors painted on some parts. They are markers for m
 
 Before I learned about Substance Painter, I used to finalize the entire process, including texturing in ZBrush. Painting a mesh in ZBrush is a series of handworks. With **Substance Painter**, it is very easy to create textures on 3D models in procedural ways.
 
-Using brushes to directly paint on surfaces resembles that of ZBrush. Yet, the real strength of Substance Painter is revealed in its automatic material assignment capabilities. Substance Painter intelligently assigns realistic materials that are adjusted according to a mesh by detecting the curvature and normals of surfaces. Scarring armor, weathering paintings on edges, and splashing mud onto wheels and tracks are all accomplished with just a few clicks, reducing the times taken by a large amount.
+Using brushes to directly paint on surfaces resembles that of ZBrush. Yet, the real strength of Substance Painter reveals itself in its automatic material assignment capabilities. Substance Painter intelligently assigns realistic materials that are adjusted according to a mesh by detecting the curvature and normals of surfaces. Scarring armor, weathering paintings on edges, and splashing mud onto wheels and tracks are all handy with just a few clicks, reducing the times taken by a large amount.
 
 ![M36 Jackson Substance Painter](../../Images/2023-11-26-ProjectOverview3/M36SP.png){: width="600"}{: .align-center} M36 Jackson textured in Substance Painter. Note the erosions added to curved surfaces by Substance Painter.
 {: .text-center}
@@ -63,7 +64,7 @@ All design process has ended up. What we have to do is to import the produced me
 
 The artworks are not confined to static props; our game project demands active humanoid characters. In our project, infantrymen act as the fundamental unit on battlefields. During the gameplay experience, players almost always prioritize the movement of their infantry units over other background props. Hence, it is natural to emphasize creating a seamless and immersive humanoid motion.
 
-As previously explained, modeling a humanoid is similar to that of ordinary objects. Modeling a mesh follows almost the same steps through Blender - ZBrush - Substance Painter, just as we did before. One subtle difference is that the body, clothing, and gadgets are materialized separately to achieve modularity. We can yield several soldiers with various combinations.
+As previously explained, modeling a humanoid is similar to that of ordinary objects. Modeling a mesh follows almost the same steps through Blender - ZBrush - Substance Painter, as we did before. One subtle difference is that the body, clothing, and gadgets are materialized separately to achieve modularity, with which we can produce soldiers with various appearances through combinations.
 
 We encounter large differences when bringing life to those static meshes. Humanoids in Unity are activated through `SkinnedMeshRenderer` component, in contrast to `MeshRenderer` of static objects. They are deformed according to the gesture of bones. What facilitates this is the rigging, skinning, and animating, where we make a humanoid mesh deformable and imbue motions into the rigged body structure.
 
@@ -79,9 +80,9 @@ We encounter large differences when bringing life to those static meshes. Humano
 
 ### Animating
 
-The animation process unfolds after rigging and skinning a humanoid character in Blender. I set keyframes at relevant timings, manipulating the rig in the *pose mode* to create movements. All the motions are used only once and retargeted for other rigged humanoids in Unity. Therefore, we can share animations for all humanoid characters. 
+The animation process unfolds after rigging and skinning a humanoid character in Blender. I set keyframes at relevant timings, manipulating the rig in the *pose mode* to create movements. All the motions are used only once and retargeted for other rigged humanoids in Unity. By doing so, we can share animations for all humanoid characters. 
 
-Exploiting additional features embedded in Blender saves a lot of time and dramatically enhances animation quality. The *action system* in Blender provides a convenient way to segregate animations into relevant clips and manage them separately. In the *graph editor*, you can smooth the motion curves and achieve more realistic movements. Repeating animations like walking and running require adjustment in the graph editor to loop seamlessly. Otherwise, the *stumbling* between repetitive clips would be noticeable.
+Exploiting additional features offered by Blender saves a lot of time and dramatically enhances animation quality. The *action* feature in Blender provides a convenient way to segregate animations into relevant clips and manage them separately. In the *graph editor*, you can smooth the motion curves and achieve more realistic movements. Repeating animations like walking and running require adjustment in the graph editor to loop seamlessly. Otherwise, the *stumbling* between repetitive clips would be noticeable.
 
 ![Keyframes](../../Images/2023-11-26-ProjectOverview3/Keyframes.png){: width="800"}{: .align-center} Keyfram editor in Blender
 {: .text-center}
@@ -89,7 +90,7 @@ Exploiting additional features embedded in Blender saves a lot of time and drama
 ![GraphEditor](../../Images/2023-11-26-ProjectOverview3/GraphEditor.png){: width="800"}{: .align-center} Graph editor in Blender
 {: .text-center}
 
-Interaction with firearms, its composing parts (magazine and bolt), and other props also need special attention. For example, when you take a closer look, you might realize that a reloading motion is comprised of multiple steps: grabbing a magazine, changing the magazine with a new one, loading it, and finally grabbing the weapon again. To implement the reloading fully in Unity, they must be separated into each action but continuous with each other. Therefore, it is important to figure out what subclips compose a motion and partition them properly.
+Interaction with firearms, its composing parts (magazine and bolt), and other props also need special attention. For example, when you take a closer look, you might realize that a reloading motion consists of multiple steps: grabbing a magazine, changing the magazine with a new one, loading it, and finally grabbing the weapon again. To implement the reloading fully in Unity, they must be separated into each action but continuous with each other. Therefore, it is important to figure out what subclips compose a motion and partition them properly.
 
 ![BazookaActions](../../Images/2023-11-26-ProjectOverview3/Actions.png){: width="400"}{: .align-center} Reloading motions for Bazooka is separated into several actions (subclips)
 {: .text-center}

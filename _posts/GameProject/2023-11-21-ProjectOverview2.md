@@ -515,7 +515,7 @@ There are many more beneficial design patterns yet to be discussed, but I can't 
 
 ## Optimization
 
-When to take the optimization stage is a concern of all software engineers. Optimizing early is likely to be too rash; it might be overwritten later or could even bring backfire on the performance. On the other hand, optimizing at the final stage is likely too late; it requires the entire code to be rewritten. Rather than selecting a specific timing, we ought to draw general optimization strategies.
+When to take the optimization stage is one of major concerns of all software engineers. Optimizing early is likely to be too rash; it might be overwritten later or could even bring backfire on the performance. On the other hand, optimizing at the final stage is likely too late; it requires the entire code to be rewritten. Rather than selecting a specific timing, we ought to draw general optimization strategies.
 
 - **The reason for planning arises again.** 
   - Fortunately, serious bottlenecks are evident enough to be predictable from the planning step. 
@@ -538,7 +538,7 @@ When to take the optimization stage is a concern of all software engineers. Opti
   - *Object pooling* is a technique where reusable game objects are pre-instantiated and kept in a collection, allowing them to be efficiently reused instead of repeatedly creating and destroying instances during playtime.
   - As a matter of course, pre-instantiated objects occupy memory space. If the pool size is set too high, it might lead to unnecessary memory consumption. It is crucial to carefully pick pooled targets in this scenario.
 - **Novel techniques!**
-  - Hiring novel techniques is a point where we can dramatically skyrocket the performance. 
+  - Hiring novel techniques *might* dramatically skyrocket the performance. 
   - One kind of 'novel technique' is *compute shader*, which is often employed to offload certain computational tasks from the CPU to the GPU, taking advantage of the parallel processing capabilities of modern graphics hardware. [*FOV Mapping*](2023-05-14-FOVMapping1.md) takes advantage of GPU computing.
 
 

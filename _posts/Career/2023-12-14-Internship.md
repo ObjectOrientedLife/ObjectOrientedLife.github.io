@@ -46,10 +46,10 @@ Unity provides an `upwards` parameter for `Quaternion.LookRotation` to let users
 
 The `upward` direction differs from joint to joint. Two examples that best demonstrate this difference are the elbow and the knee. An elbow bends *inward*. Hence, the local y-axis of the lower arm should be directed toward the elbow. On the other hand, a knee bends *outward*. Therefore, the local y-axis of the shin should point away from the hip.
 
-![Elbow](../../Images/2023-12-14-Internship/Elbow.png){: width="500"}{: .align-center} `elbow.rotation = Quaternion.LookRotation(wrist.position - elbow.position, shoulder.position - elbow.position);`
+![Elbow](../../Images/2023-12-14-Internship/Elbow.png){: width="400"}{: .align-center} `elbow.rotation = Quaternion.LookRotation(wrist.position - elbow.position, shoulder.position - elbow.position);`
 {: .text-center}
 
-![Knee](../../Images/2023-12-14-Internship/knee.png){: width="500"}{: .align-center} `knee.rotation = Quaternion.LookRotation(ankle.position - knee.position, knee.position - hip.position);`
+![Knee](../../Images/2023-12-14-Internship/knee.png){: width="400"}{: .align-center} `knee.rotation = Quaternion.LookRotation(ankle.position - knee.position, knee.position - hip.position);`
 {: .text-center}
 
 There is discord between bone structures (Human 3.6M and Unity avatar) when translating the VideoPose3D result into the Unity avatar. One issue arises when deciding the rotation of the head; the 'Nose' joint in Human 3.6M dataset is absent in the Unity humanoid rig. As an alternative, we find the rotation of the Unity 'head' rig using the relationships between Human3.6M 'Head', 'Nose', and 'Neck'.
@@ -86,14 +86,14 @@ There are no other ways than to present a straightforward UI to overcome the lim
 
 Initially, this appeared to be an effective way to decide an AR ground despite being facilitated by a relatively simple implementation with OpenCV. However, RANSAC failed to infer the homography matrix as the camera angle to the plane became steeper. This was a critical flaw, because in general, the plane is likely to be flat when viewed from the camera, in which case this method performs poorly.
 
-![Homography](../../Images/2023-12-14-Internship/Homography.png){: width="600"}{: .align-center} Homography inference failure. As the angle becomes steeper, the plane marked with an arrow starts to deviate from the blue plane.
+![Homography](../../Images/2023-12-14-Internship/Homography.png){: width="400"}{: .align-center} Homography inference failure. As the angle becomes steeper, the plane marked with an arrow starts to deviate from the blue plane.
 {: .text-center}
 
 ## Vanishing Point Solution
 
 An alternative option is having users adjust a **Vanishing Point** to the scene, from which the application reasons the camera pose (pan, tilt). I assumed that the roll was zero for ease of calculation.
 
-![CameraPose](../../Images/2023-12-14-Internship/CameraPose.png){: width="600"}{: .align-center}
+![CameraPose](../../Images/2023-12-14-Internship/CameraPose.png){: width="400"}{: .align-center}
 
 ![VanishingPoint](../../Images/2023-12-14-Internship/VanishingPoint.gif){: width="600"}{: .align-center}
 
@@ -102,23 +102,23 @@ An alternative option is having users adjust a **Vanishing Point** to the scene,
 ![Auto1](../../Images/2023-12-14-Internship/Auto1.png){: width="500"}{: .align-center} 1. Detect edges using Canny edge detection and Hough line transform.
 {: .text-center}
 
-![Auto2](../../Images/2023-12-14-Internship/Auto2.png){: width="500"}{: .align-center} Find intersection points of the edges.
+![Auto2](../../Images/2023-12-14-Internship/Auto2.png){: width="500"}{: .align-center} 2. Find intersection points of the edges.
 {: .text-center}
 
-![Auto3](../../Images/2023-12-14-Internship/Auto3.png){: width="500"}{: .align-center} The grid where the most intersection points emerge becomes the vanishing point.
+![Auto3](../../Images/2023-12-14-Internship/Auto3.png){: width="500"}{: .align-center} 3. The grid where the most intersection points emerge becomes the vanishing point.
 {: .text-center}
 
 # Result
 
-# Quantitative Evaluation
+## Quantitative Evaluation
 
-![Result1](../../Images/2023-12-14-Internship/Result1.gif){: width="600"}{: .align-center}
+![Result1](../../Images/2023-12-14-Internship/Result1.gif){: width="400"}{: .align-center}
 
 As to the human pose estimation process, robustness to occlusions during pose estimation enhances reliability, demonstrating resilience in scenarios where the motion of a human body may be partially or fully obscured. The integration of a Kalman filter and a low-pass filter effectively filters out noisy movements, allowing only dominant movements to be reflected. This filtering process results in a smoother and more controlled user experience.
 
 Accurate AR ground detection has been a significant feature, exhibiting precision in seamlessly integrating virtual elements with real-world ground. This enhancement significantly contributes to the overall user experience, ensuring a more cohesive and immersive interaction with the augmented environment. Virtual shadow powered by a custom shader and precise camera calibration present users with more immersion in the AR.
 
-# Qualitative Evaluation
+## Qualitative Evaluation
 
 ![Performance](../../Images/2023-12-14-Internship/Performance.png){: width="500"}{: .align-center} Performance comparison on different environments
 {: .text-center}

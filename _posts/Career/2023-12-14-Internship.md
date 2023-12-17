@@ -120,7 +120,7 @@ Accurate AR ground detection has been a significant feature, exhibiting precisio
 
 ## Qualitative Evaluation
 
-![Performance](../../Images/2023-12-14-Internship/Performance.png){: width="500"}{: .align-center} Performance comparison on different environments
+![Performance](../../Images/2023-12-14-Internship/Performance.png){: width="350"}{: .align-center} Performance comparison on different environments
 {: .text-center}
 
 Our GPU version slightly lagged behind its Python counterpart in performance. However, the difference is negligible with all the additional components, including augmented reality. It also exhibits a decent framerate on a CPU setup, operating normally despite falling short of the specified CPU performance goal.
@@ -134,11 +134,8 @@ Nonetheless, the internship period proved to be technically productive, providin
 # References
 
 - [1] Cao, Z., Hidalgo, G., Simon, T., Wei, S.-E., and Sheikh, Y. (2021). "OpenPose: Real-time Multi-Person 2D Pose Estimation Using Part Affinity Fields." IEEE Transactions on Pattern Analysis and Machine Intelligence, 43(1), 172-186.
-
 - [2] Osokin, D. (2018). "Real-time 2D Multi-Person Pose Estimation on CPU: Lightweight OpenPose." arXiv:1811.12004.
-
 - [3] Pavllo, D., Feichtenhofer, C., Grangier, D., & Auli, M. (2019). "3D Human Pose Estimation in Video With Temporal Convolutions and Semi-Supervised Training." In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), pp. 7745-7754.
-
 - [4] https://github.com/CMU-Perceptual-Computing-Lab/openpose
 
 

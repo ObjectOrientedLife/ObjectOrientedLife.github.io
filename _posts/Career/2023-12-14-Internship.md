@@ -49,7 +49,7 @@ The `upward` direction differs from joint to joint. Two examples that best demon
 ![Elbow](../../Images/2023-12-14-Internship/Elbow.png){: width="400"}{: .align-center} `elbow.rotation = Quaternion.LookRotation(wrist.position - elbow.position, shoulder.position - elbow.position);`
 {: .text-center}
 
-![Knee](../../Images/2023-12-14-Internship/knee.png){: width="400"}{: .align-center} `knee.rotation = Quaternion.LookRotation(ankle.position - knee.position, knee.position - hip.position);`
+![Knee](../../Images/2023-12-14-Internship/Knee.png){: width="400"}{: .align-center} `knee.rotation = Quaternion.LookRotation(ankle.position - knee.position, knee.position - hip.position);`
 {: .text-center}
 
 There is discord between bone structures (Human 3.6M and Unity avatar) when translating the VideoPose3D result into the Unity avatar. One issue arises when deciding the rotation of the head; the 'Nose' joint in Human 3.6M dataset is absent in the Unity humanoid rig. As an alternative, we find the rotation of the Unity 'head' rig using the relationships between Human3.6M 'Head', 'Nose', and 'Neck'.

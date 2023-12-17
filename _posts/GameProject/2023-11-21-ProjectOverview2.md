@@ -617,19 +617,12 @@ There are a number of tales I still need to address. More detailed discussions w
 
 # References
 
-[1] https://blog.unity.com/engine-platform/unity-and-net-whats-next
-
-[2] https://en.wikipedia.org/wiki/C_Sharp_\(programming_language\)
-
-[3] https://en.wikipedia.org/wiki/Data-driven_programming
-
-[4] https://stackoverflow.com/questions/1065584/what-is-data-driven-programming/
-
-[5] https://assetstore.unity.com/packages/tools/gui/ultevents-111307
-
-[6] Grimm, R. (2022). C++ Core Guidelines Explained: Best Practices for Modern C++ (1st ed.). Addison-Wesley Professional.
-
-[7] Joshi, B. (2016). Beginning SOLID Principles and Design Patterns for ASP.NET Developers (1st ed.). Apress.
-
-[8] https://en.wikipedia.org/wiki/Game_server
+- [1] https://blog.unity.com/engine-platform/unity-and-net-whats-next
+- [2] https://en.wikipedia.org/wiki/C_Sharp_\(programming_language\)
+- [3] https://en.wikipedia.org/wiki/Data-driven_programming
+- [4] https://stackoverflow.com/questions/1065584/what-is-data-driven-programming/
+- [5] https://assetstore.unity.com/packages/tools/gui/ultevents-111307
+- [6] Grimm, R. (2022). C++ Core Guidelines Explained: Best Practices for Modern C++ (1st ed.). Addison-Wesley Professional.
+- [7] Joshi, B. (2016). Beginning SOLID Principles and Design Patterns for ASP.NET Developers (1st ed.). Apress.
+- [8] https://en.wikipedia.org/wiki/Game_server
 

@@ -602,20 +602,13 @@ You may find the entire source code [here](https://github.com/StupaSoft/FOVMappi
 
 # References
 
-[1] https://en.wikipedia.org/wiki/Gaussian_blur
-
-[2] https://github.com/remibodin/Unity3D-Blur/tree/master/UnityProject/Assets/Blur/GaussianBlur
-
-[3] https://www.youtube.com/watch?v=rQG9aUWarwE
-
-[4] https://forum.unity.com/threads/use-a-projector-to-cull-pixels-with-alpha-transparency.533549/
-
-[5] https://dev.to/alpenglow/unity-fast-pixel-reading-cbc
-
-[6] https://discussions.unity.com/t/projector-stops-working-on-terrain-with-draw-instanced-enabled/218494
-
-[7] https://blog.unity.com/kr/technology/2018-3-terrain-update-getting-started
-
-[8] https://docs.unity3d.com/Manual/SL-CameraDepthTexture.html
-
-[9] https://forum.unity.com/threads/reconstructing-world-space-position-from-depth-texture.1139599/
+- [1] https://en.wikipedia.org/wiki/Gaussian_blur
+- [2] https://github.com/remibodin/Unity3D-Blur/tree/master/UnityProject/Assets/Blur/GaussianBlur
+- [3] https://www.youtube.com/watch?v=rQG9aUWarwE
+- [4] https://forum.unity.com/threads/use-a-projector-to-cull-pixels-with-alpha-transparency.533549/
+- [5] https://dev.to/alpenglow/unity-fast-pixel-reading-cbc
+- [6] https://discussions.unity.com/t/projector-stops-working-on-terrain-with-draw-instanced-enabled/218494
+- [7] https://blog.unity.com/kr/technology/2018-3-terrain-update-getting-started
+- [8] https://docs.unity3d.com/Manual/SL-CameraDepthTexture.html
+- [9] https://forum.unity.com/threads/reconstructing-world-space-position-from-depth-texture.1139599/
+- [10] Lengyel, E. (2019). Foundations of game engine development (2nd ed.). Terathon Press.

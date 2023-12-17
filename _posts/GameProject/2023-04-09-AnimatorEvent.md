@@ -431,6 +431,6 @@ animatorEvent.AddListenerWithTypeAndTag(StopSound, EventType.Exit, MotionType.ru
 ```
 
 # References
-[1] https://docs.unity3d.com/ScriptReference/StateMachineBehaviour.html
-[2] https://docs.unity3d.com/Manual/class-Transition.html
+- [1] https://docs.unity3d.com/ScriptReference/StateMachineBehaviour.html
+- [2] https://docs.unity3d.com/Manual/class-Transition.html
 

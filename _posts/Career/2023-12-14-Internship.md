@@ -1,5 +1,5 @@
 ---
-title: "Internship at NCSoft"
+title: "Developing a Virtual Streamer Platform With AR Features"
 excerpt: "Two Months at NCSoft as an Intern AI Engineer"
 order: 0
 categories: 

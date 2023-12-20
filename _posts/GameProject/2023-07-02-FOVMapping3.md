@@ -3,7 +3,7 @@ title: "FOV Mapping (3)"
 excerpt: "Evaluating FOV Mapping"
 order: 8
 categories: 
-    - GameProject
+    - PersonalProjects
 ---
 
 We have pushed the envelope to design, implement, and improve FOV mapping system, but that does not guarantee that FOV mapping will work correctly on every environment. So, let's prove its validity with diverse tests.

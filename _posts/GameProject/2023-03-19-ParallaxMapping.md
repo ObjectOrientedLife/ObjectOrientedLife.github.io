@@ -3,7 +3,7 @@ title: "Parallax Mapping"
 excerpt: "Extruding a Surface Without Actually Extruding"
 order: 4
 categories: 
-    - GameProject
+    - PersonalProjects
 ---
 
 Had it not been for normal mapping, game developers would have been forced to choose between two unsatisfactory options; to subdivide to add 'real' details and get millions of billions of vertex count, or to just give up any details, leaving only tedious low-poly surfaces. Thanks to bumpiness simulated by normal mapping, we can keep details without pressing the 'subdivision' button three or more times.

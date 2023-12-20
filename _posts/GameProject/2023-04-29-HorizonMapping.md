@@ -3,7 +3,7 @@ title: "Horizon Mapping"
 excerpt: "Shadowing Without Displacement"
 order: 5
 categories: 
-    - GameProject
+    - PersonalProjects
 ---
 
 Yes, normal mapping and parallax mapping are satisfactory enough. The simulated extrusions look decent. But carefully looking at the surface below, we can realize that there is one thing that parallax mapping and horizon mapping lack; where are all the shadows that the bumps should have cast? Actually, it is natural that they don't cast shadow since the bumps are faked by manipulating normals or texture sampling coordinates. For shadows to appear, we need additional processes to simulate shadow casters.

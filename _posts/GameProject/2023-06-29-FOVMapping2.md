@@ -3,7 +3,7 @@ title: "FOV Mapping (2)"
 excerpt: "Elaborating FOV Mapping"
 order: 7
 categories: 
-    - GameProject
+    - PersonalProjects
 ---
 
 [The recent post](../FOVMapping1) introduced two popular techniques to simulate a field of vision and tracked the motivation and mechanism of FOV mapping as a high-performance way of achieving the same effect. The FOV mapping result demonstrated in the last section proves that it really works; it was not satisfactory, though. In this post, we will look into several methods to amend the flaws of FOV mapping.

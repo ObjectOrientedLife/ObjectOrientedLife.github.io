@@ -3,25 +3,25 @@ main:
   - title: "Home"
     url: /
 
-  - title: "Career"
-    url: /career
+  - title: "Professional Projects"
+    url: /professionalprojects/
 
-  - title: "Game Project"
-    url: /gameproject/
+  - title: "Personal Projects"
+    url: /personalprojects/
   
   - title: "Miscellaneous"
-    url: /miscellaneous
+    url: /miscellaneous/
 
 # Sidebar
 docs: # Enable this in each document
   - title: "Home"
     url: /
   
-  - title: "Career"
-    url: /career
+  - title: "Professional Projects"
+    url: /professionalprojects/
 
-  - title: "Game Project"
-    url: /gameproject/
+  - title: "Personal Projects"
+    url: /personalprojects/
 
   - title: "Miscellaneous"
-    url: /miscellaneous
+    url: /miscellaneous/

@@ -1,12 +1,12 @@
 ---
-title: "Game Project"
+title: "Personal Projects"
 layout: archive
-permalink: /gameproject/
+permalink: /personalprojects/
 sidebar:
     nav: "docs"
 ---
 
-## Materials Related to My Own Indie Game Project
+## Materials Related to My Own Indie Game Projects
 
-{% assign posts = site.categories.GameProject | sort: 'order' | reverse %}
+{% assign posts = site.categories.PersonalProjects | sort: 'order' | reverse %}
 {% for post in posts %} {% include archive-single.html type=page.entries_layout %} {% endfor %}

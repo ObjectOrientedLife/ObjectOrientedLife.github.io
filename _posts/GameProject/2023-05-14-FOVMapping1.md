@@ -3,7 +3,7 @@ title: "FOV Mapping (1)"
 excerpt: "High Performance Field of View & Fog of War System"
 order: 6
 categories: 
-    - GameProject
+    - PersonalProjects
 ---
 
 **Fog of war(FOW)** is a game mechanic commonly used in real-time strategy (RTS) games to simulate limited visibility and uncertainty on the battlefield. It adds a strategic element by obscuring parts of the game map that are not within the player's immediate view or line of sight.

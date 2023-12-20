@@ -3,7 +3,7 @@ title: "Indie Game Project: Peninsula (2)"
 excerpt: "Programming My Own Game"
 order: 1
 categories: 
-    - GameProject
+    - PersonalProjects
 ---
 
 I have engaged mainly in *programming* from the beginning of the project. The fact that I am a professional software engineer is not the only reason contributing to the focus on programming; rather, it is attributed to my belief that programming is what actually decides what a game will look like. Programmers are not mere implementors of specifications suggested by designers, but they rather actively determines the overall structure of games and directly influence the players' gameplay experiences.

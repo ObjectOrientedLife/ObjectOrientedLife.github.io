@@ -35,7 +35,7 @@ This page hasn't been completed yet. You may refer to [this repository](https://
 
 # Projects
 
-## Indie Game Project
+## Indie Game Projects
 * Here are some demo reels for the project. Check them out!
   * [Trailer 1](https://www.youtube.com/watch?v=zgcS1foEgOA)
   * [Trailer 2](https://www.youtube.com/watch?v=b9b-6MzOAi0)
@@ -43,7 +43,7 @@ This page hasn't been completed yet. You may refer to [this repository](https://
 * A top-view strategy game set in Korean war.
 * Unity, C#, and several 3D modeling tools.
 * Designed, programmed, and produced art assets.
-* [This category](/gameproject/) embraces introductions of the project itself and techniques applied.
+* [This category](/personalprojects/) embraces introductions of the project itself and techniques applied.
 
 # Skills
 ## Programming Languages    

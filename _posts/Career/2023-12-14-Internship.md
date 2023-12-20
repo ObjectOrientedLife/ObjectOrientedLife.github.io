@@ -3,7 +3,7 @@ title: "Internship at NCSoft"
 excerpt: "Two Months at NCSoft as an Intern AI Engineer"
 order: 0
 categories: 
-    - Career
+    - ProfessionalProjects
 ---
 
 For two months, from July to August 2021, I worked at the human pose estimation team, vision AI lab, [NCSoft](https://kr.ncsoft.com/kr/index.do), as an Intern AI Engineer. I would like to introduce the internship project and the lessons I learned from there in this article.

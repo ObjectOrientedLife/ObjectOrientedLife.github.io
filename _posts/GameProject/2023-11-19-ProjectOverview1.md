@@ -3,7 +3,7 @@ title: "Indie Game Project: Peninsula (1)"
 excerpt: "Overall Introduction About the Project"
 order: 0
 categories: 
-    - GameProject
+    - PersonalProjects
 ---
 
 Like many other kids, making a game has always been my dream. Indeed, a game is a fantasy world constructed upon imagination. While playing games, I could do anything I wanted, go anywhere I dreamed of, and meet anyone beyond the barrier. Therefore, it is no wonder that I was determined to become a *game developer* (note that it's not a '*game programmer*', as I was not knowledgeable about the game industry) and create a surprising game one day.

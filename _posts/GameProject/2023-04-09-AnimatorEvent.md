@@ -3,7 +3,7 @@ title: "Runtime Animation State Event in Unity"
 excerpt: "Modifying StateMachineBehaviour at Runtime"
 order: 3
 categories: 
-    - GameProject
+    - PersonalProjects
 ---
 
 Although an avid game player, I hardly ever paid attention to human-like humanoid animations featured by prominent AAA game studios in recent games. When I started to develop my own game, it took little time to realize that imitating human motions in a game is extremely difficult. I noticed that the realistic animations are not given for free, but are fruits achieved by investing time and money. 

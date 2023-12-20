@@ -3,7 +3,7 @@ title: "Indie Game Project: Peninsula (3)"
 excerpt: "Adding Artworks to the Project"
 order: 2
 categories: 
-    - GameProject
+    - PersonalProjects
 ---
 
 I enjoy crafting code and building digital landscapes as a software engineer. Beyond my profession, I am pleased when I manufacture artwork for my own project. It isn't just a hobby; it's a canvas for my creative expression. Being able to bring my intention to reality by myself, the in-game visual expressiveness is enhanced by a large margin as I don't have to search through Unity Asset Store or SketchFab all day long just to find an adequate art asset. Ultimately, it is the converging point where the worlds of technology and art encounter one another!

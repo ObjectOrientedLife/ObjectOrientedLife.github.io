@@ -17,8 +17,6 @@ I am a **Software Engineer** at Nexon Korea, to be more specific, a gameplay and
 * B.S. in **Computer Science**(2022)
 
 # Career
-This page hasn't been completed yet. You may refer to [this repository](https://github.com/ObjectOrientedLife/Portfolios/blob/main/Portfolio_ChanghwiPark_ENG.pdf), which contains an old version of portfolio of mine, for much more information about me.
-
 ## **Nexon Korea**
 * Gameplay & Engine Programmer 
 * *August 2022 - September 2023*

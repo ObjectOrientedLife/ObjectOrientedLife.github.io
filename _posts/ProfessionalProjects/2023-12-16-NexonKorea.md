@@ -1,6 +1,6 @@
 ---
-title: "MapleStory Global"
-excerpt: "As a Gameplay & Engine Programmer at Nexon Korea"
+title: "Career at Nexon Korea"
+excerpt: "As a Gameplay & Engine Programmer for MapleStory Global"
 order: 1
 categories: 
     - ProfessionalProjects

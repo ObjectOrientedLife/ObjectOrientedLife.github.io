@@ -1,7 +1,7 @@
 ---
 title: "MapleStory Global"
 excerpt: "As a Gameplay & Engine Programmer at Nexon Korea"
-order: 1
+order: 2
 categories: 
     - ProfessionalProjects
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Developing a Virtual Streamer Platform With AR Features"
 excerpt: "Two Months at NCSoft as an Intern AI Engineer"
-order: 0
+order: 1
 categories: 
     - ProfessionalProjects
 ---

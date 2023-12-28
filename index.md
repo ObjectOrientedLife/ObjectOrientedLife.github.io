@@ -1,13 +1,16 @@
 ---
 title: "Changhwi Park"
 layout: single
+excerpt: "Introduction About Changhwi Park, a Software Engineer <br><br><br>"
+header:
+  overlay_image: /assets/images/BackgroundHome.png
 classes: wide
 author_profile: true
 ---
 
 ![ParkChanghwi_Introduction](../Images/home/ParkChanghwi_Introduction.png)
 
-I am a **Software Engineer** at Nexon Korea, to be more specific, a gameplay and engine programmer for MapleStory. Before joining Nexon Korea, I interned at NCSoft in the Vision AI Lab. I got my bachelor's degree at Seoul National University, where I double-majored in geography and computer science. My main interests are video game development and computer graphics. I am also keen on other fields of computer science, including computer systems and GPU programming.
+"I am a **Software Engineer** at Nexon Korea, to be more specific, a gameplay and engine programmer for MapleStory. Before joining Nexon Korea, I interned at NCSoft in the Vision AI Lab. I got my bachelor's degree at Seoul National University, where I double-majored in geography and computer science. My main interests are video game development and computer graphics. I am also keen on other fields of computer science, including computer systems and GPU programming."
 
 # Education
 

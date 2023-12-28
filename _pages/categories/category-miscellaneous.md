@@ -1,6 +1,6 @@
 ---
 title: "Miscellaneous"
-layout: archive
+layout: single
 permalink: /miscellaneous/
 sidebar:
     nav: "docs"

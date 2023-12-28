@@ -16,6 +16,8 @@ I am a **Software Engineer** at Nexon Korea, to be more specific, a gameplay and
 * B.A. in **Geography**(2022)
 * B.S. in **Computer Science**(2022)
 
+Please refer to [this post](/professionalprojects/CollegeProjects) for more details about my college projects.
+
 # Career
 ## **Nexon Korea**
 * Gameplay & Engine Programmer 
@@ -23,6 +25,7 @@ I am a **Software Engineer** at Nexon Korea, to be more specific, a gameplay and
 * MapleStory Programming Team
   * As a gameplay and engine programmer, I engaged in implementation of core gameplay features, both on the client-side and the server-side.
   * Efficiently dealt with an enormous codebase with 20-years of legacies, using C++, C#, and MSSQL.
+  * If you want to learn more about my experience, please take a look at [the post](/professionalprojects/NexonKorea/).
   
 ## **NCSoft**
 * Intern Vision AI Programmer 
@@ -30,6 +33,7 @@ I am a **Software Engineer** at Nexon Korea, to be more specific, a gameplay and
 * Human Pose Estimation Team, Vision AI Lab
   * Developed an AR- and AI-based livestreaming system using Unity & Barracuda, OpenPose, and VideoPose3D.
   * Successfully developed virtual character movement pipeline including inference, handling the result from the neural network, and demonstration with arbitrary characters on the client.
+  * [This post](/professionalprojects/Internship/) depicts the internship project in detail.
 
 # Projects
 
@@ -72,7 +76,7 @@ I am a **Software Engineer** at Nexon Korea, to be more specific, a gameplay and
 ## Graphics API
 ![VulkanLogo](../Images/home/VulkanLogo.png "Vulkan"){: width="150"}
 * Vulkan is my way of presenting graphical ideas along with GPU programming.
-* I am engaging Vulkan to develop a high-performance in-house tool powered by Vulkan, GLSL, and ImGUI. 
+* I am engaging Vulkan to develop a high-performance in-house tool powered by Vulkan, GLSL, and ImGUI.
 
 ## Theoretical Knowledge
 * **Computer Graphics** - I have implemented and optimized real-time rendering systems for games. Also, I have a strong interest in researching various graphics techniques and realizing them with graphics API, shaders, and a good knowledge of 3D mathematics.

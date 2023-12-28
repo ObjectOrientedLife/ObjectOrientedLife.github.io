@@ -54,7 +54,7 @@ The observed data gradually updates the distribution.
 
 Finally, we utilize the updated distribution to plan transportation lines between regions. To pick region pairs (traffic zones) connect, our strategy hires **the Knapsack Algorithm** under the constraint of construction expenses. The illustration below showcases the summation of distributions of connected traffic zones.
 
-![Summation](../../Images/2023-12-17-CollegeProjects/Summation.png){: width="600"}
+![Summation](../../Images/2023-12-17-CollegeProjects/Summation.png){: width="400"}{: .align-center} 
 
 # Geographic Information System
 
@@ -80,10 +80,10 @@ The topic of the project was to understand and apply various statistical techniq
 **Geographic Information Systems (GIS)** usually adjusts *the Level of Detail (LOD)* on terrain meshes for performance. I was inspired to apply K-means clustering to decimation, a technique that reduces the vertex count of a model, to implement automatic LOD control.
 
 1. Each row corresponds to a single vertex point and a column to a coordinate.
-   ![Table](../../Images/2023-12-17-CollegeProjects/Table.png){: width="500"}
+   ![Table](../../Images/2023-12-17-CollegeProjects/Table.png){: width="400"}{: .align-center} 
 2. We assign the target vertex count to the number of clusters ($k$).
 3. Cluster vertices using K-means clustering.
-   ![Partition](../../Images/2023-12-17-CollegeProjects/Partition.png){: width="500"}
+   ![Partition](../../Images/2023-12-17-CollegeProjects/Partition.png){: width="400"}{: .align-center}
 4. The resulting clusters become new vertices that compose a decimated mesh.
 5. Using OpenGL and Pygame, visualize the processed mesh.
 
@@ -91,27 +91,27 @@ Meshes before and after K-means decimation are demonstrated below. Compare how t
 
 ****
 
-![Before1](../../Images/2023-12-17-CollegeProjects/Before1.gif){: width="500"}
+![Before1](../../Images/2023-12-17-CollegeProjects/Before1.gif){: width="400"}{: .align-center} 
 
-![After1](../../Images/2023-12-17-CollegeProjects/After1.gif){: width="500"}
-
-****
-
-![Before2](../../Images/2023-12-17-CollegeProjects/Before2.gif){: width="500"}
-
-![After2](../../Images/2023-12-17-CollegeProjects/After2.gif){: width="500"}
+![After1](../../Images/2023-12-17-CollegeProjects/After1.gif){: width="400"}{: .align-center} 
 
 ****
 
-![Before3](../../Images/2023-12-17-CollegeProjects/Before3.gif){: width="500"}
+![Before2](../../Images/2023-12-17-CollegeProjects/Before2.gif){: width="400"}{: .align-center} 
 
-![After3](../../Images/2023-12-17-CollegeProjects/After3.gif){: width="500"}
+![After2](../../Images/2023-12-17-CollegeProjects/After2.gif){: width="400"}{: .align-center} 
 
 ****
 
-![Before4](../../Images/2023-12-17-CollegeProjects/Before4.gif){: width="500"}
+![Before3](../../Images/2023-12-17-CollegeProjects/Before3.gif){: width="400"}{: .align-center} 
 
-![After4](../../Images/2023-12-17-CollegeProjects/After4.gif){: width="500"}
+![After3](../../Images/2023-12-17-CollegeProjects/After3.gif){: width="400"}{: .align-center} 
+
+****
+
+![Before4](../../Images/2023-12-17-CollegeProjects/Before4.gif){: width="400"}{: .align-center} 
+
+![After4](../../Images/2023-12-17-CollegeProjects/After4.gif){: width="400"}{: .align-center} 
 
 The advantage of this **K-means decimation** is that we can acquire a mesh with exactly the same vertex count as the initial objective. By exercising precise control over the vertex count, users can enhance their ability to manage their experience effectively.
 
@@ -295,13 +295,13 @@ In computer graphics, **Binary Space Partitioning (BSP)** is a method for space 
 
 You may find the source code and more detailed explanations on [my repository](https://github.com/ObjectOrientedLife/BinarySpacePartitioning).
 
-![BSP Tree](../../Images/2023-12-17-CollegeProjects/BSPTree.gif){: width="600"}{: .align-center} How BSP tree is constructed?
+![BSP Tree](../../Images/2023-12-17-CollegeProjects/BSPTree.gif){: width="400"}{: .align-center} How BSP tree is constructed?
 {: .text-center}
 
-![Without BSP](../../Images/2023-12-17-CollegeProjects/WithoutBSP.png){: width="600"}{: .align-center} Without BSP, the objects are culled by the translucent mesh.
+![Without BSP](../../Images/2023-12-17-CollegeProjects/WithoutBSP.png){: width="450"}{: .align-center} Without BSP, the objects are culled by the translucent mesh.
 {: .text-center}
 
-![With BSP](../../Images/2023-12-17-CollegeProjects/WithBSP.png){: width="600"}{: .align-center} With BSP, the objects beyond the translucent mesh are visible.
+![With BSP](../../Images/2023-12-17-CollegeProjects/WithBSP.png){: width="450"}{: .align-center} With BSP, the objects beyond the translucent mesh are visible.
 {: .text-center}
 
 ## Ray Tracing
@@ -325,9 +325,9 @@ You may find the source code and more detailed explanations on [my repository](h
 
 [One of repositories of mine](https://github.com/ObjectOrientedLife/RayTracing) describes how it works in depth along with the source code.
 
-![Ray Tracing 1](../../Images/2023-12-17-CollegeProjects/RayTracing1.bmp){: width="700"}
+![Ray Tracing 1](../../Images/2023-12-17-CollegeProjects/RayTracing1.bmp){: width="600"}{: .align-center}
 
-![Ray Tracing 2](../../Images/2023-12-17-CollegeProjects/RayTracing2.bmp){: width="700"}
+![Ray Tracing 2](../../Images/2023-12-17-CollegeProjects/RayTracing2.bmp){: width="600"}{: .align-center}
 
 # References
 

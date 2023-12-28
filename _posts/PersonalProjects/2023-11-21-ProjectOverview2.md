@@ -10,7 +10,7 @@ I have engaged mainly in *programming* from the beginning of the project. The fa
 
 There is no panacea that covers all the games with different genres and platforms. Peninsula is a real-time tactics with 3D, top-view, and multiplayer system targeted for mobile. These characteristics have determined the today's appearance of the project code. Peninsula is being developed using Unity and C#, Mirror framework for mobile, and other libraries either purchased from Asset Store or crafted on my own.
 
-As stated in the previous post, Peninsula is aiming for commercial success and is not a demo for showing off my skills. This philosophy is best demonstrated through the reasonings behind the code of the project. Basically, I have constructed the project following predetermined coding rules and practices. Moving one step further, the overall structures are also fine-tuned in order to enhance software maintainability and scalability. Although the codebase is expanding beyond the average scale of a personal project, planning and following principles have facilitated the continuous growth of the project.
+As stated in the [previous post](../ProjectOverview1), Peninsula is aiming for commercial success and is not a demo for showing off my skills. This philosophy is best demonstrated through the reasonings behind the code of the project. Basically, I have constructed the project following predetermined coding rules and practices. Moving one step further, the overall structures are also fine-tuned in order to enhance software maintainability and scalability. Although the codebase is expanding beyond the average scale of a personal project, planning and following principles have facilitated the continuous growth of the project.
 
 This article introduces not only the overall structure of the game as a software but also my beliefs and attitudes toward software engineering in general. Along with other posts introducing modules and techniques, you will be able to grasp which objectives the Peninsula project has been striving to accomplish.
 
@@ -49,7 +49,7 @@ Unity adopted **C#** (pronounced as see-sharp) for its scripting language expose
 ## How Peninsula is Programmed
 
 ### Combined battlefield 
-As stated in the [previous post](2023-11-19-ProjectOverview1.md), Project Peninsula seeks a **Combined Battlefield** in which various combat units fight each other on a large-scale warfare scene. Followings are those combat units.
+Project Peninsula seeks a **Combined Battlefield** in which various combat units fight each other on a large-scale warfare scene. Followings are those combat units.
 
 - Infantry
 - Vehicles
@@ -539,7 +539,7 @@ When to take the optimization stage is one of major concerns of all software eng
   - As a matter of course, pre-instantiated objects occupy memory space. If the pool size is set too high, it might lead to unnecessary memory consumption. It is crucial to carefully pick pooled targets in this scenario.
 - **Novel techniques!**
   - Hiring novel techniques *might* dramatically skyrocket the performance. 
-  - One kind of 'novel technique' is *compute shader*, which is often employed to offload certain computational tasks from the CPU to the GPU, taking advantage of the parallel processing capabilities of modern graphics hardware. [*FOV Mapping*](2023-05-14-FOVMapping1.md) takes advantage of GPU computing.
+  - One kind of 'novel technique' is *compute shader*, which is often employed to offload certain computational tasks from the CPU to the GPU, taking advantage of the parallel processing capabilities of modern graphics hardware. [*FOV Mapping*](../FOVMapping1) takes advantage of GPU computing.
 
 
 ## Multiplayer

@@ -611,4 +611,4 @@ You may find the entire source code [here](https://github.com/StupaSoft/FOVMappi
 - [7] https://blog.unity.com/kr/technology/2018-3-terrain-update-getting-started
 - [8] https://docs.unity3d.com/Manual/SL-CameraDepthTexture.html
 - [9] https://forum.unity.com/threads/reconstructing-world-space-position-from-depth-texture.1139599/
-- [10] Lengyel, E. (2019). Foundations of game engine development (2nd ed.). Terathon Press.
+- [10] Lengyel, E. (2019). Foundations of Game Engine Development (2nd ed.). Terathon Press.

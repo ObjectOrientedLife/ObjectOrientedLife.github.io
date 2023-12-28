@@ -666,4 +666,4 @@ However useful horizon mapping itself is, the reason I am introducing this techn
 # References
 
 * [1] Max, N.L. (1988). Horizon mapping: shadows for bump-mapped surfaces. *The Visual Computer, 4*, 109-117.
-* [2] Lengyel, E. (2019). Foundations of game engine development (2nd ed.). Terathon Press.
+* [2] Lengyel, E. (2019). Foundations of Game Engine Development (2nd ed.). Terathon Press.

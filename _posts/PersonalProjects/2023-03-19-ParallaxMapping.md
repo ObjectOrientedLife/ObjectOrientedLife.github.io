@@ -201,4 +201,4 @@ Once parallax mapping is applied, each bump looks 'extruded' even though no actu
 # References
 
 - [1] Kaneko, T., Takahei, T., Inami, M. Kawakami, N. Yanagida, Y. Maeda, T. and Tachi, S. (2001). "Detailed Shape Representation with Parallax Mapping." In Proceedings of the International Conference on Artificial Reality and Telexistence (ICAT), 2001.
-- [2] Lengyel, E. (2019). Foundations of game engine development (2nd ed.). Terathon Press.
+- [2] Lengyel, E. (2019). Foundations of Game Engine Development (2nd ed.). Terathon Press.

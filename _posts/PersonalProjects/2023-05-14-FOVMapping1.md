@@ -327,6 +327,6 @@ You may find the entire source code [here](https://github.com/StupaSoft/FOVMappi
 - [3] https://www.youtube.com/watch?v=rQG9aUWarwE
 - [4] https://docs.unity3d.com/Manual/class-Texture2DArray.html
 - [5] https://blog.naver.com/PostView.nhn?blogId=daehuck&logNo=221669909687&from=search&redirect=Log&widgetTypeCall=true&directAccess=false
-- [6] Lengyel, E. (2019). Foundations of game engine development (2nd ed.). Terathon Press.
+- [6] Lengyel, E. (2019). Foundations of Game Engine Development (2nd ed.). Terathon Press.
 - [7] https://github.com/remibodin/Unity3D-Blur
 

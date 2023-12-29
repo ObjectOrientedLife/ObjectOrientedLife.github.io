@@ -1,7 +1,7 @@
 ---
 title: "Changhwi Park"
 layout: single
-excerpt: "Introduction About Changhwi Park, a Software Engineer <br><br><br>"
+excerpt: "Introduction of Changhwi Park, a Software Engineer <br><br><br>"
 header:
   overlay_image: /assets/images/BackgroundHome.png
 classes: wide

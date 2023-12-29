@@ -1,6 +1,6 @@
 ---
 title: "Personal Projects"
-layout: archive
+layout: single
 excerpt: "Materials Related to My Own Indie Game Projects"
 header:
   overlay_image: /assets/images/BackgroundPersonalProjects.png

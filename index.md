@@ -38,6 +38,10 @@ Please refer to [this post](/professionalprojects/CollegeProjects) for more deta
   * Successfully developed virtual character movement pipeline including inference, handling the result from the neural network, and demonstration with arbitrary characters on the client.
   * [This post](/professionalprojects/Internship/) depicts the internship project in detail.
 
+# Updates
+
+- [FOV Mapping](/personalprojects/FOVMapping1) has been published on [Unity Asset Store](https://assetstore.unity.com/packages/tools/particles-effects/fog-of-war-field-of-view-269976)!
+
 # Projects
 
 ## Indie Game Projects
@@ -89,10 +93,3 @@ Please refer to [this post](/professionalprojects/CollegeProjects) for more deta
 
 ## Others
 * **3D Modeling** - I have been producing 3D models and humanoids for my own game project with Blender, ZBrush, and Substance Painter. I certainly know what the collaboration process between artists and programmers should be.
-
-
-
-
-
-
-

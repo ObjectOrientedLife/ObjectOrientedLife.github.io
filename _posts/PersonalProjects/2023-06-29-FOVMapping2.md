@@ -598,7 +598,7 @@ After months of dedicated efforts and countless hours of work, we have successfu
 
 At this moment, with the construction phase behind us, we eagerly look forward to the next post, where we will embark on an exciting new chapter - the evaluation of our FOV mapping system. This evaluation process will provide us with a valuable opportunity to thoroughly examine and analyze our system's performance and compatibility from a multitude of perspectives.
 
-You may find the entire source code [here](https://github.com/StupaSoft/FOVMapping).
+You may find the entire source code [here](https://github.com/StupaSoft/FOVMapping). Also, it is now available on [Unity Asset Store](https://assetstore.unity.com/packages/tools/particles-effects/fog-of-war-field-of-view-269976) for free.
 
 # References
 

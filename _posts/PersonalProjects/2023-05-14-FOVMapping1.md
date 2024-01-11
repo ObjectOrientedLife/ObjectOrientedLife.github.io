@@ -318,7 +318,7 @@ The combination of Our **FOV Mapping** works quite well, as shown below. You can
 
 The happiness of achievement aside, you could be feeling uncomfortable about the artifacts and lacking features. If so, please take a look at the next post to see how the elaboration completes FOV mapping!
 
-You may find the entire source code [here](https://github.com/StupaSoft/FOVMapping).
+You may find the entire source code [here](https://github.com/StupaSoft/FOVMapping). Also, it is now available on [Unity Asset Store](https://assetstore.unity.com/packages/tools/particles-effects/fog-of-war-field-of-view-269976) for free.
 
 # References
 

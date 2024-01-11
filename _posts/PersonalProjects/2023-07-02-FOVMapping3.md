@@ -8,7 +8,7 @@ categories:
 
 We have pushed the envelope to design, implement, and improve FOV mapping system, but that does not guarantee that FOV mapping will work correctly on every environment. So, let's prove its validity with diverse tests.
 
-You may find the entire source code [here](https://github.com/StupaSoft/FOVMapping).
+You may find the entire source code [here](https://github.com/StupaSoft/FOVMapping). Also, it is now available on [Unity Asset Store](https://assetstore.unity.com/packages/tools/particles-effects/fog-of-war-field-of-view-269976) for free.
 
 # Environment
 

@@ -42,9 +42,11 @@ Please refer to [this post](/professionalprojects/CollegeProjects) for more deta
 
 - (2024.01) [FOV Mapping](/personalprojects/FOVMapping1) has been published on [Unity Asset Store](https://assetstore.unity.com/packages/tools/particles-effects/fog-of-war-field-of-view-269976)!
   - **FOV Mapping** is an advanced approach to Field of View (FOV) and Fog of War (FOW) systems for Unity. Leveraging the power of the GPU, it stands out as a high-performance solution that offers exceptionally efficient field of view system. It also provides terrain-adaptiveness and rich controllable features.
-    {% include video id="odzodrk1F7k" provider="youtube" %}
   - **FOV Mapping** is getting its popularity, recording **over 100 downloads** on Unity Asset Store!
+  - {% include video id="odzodrk1F7k" provider="youtube" %}
 - (2024.01) I am currently working on a fluid simulation using **Vulkan** as a graphics API.
+  - Check out [the repository](https://github.com/StupaSoft/FluidSimulation)!
+
 
 
 # Projects

@@ -227,7 +227,7 @@ The prepared FOV map is sampled by the FOV shader to actually decide which part 
 
 ### Implementation
 
-An important role of the vertex shader is to supply the world positions of the grid squares to the fragment shader(`o.worldPos`). The vertex attributes including `o.worldPos` are  computed using uniform values from the script and interpolated inside a face.
+An important role of the vertex shader is to supply the positions of the grid squares to the fragment shader(`o.worldPos`) local to the FOW plane. The vertex attributes including `o.worldPos` are  computed using uniform values from the script and interpolated inside a face.
 
 ```c++
 // Vertex shader
@@ -237,7 +237,7 @@ v2f vert(float4 pos : POSITION, float2 uv : TEXCOORD0)
 
     o.uv = uv; // [0, 1]
     o.pos = UnityObjectToClipPos(pos); // Clip-space position
-    o.worldPos = _ProjectorPosition + ((uv.x - 0.5f) * _ProjectorSizeX * _ProjectorLeft) + ((uv.y - 0.5f) * _ProjectorSizeY * _ProjectorBackward); // World-space square vertex position - subtract 0.5f to align to the projector center
+    o.worldPos = float3(uv.x * _PlaneSizeX, 0.0f, uv.y * _PlaneSizeZ); // Position of the pixel relative to the plane
 
     return o;
 }

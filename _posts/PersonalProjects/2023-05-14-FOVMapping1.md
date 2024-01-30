@@ -164,7 +164,7 @@ We are now ready for sampling! Fire `directionsPerSquare` rays toward surroundin
 
                 float distanceRatio = 1.0f;
                 RaycastHit hitObstacle;
-                if (Physics.Raycast(centerPosition, DirectionFromAngle(angleToward), out hitObstacle, generationParam.samplingRange, generationParam.levelLayer))
+                if (Physics.Raycast(centerPosition, Vector3.SignedAngle(generationInfo.plane.right, Vector3.right, Vector3.up) + DirectionFromAngle(angleToward), out hitObstacle, generationParam.samplingRange, generationParam.levelLayer))
                 {
                     distanceRatio = hitObstacle.distance / generationParam.samplingRange;
                 }

@@ -165,7 +165,7 @@ for (int directionIdx = 0; directionIdx < directionsPerSquare; ++directionIdx)
 
     float distanceRatio = 1.0f;
     RaycastHit hitObstacle;
-    if (Physics.Raycast(centerPosition, DirectionFromAngle(angleToward), out hitObstacle, generationInfo.samplingRange, generationInfo.levelLayer)) // Sampling only on a horizontal plane!
+    if (Physics.Raycast(centerPosition, Vector3.SignedAngle(generationInfo.plane.right, Vector3.right, Vector3.up) + DirectionFromAngle(angleToward), out hitObstacle, generationInfo.samplingRange, generationInfo.levelLayer)) // Sampling only on a horizontal plane!
     {
         distanceRatio = hitObstacle.distance / generationInfo.samplingRange;
     }
@@ -185,7 +185,7 @@ After multiple attempts, I found multisampling for each direction to be the most
 ```c#
 // Level-adaptive multisampling
 float maxSight = 0.0f; // Maximum sight viewed from the center
-Vector3 samplingDirection = DirectionFromAngle(angleToward);
+Vector3 samplingDirection = Vector3.SignedAngle(generationInfo.plane.right, Vector3.right, Vector3.up) + DirectionFromAngle(angleToward);
 float samplingInterval = generationInfo.samplingRange / generationInfo.samplesPerDirection;
 for (int samplingIdx = 0; samplingIdx < generationInfo.samplesPerDirection; ++samplingIdx) // Sample toward directions
 {

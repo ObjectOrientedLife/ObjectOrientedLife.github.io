@@ -43,9 +43,9 @@ Please refer to [this post](/professionalprojects/CollegeProjects) for more deta
 - (2024.01) [FOV Mapping](/personalprojects/FOVMapping1) has been published on [Unity Asset Store](https://assetstore.unity.com/packages/tools/particles-effects/fog-of-war-field-of-view-269976)!
   - **FOV Mapping** is an advanced approach to Field of View (FOV) and Fog of War (FOW) systems for Unity. Leveraging the power of the GPU, it stands out as a high-performance solution that offers exceptionally efficient field of view system. It also provides terrain-adaptiveness and rich controllable features.
   - **FOV Mapping** is getting its popularity, recording **over 100 downloads** on Unity Asset Store!
-  - 
-    Demo Video
+  - Demo Video
     {% include video id="odzodrk1F7k" provider="youtube" %}
+  - {% include video id="SPOenCZRLrk" provider="youtube" %}
 - (2024.03) I am currently working on a fluid simulation.
   - Check out [the repository](https://github.com/StupaSoft/FluidSimulation)!
   - Tools used
@@ -60,7 +60,7 @@ Please refer to [this post](/professionalprojects/CollegeProjects) for more deta
     - **Marching Cubes** for rendering smooth surface
     - **Lighting, Smoothing, and Other Rendering Techniques**
     - **Compute Shader**
-  - Demo Video
+  - Demo Videos
     {% include video id="iG_OfF0bo20" provider="youtube" %}
 
 
@@ -106,8 +106,8 @@ Please refer to [this post](/professionalprojects/CollegeProjects) for more deta
 ## Graphics API
 ![VulkanLogo](../Images/home/VulkanLogo.png "Vulkan"){: width="150"}
 * Vulkan is my way of presenting graphical ideas along with GPU programming.
-* I can manage various Vulkan resources to establish complicated rendering pipelines.
-* Compute shader along with Vulkan is my favorite way of boosting parallel computation.
+* I am capable of managing various Vulkan resources to establish complicated rendering pipelines, eventually building up complicated applications upon them.
+* Compute shader along with Vulkan is my favorite way of boosting parallel computation. Take a look at my [fluid simulation with Vulkan compute shader](https://youtu.be/SPOenCZRLrk)!
 * I am engaging Vulkan to develop a high-performance in-house fluid simulation tool powered by Vulkan, GLSL, and ImGUI.
 
 ## Theoretical Knowledge

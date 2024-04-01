@@ -45,7 +45,6 @@ Please refer to [this post](/professionalprojects/CollegeProjects) for more deta
   - **FOV Mapping** is getting its popularity, recording **over 100 downloads** on Unity Asset Store!
   - Demo Video
     {% include video id="odzodrk1F7k" provider="youtube" %}
-  - {% include video id="SPOenCZRLrk" provider="youtube" %}
 - (2024.03) I am currently working on a fluid simulation.
   - Check out [the repository](https://github.com/StupaSoft/FluidSimulation)!
   - Tools used
@@ -61,7 +60,7 @@ Please refer to [this post](/professionalprojects/CollegeProjects) for more deta
     - **Lighting, Smoothing, and Other Rendering Techniques**
     - **Compute Shader**
   - Demo Videos
-    {% include video id="iG_OfF0bo20" provider="youtube" %}
+    {% include video id="sApaOgu5aKM" provider="youtube" %}
 
 
 

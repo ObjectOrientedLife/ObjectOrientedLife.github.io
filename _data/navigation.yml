@@ -1,6 +1,6 @@
 # Upper links
 main:
-  - title: "Home"
+  - title: "About"
     url: /
 
   - title: "Professional Projects"
@@ -14,7 +14,7 @@ main:
 
 # Sidebar
 docs: # Enable this in each document
-  - title: "Home"
+  - title: "About"
     url: /
   
   - title: "Professional Projects"

@@ -60,7 +60,7 @@ Please refer to [this post](/professionalprojects/CollegeProjects) for more deta
     - **Lighting, Smoothing, and Other Rendering Techniques**
     - **Compute Shader**
   - Demo Videos
-    {% include video id="sApaOgu5aKM" provider="youtube" %}
+    {% include video id="1lMU_6Z00JA" provider="youtube" %}
 
 
 

@@ -59,7 +59,7 @@ Please refer to [this post](/professionalprojects/CollegeProjects) for more deta
     - **Marching Cubes** for rendering smooth surface
     - **Lighting, Smoothing, and Other Rendering Techniques**
     - **Compute Shader**
-  - Demo Videos
+  - Demo Video
     {% include video id="1lMU_6Z00JA" provider="youtube" %}
 
 

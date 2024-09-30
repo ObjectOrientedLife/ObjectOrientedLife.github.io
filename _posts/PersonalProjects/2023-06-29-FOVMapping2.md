@@ -530,8 +530,8 @@ If we can acquire the world position corresponding to each pixel, finding the co
 
 From the similarity between two triangles demonstrated in the figure above, we can derive and solve a proportional expression for $v_{distance}$. 
 $$
-v_{offset} : v_{offset} \cdot z_{cam} = v_{distance} : dz_{cam} \\
-v_{distance} = \frac{dz_{cam}}{v_{offset} \cdot z_{cam}}
+\|v_{offset}\| : \|v_{offset} \cdot z_{cam}\| = \|v_{distance}\| : \|v_{depth}\| \\
+\|v_{distance}\| = \frac{\|v_{depth}\|\|v_{offset}\|}{\|v_{offset} \cdot z_{cam}\|}
 $$
 Finally, we can find the world position by adding $v_{distance}$ to the world-space camera position.
 

@@ -22,9 +22,18 @@ author_profile: true
 Please refer to [this post](/professionalprojects/CollegeProjects) for more details about my college projects.
 
 # Career
+
+## **Arm**
+
+* Graphics Engineer
+* *October 2024 -*
+* Cambridge, United Kingdom
+* MediaSW Team
+
 ## **Nexon Korea**
 * Gameplay & Engine Programmer 
 * *August 2022 - September 2023*
+* Seongnam-si, Gyeonggi-do, Republic of Korea
 * MapleStory Programming Team
   * As a gameplay and engine programmer, I engaged in implementation of core gameplay features, both on the client-side and the server-side.
   * Efficiently dealt with an enormous codebase with 20-years of legacies, using C++, C#, and MSSQL.
@@ -33,6 +42,7 @@ Please refer to [this post](/professionalprojects/CollegeProjects) for more deta
 ## **NCSoft**
 * Intern Vision AI Programmer 
 * *July 2021 - August 2021*
+* Seongnam-si, Gyeonggi-do, Republic of Korea
 * Human Pose Estimation Team, Vision AI Lab
   * Developed an AR- and AI-based livestreaming system using Unity & Barracuda, OpenPose, and VideoPose3D.
   * Successfully developed virtual character movement pipeline including inference, handling the result from the neural network, and demonstration with arbitrary characters on the client.
@@ -40,12 +50,8 @@ Please refer to [this post](/professionalprojects/CollegeProjects) for more deta
 
 # Updates
 
-- (2024.01) [FOV Mapping](/personalprojects/FOVMapping1) has been published on [Unity Asset Store](https://assetstore.unity.com/packages/tools/particles-effects/fog-of-war-field-of-view-269976)!
-  - **FOV Mapping** is an advanced approach to Field of View (FOV) and Fog of War (FOW) systems for Unity. Leveraging the power of the GPU, it stands out as a high-performance solution that offers exceptionally efficient field of view system. It also provides terrain-adaptiveness and rich controllable features.
-  - **FOV Mapping** is getting its popularity, recording **over 100 downloads** on Unity Asset Store!
-  - Demo Video
-    {% include video id="odzodrk1F7k" provider="youtube" %}
-- (2024.03) I am currently working on a fluid simulation.
+- (10.2024) I have joined Arm at Cambridge as a Graphics Engineer!
+- (03.2024) I am currently working on a fluid simulation.
   - Check out [the repository](https://github.com/StupaSoft/FluidSimulation)!
   - Tools used
     - **C++** for the language
@@ -61,6 +67,11 @@ Please refer to [this post](/professionalprojects/CollegeProjects) for more deta
     - **Compute Shader**
   - Demo Video
     {% include video id="1lMU_6Z00JA" provider="youtube" %}
+- (01.2024) [FOV Mapping](/personalprojects/FOVMapping1) has been published on [Unity Asset Store](https://assetstore.unity.com/packages/tools/particles-effects/fog-of-war-field-of-view-269976)!
+  - **FOV Mapping** is an advanced approach to Field of View (FOV) and Fog of War (FOW) systems for Unity. Leveraging the power of the GPU, it stands out as a high-performance solution that offers exceptionally efficient field of view system. It also provides terrain-adaptiveness and rich controllable features.
+  - **FOV Mapping** is getting its popularity, recording **over 100 downloads** on Unity Asset Store!
+  - Demo Video
+    {% include video id="odzodrk1F7k" provider="youtube" %}
 
 
 

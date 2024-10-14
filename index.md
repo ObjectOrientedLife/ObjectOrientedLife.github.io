@@ -25,28 +25,26 @@ Please refer to [this post](/professionalprojects/CollegeProjects) for more deta
 
 ## **Arm**
 
-* Graphics Engineer
-* *October 2024 -*
 * Cambridge, United Kingdom
-* MediaSW Team
+* *Graphics Engineer* at MediaSW Team
+  * October 2024 -
 
 ## **Nexon Korea**
-* Gameplay & Engine Programmer 
-* *August 2022 - September 2023*
 * Seongnam-si, Gyeonggi-do, Republic of Korea
-* MapleStory Programming Team
+* *Gameplay & Engine Programmer* at MapleStory Programming Team
+  * August 2022 - September 2023
   * As a gameplay and engine programmer, I engaged in implementation of core gameplay features, both on the client-side and the server-side.
   * Efficiently dealt with an enormous codebase with 20-years of legacies, using C++, C#, and MSSQL.
   * If you want to learn more about my experience, please take a look at [the post](/professionalprojects/NexonKorea/).
-  
+
 ## **NCSoft**
-* Intern Vision AI Programmer 
-* *July 2021 - August 2021*
 * Seongnam-si, Gyeonggi-do, Republic of Korea
-* Human Pose Estimation Team, Vision AI Lab
+* *Intern Vision AI Programmer* at Human Pose Estimation Team, Vision AI Lab
+  * July 2021 - August 2021
   * Developed an AR- and AI-based livestreaming system using Unity & Barracuda, OpenPose, and VideoPose3D.
   * Successfully developed virtual character movement pipeline including inference, handling the result from the neural network, and demonstration with arbitrary characters on the client.
   * [This post](/professionalprojects/Internship/) depicts the internship project in detail.
+
 
 # Updates
 
